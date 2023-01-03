@@ -1,0 +1,18 @@
+# <type> : <title> limit : 50 characters
+# Write title below, DO NOT ADD '.' end of sentence, Please use clear 
+
+################
+# Write detail contents below
+
+################
+# Write footer below : ex ) related issue number ..
+
+################
+# feat : new function
+# fix : fix bug
+# docs : modify document
+# test : add test code
+# refactor : refactoring
+# style : modifications that do not affect behavior
+# chore : relate to build or pacakge manager
+################
