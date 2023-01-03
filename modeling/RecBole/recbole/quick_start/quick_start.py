@@ -51,6 +51,7 @@ def run_recbole(
         config_dict (dict, optional): Parameters dictionary used to modify experiment parameters. Defaults to ``None``.
         saved (bool, optional): Whether to save the model. Defaults to ``True``.
     """
+    print('configurations initialization...\n')
     # configurations initialization
     config = Config(
         model=model,
@@ -65,30 +66,36 @@ def run_recbole(
     logger.info(sys.argv)
     logger.info(config)
 
+    print('dataset filtering...\n')
     # dataset filtering
     dataset = create_dataset(config)
     logger.info(dataset)
 
+    print('\ndataset splitting...\n')
     # dataset splitting
     train_data, valid_data, test_data = data_preparation(config, dataset)
 
+    print('\nmodel loading and initialization...\n')
     # model loading and initialization
     init_seed(config["seed"] + config["local_rank"], config["reproducibility"])
     model = get_model(config["model"])(config, train_data._dataset).to(config["device"])
     logger.info(model)
-
+    
     transform = construct_transform(config)
     flops = get_flops(model, dataset, config["device"], logger, transform)
     logger.info(set_color("FLOPs", "blue") + f": {flops}")
 
+    print('\ntrainer loading and initialization...\n')
     # trainer loading and initialization
     trainer = get_trainer(config["MODEL_TYPE"], config["model"])(config, model)
 
+    print('\ntraining...\n')
     # model training
     best_valid_score, best_valid_result = trainer.fit(
         train_data, valid_data, saved=saved, show_progress=config["show_progress"]
     )
 
+    print('\nevaluation...\n')
     # model evaluation
     test_result = trainer.evaluate(
         test_data, load_best_model=saved, show_progress=config["show_progress"]

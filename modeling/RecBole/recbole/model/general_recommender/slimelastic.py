@@ -13,6 +13,8 @@ import warnings
 import numpy as np
 import scipy.sparse as sp
 
+from tqdm import tqdm
+
 from sklearn.linear_model import ElasticNet
 from sklearn.exceptions import ConvergenceWarning
 
@@ -61,15 +63,13 @@ class SLIMElastic(GeneralRecommender):
         # ignore ConvergenceWarnings
         with warnings.catch_warnings():
             warnings.simplefilter("ignore", category=ConvergenceWarning)
-
-            for j in range(X.shape[1]):
+            for j in tqdm(range(X.shape[1])):
                 # target column
                 r = X[:, j]
 
                 if self.hide_item:
                     # set item column to 0
                     X[:, j] = 0
-
                 # fit the model
                 model.fit(X, r.todense().getA1())
 

@@ -234,7 +234,7 @@ class Trainer(AbstractTrainer):
             train_data.sampler.set_epoch(epoch_idx)
 
         scaler = amp.GradScaler(enabled=self.enable_scaler)
-        for batch_idx, interaction in enumerate(iter_data):
+        for batch_idx, interaction in tqdm(enumerate(iter_data)):
             interaction = interaction.to(self.device)
             self.optimizer.zero_grad()
             sync_loss = 0
@@ -434,7 +434,7 @@ class Trainer(AbstractTrainer):
             train_data.get_model(self.model)
         valid_step = 0
 
-        for epoch_idx in range(self.start_epoch, self.epochs):
+        for epoch_idx in tqdm(range(self.start_epoch, self.epochs)):
             # train
             training_start_time = time()
             train_loss = self._train_epoch(
