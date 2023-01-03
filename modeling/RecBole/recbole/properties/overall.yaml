@@ -7,6 +7,7 @@ state: INFO                     # (str) Logging level.
 reproducibility: True           # (bool) Whether or not to make results reproducible.
 data_path: 'dataset/'           # (str) The path of input dataset.
 checkpoint_dir: 'saved'         # (str) The path to save checkpoint file.
+item_coeffs_path: 'item_coeffs'
 show_progress: True             # (bool) Whether or not to show the progress bar of every epoch. 
 save_dataset: False             # (bool) Whether or not to save filtered dataset.
 dataset_save_path: ~            # (str) The path of saved dataset.
