@@ -18,7 +18,7 @@ from tqdm import tqdm
 from sklearn.linear_model import ElasticNet
 from sklearn.exceptions import ConvergenceWarning
 
-from recbole.utils import InputType, ModelType
+from recbole.utils import InputType, ModelType, get_local_time
 from recbole.model.abstract_recommender import GeneralRecommender
 
 
@@ -31,7 +31,7 @@ class SLIMElastic(GeneralRecommender):
     input_type = InputType.POINTWISE
     type = ModelType.TRADITIONAL
 
-    def __init__(self, config, dataset):
+    def __init__(self, config, dataset, pretrain=False):
         super().__init__(config, dataset)
 
         # load parameters info
@@ -39,6 +39,9 @@ class SLIMElastic(GeneralRecommender):
         self.alpha = config["alpha"]
         self.l1_ratio = config["l1_ratio"]
         self.positive_only = config["positive_only"]
+
+        self.pretrain = pretrain
+        self.item_coeffs_path = config['item_coeffs_path']
 
         # need at least one param
         self.dummy_param = torch.nn.Parameter(torch.zeros(1))
@@ -60,29 +63,36 @@ class SLIMElastic(GeneralRecommender):
         )
         item_coeffs = []
 
-        # ignore ConvergenceWarnings
-        with warnings.catch_warnings():
-            warnings.simplefilter("ignore", category=ConvergenceWarning)
-            for j in tqdm(range(X.shape[1])):
-                # target column
-                r = X[:, j]
+        if self.pretrain:
+            self.item_similarity = np.load(f'{self.item_coeffs_path}/item_similarity.npy')
+            # model = model.load_state_dict(checkpoint["state_dict"])
+        else:
+            # ignore ConvergenceWarnings
+            with warnings.catch_warnings():
+                warnings.simplefilter("ignore", category=ConvergenceWarning)
+                for j in tqdm(range(X.shape[1])):
+                    # target column
+                    r = X[:, j]
 
-                if self.hide_item:
-                    # set item column to 0
-                    X[:, j] = 0
-                # fit the model
-                model.fit(X, r.todense().getA1())
+                    if self.hide_item:
+                        # set item column to 0
+                        X[:, j] = 0
+                    # fit the model
+                    model.fit(X, r.todense().getA1())
 
-                # store the coefficients
-                coeffs = model.sparse_coef_
+                    # store the coefficients
+                    coeffs = model.sparse_coef_
 
-                item_coeffs.append(coeffs)
+                    item_coeffs.append(coeffs)
 
-                if self.hide_item:
-                    # reattach column if removed
-                    X[:, j] = r
+                    if self.hide_item:
+                        # reattach column if removed
+                        X[:, j] = r
 
-        self.item_similarity = sp.vstack(item_coeffs).T
+            self.item_similarity = sp.vstack(item_coeffs).T
+            # local_time = get_local_time()
+            np.save(f'{self.item_coeffs_path}/item_similarity', self.item_similarity)
+
         self.other_parameter_name = ["interaction_matrix", "item_similarity"]
 
     def forward(self):
