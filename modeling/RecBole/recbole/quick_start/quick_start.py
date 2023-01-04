@@ -39,7 +39,7 @@ from recbole.utils import (
 
 
 def run_recbole(
-    model=None, dataset=None, config_file_list=None, config_dict=None, saved=True
+    model=None, dataset=None, config_file_list=None, config_dict=None, saved=True, pretrain=False
 ):
     r"""A fast running api, which includes the complete process of
     training and testing a model on a specified dataset
@@ -78,7 +78,8 @@ def run_recbole(
     print('\nmodel loading and initialization...\n')
     # model loading and initialization
     init_seed(config["seed"] + config["local_rank"], config["reproducibility"])
-    model = get_model(config["model"])(config, train_data._dataset).to(config["device"])
+    print('pretrain : ', pretrain)
+    model = get_model(config["model"])(config, train_data._dataset, pretrain).to(config["device"])
     logger.info(model)
     
     transform = construct_transform(config)
