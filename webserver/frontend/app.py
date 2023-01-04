@@ -15,12 +15,14 @@ import copy
 # from utils import project_array
 # from components import get_list_component, get_detail_component
 # from screen.header import header
-# from screen.map import my_map
+# # from screen.map import my_map
 # from screen.login import show_login
 # from screen.signup import show_signup
 # from screen.infra import show_infra
 
 from screen.initial_page import show_login, show_signup,show_infra
+from screen.main_page import show_main
+from utils import get_example_data
 
 COORD_MULT = 1000000000
 
@@ -70,17 +72,24 @@ if 'page_counter' not in st.session_state:
 
 st.set_page_config(layout="wide")
 
+print(st.session_state['page_counter'])
+
+# 로그인
 if ( 0 == st.session_state['page_counter']):
     # st.session_state['page_counter']  값이 1 ( 회원가입 ) 또는 2 ( 인프라 ) 로 변경됨 
     show_login(st.session_state)
 
+# 회원가입
 elif ( 1 == st.session_state['page_counter']):
     # st.session_state['page_counter']  값이 2 ( 인프라 ) 로 변경됨 
     show_signup(st.session_state)
 
+# 인프라
 elif( 2 == st.session_state['page_counter'] ):
     show_infra(st.session_state)
 
+# 지도
 elif( 3 == st.session_state['page_counter'] ):
-    # show_main(st.session_state)
+    example_item_list = get_example_data()
+    show_main(st.session_state,example_item_list)
     pass 
