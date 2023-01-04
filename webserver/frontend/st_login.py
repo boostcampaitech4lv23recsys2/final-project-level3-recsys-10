@@ -7,6 +7,9 @@ import pymysql
 import folium
 from streamlit_folium import st_folium
 
+
+
+
 with open('user_sample.yaml') as file:
     config = yaml.load(file, Loader=yaml.SafeLoader)
 
@@ -23,8 +26,16 @@ authenticator = stauth.Authenticate(
 #      = 2 => 둘러보기(인프라 선택)
 #      = 3 => 지도
 
+#session 정의
 if 'counter' not in st.session_state:
     st.session_state['counter'] = 0
+
+if "disabled" not in st.session_state:
+    st.session_state["disabled"] = False
+
+#필요한 함수 정의
+def disable():  
+    st.session_state["disabled"] = True
 
 #로그인 페이지 
 if st.session_state['counter'] == 0:
@@ -55,11 +66,17 @@ elif st.session_state['counter'] == 1:
     with open('user_sample.yaml') as f:
         yaml_data = yaml.load(f, Loader=yaml.SafeLoader)
     info = {'credentials': {'usernames' : {}}}
+
     # 1. 이름 입력
-    username = st.text_input('닉네임을 입력하세요!')
+    #username = st.text_input("닉네임을 입력하세요!")
+    username = st.text_input("닉네임을 입력하세요!", disabled=st.session_state.disabled, on_change=disable)
     if username in yaml_data['credentials']['usernames']:
+        st.session_state["disabled"] = False
         st.error('사용중인 닉네임 입니다.')
+        st.experimental_rerun()
+
     else:
+        #username = st.text_input("닉네임을 입력하세요!", disabled=st.session_state.disabled, on_change=disable)
         if username != '' :
             #if 중복 닉네임
             info['credentials']['usernames'][username] = {'name' : {}}
@@ -105,6 +122,7 @@ elif st.session_state['counter'] == 1:
                 with open('user_sample.yaml', 'w') as f:
                     yaml.safe_dump(yaml_data, f)
                 
+                st.session_state["disabled"] = False
                 st.session_state['counter'] = 2
                 st.experimental_rerun()
 
@@ -180,4 +198,5 @@ elif st.session_state['counter'] == 3:
 #돌아가기
 if st.button("로그인 페이지로"):
     st.session_state['counter'] = 0
+    st.session_state["disabled"] = False
     st.experimental_rerun()
