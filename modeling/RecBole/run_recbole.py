@@ -37,6 +37,8 @@ if __name__ == "__main__":
         default=0,
         help="the global rank offset of this group",
     )
+    parser.add_argument("--pretrain", type=str, default=False, help="item coeffs exist")
+
 
     args, _ = parser.parse_known_args()
 
@@ -46,7 +48,7 @@ if __name__ == "__main__":
 
     if args.nproc == 1 and args.world_size <= 0:
         run_recbole(
-            model=args.model, dataset=args.dataset, config_file_list=config_file_list
+            model=args.model, dataset=args.dataset, config_file_list=config_file_list, pretrain=args.pretrain
         )
     else:
         if args.world_size == -1:
