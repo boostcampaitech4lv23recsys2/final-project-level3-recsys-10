@@ -64,7 +64,8 @@ class SLIMElastic(GeneralRecommender):
         item_coeffs = []
 
         if self.pretrain:
-            self.item_similarity = np.load(f'{self.item_coeffs_path}/item_similarity.npy')
+            item_coeffs = np.load(f'{self.item_coeffs_path}/item_similarity.npy', allow_pickle=True)
+            self.item_similarity = sp.vstack(item_coeffs).T
             # model = model.load_state_dict(checkpoint["state_dict"])
         else:
             # ignore ConvergenceWarnings
@@ -91,7 +92,7 @@ class SLIMElastic(GeneralRecommender):
 
             self.item_similarity = sp.vstack(item_coeffs).T
             # local_time = get_local_time()
-            np.save(f'{self.item_coeffs_path}/item_similarity', self.item_similarity)
+            np.save(f'{self.item_coeffs_path}/item_similarity', item_coeffs)
 
         self.other_parameter_name = ["interaction_matrix", "item_similarity"]
 
