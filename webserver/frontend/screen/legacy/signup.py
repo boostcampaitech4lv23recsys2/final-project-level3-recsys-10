@@ -19,7 +19,6 @@ def show_signup(session:dict):
         yaml_data = yaml.load(f, Loader=yaml.SafeLoader)
     info = {'credentials': {'usernames' : {}}}
     # 1. 이름 입력
-    print("자꾸 회귀해 ; ")
     username = st.text_input('닉네임을 입력하세요!')
     if username in yaml_data['credentials']['usernames']:
         st.error('사용중인 닉네임 입니다.')
