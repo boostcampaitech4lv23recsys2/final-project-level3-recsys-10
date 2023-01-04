@@ -1,0 +1,23 @@
+cookie:
+  expiry_days: 30
+  key: some_signature_key
+  name: some_cookie_name
+credentials:
+  usernames:
+    nice:
+      age: '26'
+      locate: "\uAC15\uB0A8\uAD6C"
+      name: hyeonwoo
+      password: $2b$12$1vKBWBcEtanr4xjO/laTp.CiwnEIuKNV/4w7gg./LH3MkoiBwGNGu
+      sex: "\uB0A8\uC790"
+    rbriggs:
+      email: rbriggs@gmail.com
+      name: Rebecca Briggs
+      password: $2b$12$to1ADtwtCOFGMFNow7iJj.GjWWqy6FOEeeBjl/c.FmCZBSkf2bCr.
+    rec_10:
+      email: jsmith@gmail.com
+      name: John Smith
+      password: $2b$12$kOhDMjVmP5CTaByYEexG4OIMyPknVsxLHKdlltN8NBtKZ.kCNEZz.
+preauthorized:
+  emails:
+  - melsby@gmail.com
