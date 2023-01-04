@@ -68,7 +68,6 @@ elif st.session_state['counter'] == 1:
     info = {'credentials': {'usernames' : {}}}
 
     # 1. 이름 입력
-    #username = st.text_input("닉네임을 입력하세요!")
     username = st.text_input("닉네임을 입력하세요!", disabled=st.session_state.disabled, on_change=disable)
     if username in yaml_data['credentials']['usernames']:
         st.session_state["disabled"] = False
@@ -76,7 +75,6 @@ elif st.session_state['counter'] == 1:
         st.experimental_rerun()
 
     else:
-        #username = st.text_input("닉네임을 입력하세요!", disabled=st.session_state.disabled, on_change=disable)
         if username != '' :
             #if 중복 닉네임
             info['credentials']['usernames'][username] = {'name' : {}}
@@ -100,8 +98,6 @@ elif st.session_state['counter'] == 1:
 
             locat = ['강남구','마포구','용산구','영등포구','양천구','중랑구','동대문구','성동구']
             locate = st.selectbox('지역을 선택하세요!', locat)
-            #st.title(locate)
-            #locate = st.text_input('지역을 입력하세요!  ex) xx구')
             if locate != '' :
                 info['credentials']['usernames'][username]['locate'] = locate
                 
@@ -119,8 +115,8 @@ elif st.session_state['counter'] == 1:
                     else:
                         yaml_data['credentials']['usernames'][key] = value
 
-                with open('user_sample.yaml', 'w') as f:
-                    yaml.safe_dump(yaml_data, f)
+                with open('user_sample.yaml', 'w', encoding='utf8') as f:
+                    yaml.safe_dump(yaml_data, f, allow_unicode=True)
                 
                 st.session_state["disabled"] = False
                 st.session_state['counter'] = 2
