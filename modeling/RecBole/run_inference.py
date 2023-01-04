@@ -35,27 +35,41 @@ if __name__ == '__main__':
     # user-item sparse matrix
     matrix = dataset.inter_matrix(form='csr')
 
-    pred_list = None
-    user_list = None
+    pred_list, user_list = None, None
     
     model.eval()
     for data in test_data:
         interaction = data[0].to(device)
         score = model.full_sort_predict(interaction)
 
-        rating_pred = score.cpu().data.numpy().copy()
+        rating_pred = score.cpu().data.numpy().copy()       # 82441
         batch_user_index = interaction['user_id'].cpu().numpy()
-        rating_pred[matrix[batch_user_index].toarray() > 0] = 0
-        ind = np.argpartition(rating_pred, -10)[:, -10:]
-        
-        arr_ind = rating_pred[np.arange(len(rating_pred))[:, None], ind]
 
-        arr_ind_argsort = np.argsort(arr_ind)[np.arange(len(rating_pred)), ::-1]
+        if config['model'] == 'SLIMElastic':
+            matrix_ = list(matrix[batch_user_index].toarray() > 0)[0]
+            rating_pred[matrix_] = 0
 
-        batch_pred_list = ind[
-            np.arange(len(rating_pred))[:, None], arr_ind_argsort
-        ]
+            # top 10
+            ind = np.argpartition(rating_pred, -10)[-10:]
+            arr_ind = rating_pred[ind]
+
+            # sort
+            arr_ind_argsort = np.argsort(arr_ind)[::-1]
+            batch_pred_list = ind[arr_ind_argsort]
+
+        else:
+            rating_pred[matrix[batch_user_index].toarray() > 0] = 0
+            
+            # top 10
+            ind = np.argpartition(rating_pred, -10)[:, -10:]
         
+            arr_ind = rating_pred[np.arange(len(rating_pred))[:, None], ind]
+            # sort
+            arr_ind_argsort = np.argsort(arr_ind)[np.arange(len(rating_pred)), ::-1]
+            batch_pred_list = ind[
+                np.arange(len(rating_pred))[:, None], arr_ind_argsort
+            ]
+
         # save predictions
         if pred_list is None:
             pred_list = batch_pred_list
@@ -63,17 +77,25 @@ if __name__ == '__main__':
         else:
             pred_list = np.append(pred_list, batch_pred_list, axis=0)
             user_list = np.append(user_list, batch_user_index, axis=0)
-        
+
     result = []
-    for user, pred in zip(user_list, pred_list):
-        for item in pred:
-            result.append((int(user_id2token[user]), int(item_id2token[item])))
+    if config['model'] == 'SLIMElastic':
+        cnt=0
+        for user in user_list:
+            pred = pred_list[cnt:cnt+10]
+            for item in pred:
+                result.append((int(user_id2token[user]), int(item_id2token[item])))
+            cnt+=10
+    else:
+        for user, pred in zip(user_list, pred_list):
+            for item in pred:
+                result.append((int(user_id2token[user]), int(item_id2token[item])))
             
     # save submission
     print('inference...')
     dataframe = pd.DataFrame(result, columns=["user", "item"])
     dataframe.sort_values(by='user', inplace=True)
     dataframe.to_csv(
-        "/saved/submission.csv", index=False
+        f"saved/{config['model']}_submission.csv", index=False
     )
     print('inference done!')
