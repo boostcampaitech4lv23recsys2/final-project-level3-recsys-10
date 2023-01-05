@@ -13,9 +13,13 @@ import numpy as np
 import pandas as pd
 from ast import arg
 
+import time
+
 from recbole.quick_start import load_data_and_model
 
 if __name__ == '__main__':
+    # start = time.time()
+
     parser = argparse.ArgumentParser()
     parser.add_argument('--model_path', '-m', type=str, default='saved/model.pth', help='name of models')
     # python run_inference.py --model_path=/opt/ml/input/RecBole/saved/SASRecF-Apr-07-2022_03-17-16.pth 로 실행
@@ -37,6 +41,8 @@ if __name__ == '__main__':
 
     pred_list, user_list = None, None
     
+
+    start = time.time()
     model.eval()
     for data in test_data:
         interaction = data[0].to(device)
@@ -99,3 +105,5 @@ if __name__ == '__main__':
         f"saved/{config['model']}_submission.csv", index=False
     )
     print('inference done!')
+    end = time.time()
+    print(f'{round(end - start,10)} sec')
