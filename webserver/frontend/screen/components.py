@@ -7,6 +7,8 @@ import streamlit.components.v1 as components
 import random
 from folium.map import Marker
 from folium import plugins
+import yaml
+import streamlit_authenticator as stauth    #암호 인증
 
 def my_map(session:dict,items:list):
     # default center : 강남역
@@ -27,7 +29,7 @@ def my_map(session:dict,items:list):
             x,y = item["location"].split(',')
             popup = folium.Popup(f"{item['description'][:100]}", min_width=200, max_width=200)
             folium.Marker(
-                [x,y], popup=popup, tooltip=f"{item['title']}",icon=folium.Icon(icon = 'home', color = 'blue')
+                [x,y], popup=popup, tooltip=f"{item['title']}",icon=folium.Icon(icon = 'home', color = 'lightgray')
             ).add_to(m)
 
         for item in items[60:]:
@@ -67,6 +69,21 @@ def header(session:dict):
             label_visibility=st.session_state.visibility,
             disabled=st.session_state.disabled
         )
+
+
+def logout(session:dict):
+    with open('./config/user_sample.yaml') as file:
+        config = yaml.load(file, Loader=yaml.SafeLoader)
+
+    authenticator = stauth.Authenticate(
+        config['credentials'],
+        config['cookie']['name'],
+        config['cookie']['key'],
+        config['cookie']['expiry_days'],
+        config['preauthorized']
+    )
+
+    authenticator.logout('Logout', 'main')
 
 
 def get_list_component( item:dict, clickevent=None):

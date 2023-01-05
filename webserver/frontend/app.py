@@ -72,8 +72,6 @@ if 'page_counter' not in st.session_state:
 
 st.set_page_config(layout="wide")
 
-print(st.session_state['page_counter'])
-
 # 로그인
 if ( 0 == st.session_state['page_counter']):
     # st.session_state['page_counter']  값이 1 ( 회원가입 ) 또는 2 ( 인프라 ) 로 변경됨 
