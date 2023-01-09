@@ -21,15 +21,15 @@ def make_grid(map_min_lat: float, map_max_lat: float, map_min_long: float, map_m
     y_itv = (map_max_lat - map_min_lat)/h_box
     
     grid_df = pd.DataFrame({'id':[],'main_long':[],'main_lat':[],'min_long':[],'max_long':[],'min_lat':[],'max_lat':[]})
-    # start = time.time()
-    # for i_y,k_y in enumerate(tqdm(np.arange(map_min_lat, map_max_lat,y_itv))):
-    #     for i_x,k_x in enumerate(np.arange(map_min_long, map_max_long,x_itv)):
-    #         tmp_x = k_x + 0.5 * x_itv
-    #         tmp_y = k_y + 0.5 * y_itv
-    #         grid_df.loc[i_y * w_box + i_x] = [i_y * w_box + i_x, k_x + 0.5 * x_itv, k_y + 0.5 * y_itv, k_x, k_x + x_itv, k_y, k_y + y_itv]
-    # grid_df['id'] = grid_df['id'].apply(lambda x: int(x))
-    # end = time.time()
-    # print(f"make_grid: {end - start:.5f} sec")
+    start = time.time()
+    for i_y,k_y in enumerate(tqdm(np.arange(map_min_lat, map_max_lat,y_itv))):
+        for i_x,k_x in enumerate(np.arange(map_min_long, map_max_long,x_itv)):
+            tmp_x = k_x + 0.5 * x_itv
+            tmp_y = k_y + 0.5 * y_itv
+            grid_df.loc[i_y * w_box + i_x] = [i_y * w_box + i_x, k_x + 0.5 * x_itv, k_y + 0.5 * y_itv, k_x, k_x + x_itv, k_y, k_y + y_itv]
+    grid_df['id'] = grid_df['id'].apply(lambda x: int(x))
+    end = time.time()
+    print(f"make_grid: {end - start:.5f} sec")
     return grid_df
 
 def make_infra_columns(grid_df: pd.DataFrame, infra_df: pd.DataFrame, infra_name: str, radius: float) -> pd.DataFrame:
