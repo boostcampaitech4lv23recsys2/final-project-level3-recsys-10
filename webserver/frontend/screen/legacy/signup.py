@@ -40,11 +40,12 @@ def show_signup(session:dict):
                 info['credentials']['usernames'][username]['age'] = age
 
             sex = st.selectbox('성별을 고르시오', ('남자', '여자'))
-            #sex = st.text_input('성별을 입력하세요!     ex) 남자, 여자')
             if sex != '' :
                 info['credentials']['usernames'][username]['sex'] = sex
 
-            locat = ['강남구','마포구','용산구','영등포구','양천구','중랑구','동대문구','성동구']
+            locat = ['강남구','강동구','강서구','강북구','관악구','광진구','구로구','금천구','노원구',
+                    '동대문구','도봉구','동작구','마포구','서대문구','성동구','성북구','서초구','송파구',
+                    '영등포구','용산구','양천구','은평구','종로구','중구','중랑구']
             locate = st.selectbox('지역을 선택하세요!', locat)
             #st.title(locate)
             #locate = st.text_input('지역을 입력하세요!  ex) xx구')
