@@ -37,6 +37,7 @@ def get_example_data(data_path:str="/opt/ml/3rdproject/final_team_repo/webserver
     example_data = pd.read_csv(data_path,usecols=usecols) # ,usecols=["좌표정보(X)","좌표정보(Y)"]
     example_data.columns = rename_cols
     example_data.insert(0, 'rank', range(1, 1 + len(example_data)))
+    example_data["description"] = example_data["description"].str.replace(r"\r\n", r"<br>")
     example_data["img"].fillna("",inplace=True)
     example_data["img_size"] = "?w=400&amp;h=300&amp;q=70&amp;a=1"
     example_data["img"] = example_data["img"].str.cat(example_data["img_size"])

@@ -24,6 +24,7 @@ from screen.initial_page import show_login, show_signup,show_infra
 from screen.main_page import show_main
 from utils import get_example_data
 
+import requests
 COORD_MULT = 1000000000
 
 # if session 없으면 로그인 화면 보여준다. 
@@ -60,6 +61,7 @@ if 'show_heart' not in st.session_state:
 
 if 'show_item_list' not in st.session_state:
     st.session_state.show_item_list = None
+    
 
 #count = 0 => 로그인
 #      = 1 => 회원가입
@@ -72,6 +74,11 @@ if 'page_counter' not in st.session_state:
 
 st.set_page_config(layout="wide")
 
+# params  = {'userid': 3, 'location': '수영구'}
+# url = 'http://27.96.130.120:30002/'
+#     # json.dumps(user)
+# x = requests.get(url,params=params)
+# print(x)
 # 로그인
 if ( 0 == st.session_state['page_counter']):
     # st.session_state['page_counter']  값이 1 ( 회원가입 ) 또는 2 ( 인프라 ) 로 변경됨 
@@ -89,5 +96,9 @@ elif( 2 == st.session_state['page_counter'] ):
 # 지도
 elif( 3 == st.session_state['page_counter'] ):
     example_item_list = get_example_data()
+
+    if(  False == st.session_state['show_heart']):
+        # TODO Data loader 선택한 지역구의 매물 정보 가져오기 
+        header(st.session_state)
     show_main(st.session_state,example_item_list)
     pass 

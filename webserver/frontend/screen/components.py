@@ -14,7 +14,7 @@ def my_map(session:dict,items:list):
     # default center : 강남역
     center = [37.4920372,127.0567124] 
     # center on Liberty Bell, add marker
-    m = folium.Map(location=center, zoom_start=10)
+    m = folium.Map(location=session.center, zoom_start=15)
     # markers = plugins.MarkerCluster(transformed_coord_list )
     # markers.add_to(m) 
     with st.spinner() : 
@@ -88,14 +88,16 @@ def logout(session:dict):
 
 def get_list_component( item:dict, clickevent=None):
     
-    return f'<div>\
+    return f'<div><a href="#" id="{item["location"]}">\
         <div style="display:inline-block;vertical-align:top;" onclick={clickevent}>\
             <img alt="" draggable="false" src={item["img"]} class="css-9pa8cd"  align="top">\
         </div>\
         <div style="display:inline-block;">\
             <div>\
-                <button type="button" class="btn_grpshare" style="display:inline-block;">\
-                    <span class="ico_comm ico_likebig">좋아요</span>\
+                <button type="button" class="heart-shape" style="display:inline-block;">\
+                <a href="#" id="love_{item["id"]}">\
+                    <span class="ico_comm ico_likebig"></span>\
+                </a>\
                 </button>\
                 <div style="display:inline-block;"> {item["rank"]} </div>\
                 <div> {item["title"]} </div>\
@@ -105,7 +107,7 @@ def get_list_component( item:dict, clickevent=None):
                 <summary>상세보기</summary>\
                 <div> {item["description"]} </div>\
             </details>\
-        </div>\
+        </a></div>\
         <hr/>'
 
 

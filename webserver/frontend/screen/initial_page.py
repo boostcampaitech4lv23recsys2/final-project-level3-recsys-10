@@ -6,6 +6,9 @@ import yaml
 import pymysql
 import folium
 from streamlit_folium import st_folium
+import requests
+
+import json
 
 #count = 0 => 로그인
 #      = 1 => 회원가입
@@ -40,7 +43,7 @@ def show_login(session:dict):
         st.error('아이디 혹은 비밀번호가 틀렸습니다.')
 
     col1, col2 = st.columns(2)
-    print(session['page_counter'])
+    # print(session['page_counter'])
 
     with col1:
         if st.button("회원가입"):
@@ -99,6 +102,18 @@ def show_signup(session:dict):
                 info['credentials']['usernames'][username]['password'] = hashed_passwords[0]
 
             if st.button('제출하기'):
+                # TODO url,port config file 로 빼기
+
+                # url = 'http://27.96.130.120:30002/login'
+                # user = {
+                #     "name" : "yujin",
+                #     "age" : 29,
+                #     "location":"수영구",
+                #     "passwd": 1214
+                # }
+                # x = requests.post(url,data=json.dumps(user))
+                # print(x)
+
                 for key, value in info['credentials']['usernames'].items():
                     if key in yaml_data['credentials']['usernames']:
                         yaml_data['credentials']['usernames'][key].extend(value)
@@ -163,4 +178,13 @@ def show_infra(session:dict):
 
     if st.button('제출하기'):
         session['page_counter'] = 3
+
+        # url = 'http://27.96.130.120:30002/infra'
+        # infra = {
+        #     "user_id" : 6,
+        #     "select_infra":7
+        # }
+        # x = requests.post(url,data=json.dumps(infra))
+        # print(x)
+
         st.experimental_rerun()
