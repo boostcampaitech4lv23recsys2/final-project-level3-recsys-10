@@ -1,7 +1,7 @@
 **Usage**
 ```python
 # app 폴더 내에서 아래 명령어 실행
-streamlit run app.py --server.host 0.0.0.0 --server.port yourport
+uvicorn main:app --reload --host 0.0.0.0 --port yourport
 ```
 
 > 예제 코드 출처 : [Flashback 님 : Python - FastAPI DB Connection ( SQLAlchemy )](https://phsun102.tistory.com/m/63)
