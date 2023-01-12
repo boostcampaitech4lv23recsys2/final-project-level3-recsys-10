@@ -141,37 +141,46 @@ def show_infra(session:dict):
 
     st.title('원하는 인프라를 선택하세요 ')
 
-    col1, col2, col3, col4, col5 = st.columns(5)
+    col1, col2, col3, col4 = st.columns(4)
+    col5, col6, col7, col8 = st.columns(4)
+    check_cnt = 0
+
 
     with col1:
         #Infra("편의점", 1, "con_store")
         st.header("편의점")
-        st.image("./image/편의점.jpeg")
+        st.image("./image/편의점.png")
         if st.checkbox("편의점" , key = 1):
             con_store = 1
+            check_cnt += 1
         else:
             con_store = 0
+            check_cnt -= 1
 
     with col2:
         #Infra("약국", 2, "phar")
         st.header("약국")
-        st.image("./image/약국.jpeg")
+        st.image("./image/약국.png")
         if st.checkbox("약국" , key = 2):
             phar = 1
+            check_cnt += 1
         else:
             phar = 0
+            check_cnt -= 1
     with col3:
         #Infra("커피숍", 3, "cafe")
-        st.header("커피숍")
-        st.image("./image/커피숍.jpeg")
-        if st.checkbox("커피숍" , key = 3):
+        st.header("카페")
+        st.image("./image/카페.png")
+        if st.checkbox("카페" , key = 3):
             cafe = 1
+            check_cnt += 1
         else:
             cafe = 0
+            check_cnt -= 1
     with col4:
         #Infra("병원", 4, "hospital")
         st.header("병원")
-        st.image("./image/병원.jpeg")
+        st.image("./image/병원.png")
         if st.checkbox("병원" , key = 4):
             hospital = 1
         else:
@@ -179,12 +188,35 @@ def show_infra(session:dict):
     with col5:
     #     Infra("공원", 5)
         st.header("공원")
-        st.image("./image/공원.jpeg")
+        st.image("./image/공원.png")
         if st.checkbox("공원" , key = 5):
             park = 1
         else:
             park = 0
-
+    with col6:
+    #     Infra("공원", 5)
+        st.header("대형마트")
+        st.image("./image/대형마트.png")
+        if st.checkbox("대형마트" , key = 6):
+            park = 1
+        else:
+            park = 0
+    with col7:
+    #     Infra("공원", 5)
+        st.header("영화관")
+        st.image("./image/영화관.png")
+        if st.checkbox("영화관" , key = 7):
+            park = 1
+        else:
+            park = 0
+    with col8:
+    #     Infra("공원", 5)
+        st.header("지하철")
+        st.image("./image/지하철.png")
+        if st.checkbox("지하철" , key = 8):
+            park = 1
+        else:
+            park = 0
     if st.button('제출하기'):
         session['page_counter'] = 3
 
