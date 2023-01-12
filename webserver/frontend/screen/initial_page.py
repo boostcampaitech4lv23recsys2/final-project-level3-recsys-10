@@ -88,7 +88,9 @@ def show_signup(session:dict):
             if sex != '' :
                 info['credentials']['usernames'][username]['sex'] = sex
 
-            locat = ['강남구','마포구','용산구','영등포구','양천구','중랑구','동대문구','성동구']
+            locat = ['강남구','강동구','강서구','강북구','관악구','광진구','구로구','금천구','노원구',
+            '동대문구','도봉구','동작구','마포구','서대문구','성동구','성북구','서초구','송파구',
+            '영등포구','용산구','양천구','은평구','종로구','중구','중랑구']
             locate = st.selectbox('지역을 선택하세요!', locat)
             #st.title(locate)
             #locate = st.text_input('지역을 입력하세요!  ex) xx구')
@@ -128,57 +130,111 @@ def show_signup(session:dict):
 
 
 
+
+
 def show_infra(session:dict):
 
-    st.title('원하는 인프라를 선택하세요 ')
+    locat = ['강남구','강동구','강서구','강북구','관악구','광진구','구로구','금천구','노원구',
+    '동대문구','도봉구','동작구','마포구','서대문구','성동구','성북구','서초구','송파구',
+    '영등포구','용산구','양천구','은평구','종로구','중구','중랑구']
+    st.title('희망 거주 지역을 선택하세요 ')
+    locate = st.selectbox(' ',locat)
 
-    col1, col2, col3, col4, col5 = st.columns(5)
+    st.title('원하는 인프라를 선택하세요 (3개 이상) ')
+
+    col1, col2, col3, col4 = st.columns(4)
+    col5, col6, col7, col8 = st.columns(4)
+    check_cnt = 0
 
     with col1:
-        #Infra("편의점", 1, "con_store")
         st.header("편의점")
-        st.image("./image/편의점.jpeg")
+        st.image("./image/편의점.png")
         if st.checkbox("편의점" , key = 1):
             con_store = 1
+            check_cnt += 1
         else:
             con_store = 0
-
+            
     with col2:
-        #Infra("약국", 2, "phar")
         st.header("약국")
-        st.image("./image/약국.jpeg")
+        st.image("./image/약국.png")
         if st.checkbox("약국" , key = 2):
             phar = 1
+            check_cnt += 1
         else:
             phar = 0
+
     with col3:
-        #Infra("커피숍", 3, "cafe")
-        st.header("커피숍")
-        st.image("./image/커피숍.jpeg")
-        if st.checkbox("커피숍" , key = 3):
+        st.header("카페")
+        st.image("./image/카페.png")
+        if st.checkbox("카페" , key = 3):
             cafe = 1
+            check_cnt += 1
         else:
             cafe = 0
+
     with col4:
-        #Infra("병원", 4, "hospital")
         st.header("병원")
-        st.image("./image/병원.jpeg")
+        st.image("./image/병원.png")
         if st.checkbox("병원" , key = 4):
             hospital = 1
+            check_cnt += 1
         else:
             hospital = 0
+
     with col5:
-    #     Infra("공원", 5)
         st.header("공원")
-        st.image("./image/공원.jpeg")
+        st.image("./image/공원.png")
         if st.checkbox("공원" , key = 5):
             park = 1
+            check_cnt += 1
         else:
             park = 0
 
-    if st.button('제출하기'):
-        session['page_counter'] = 3
+    with col6:
+        st.header("대형마트")
+        st.image("./image/대형마트.png")
+        if st.checkbox("대형마트" , key = 6):
+            mart = 1
+            check_cnt += 1
+        else:
+            mart = 0
 
+    with col7:
+        st.header("영화관")
+        st.image("./image/영화관.png")
+        if st.checkbox("영화관" , key = 7):
+            theater = 1
+            check_cnt += 1
+        else:
+            theater = 0
+
+    with col8:
+        st.header("지하철")
+        st.image("./image/지하철.png")
+        if st.checkbox("지하철" , key = 8):
+            subway = 1
+            check_cnt += 1
+        else:
+            subway = 0
+
+    def disable():  
+        session["disabled"] = True
+
+
+    if check_cnt >= 3:
+        if st.button('제출하기'):
+            session['page_counter'] = 3
+            print(check_cnt)
+            st.experimental_rerun()
+    else:
+        st.button('제출하기', disabled = True)
+        print(check_cnt)
+
+
+
+
+        
         # url = 'http://27.96.130.120:30002/infra'
         # infra = {
         #     "user_id" : 6,
@@ -187,4 +243,4 @@ def show_infra(session:dict):
         # x = requests.post(url,data=json.dumps(infra))
         # print(x)
 
-        st.experimental_rerun()
+        
