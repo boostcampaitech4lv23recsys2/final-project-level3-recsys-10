@@ -6,13 +6,13 @@ from crud import hobbang_crud_test
 # from apis import test # main logic
 
 router = APIRouter(
-    prefix="/map", # url 앞에 고정적으로 붙는 경로추가
+    prefix="/zzim", # url 앞에 고정적으로 붙는 경로추가
 ) # Route 분리
 
 
-# 맵 화면 진입시 요청되는 api
+# 찜등록시 요청되는 api
 @router.get("/") # Route Path
-def getHousesGu(db: Session = Depends(get_db)):
+def makeZzim(db: Session = Depends(get_db)):
     res = hobbang_crud_test.get_infra(db)  # get_infra(db): INFRA 테이블 조회(임시)
     # res = crud_test.get_items(db)
     
@@ -21,9 +21,9 @@ def getHousesGu(db: Session = Depends(get_db)):
 	}
 
 
-# 맵 zoom in/out 했을 때 요청되는 api
+# 찜목록 조회시 요청되는 api
 @router.get("/") # Route Path
-def getHousesZoom(db: Session = Depends(get_db)):
+def getZzimList(db: Session = Depends(get_db)):
     res = hobbang_crud_test.get_infra(db)  # get_infra(db): INFRA 테이블 조회(임시)
     # res = crud_test.get_items(db)
     
@@ -32,9 +32,9 @@ def getHousesZoom(db: Session = Depends(get_db)):
 	}
 
 
-# 구 변화했을 때 요청되는 api
+# 찜등록 취소시 요청되는 api
 @router.get("/") # Route Path
-def changeGu(db: Session = Depends(get_db)):
+def deleteZzim(db: Session = Depends(get_db)):
     res = hobbang_crud_test.get_infra(db)  # get_infra(db): INFRA 테이블 조회(임시)
     # res = crud_test.get_items(db)
     
