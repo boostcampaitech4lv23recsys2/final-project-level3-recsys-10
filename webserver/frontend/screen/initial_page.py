@@ -148,7 +148,7 @@ def show_infra(session:dict):
 
     with col1:
         st.header("편의점")
-        st.image("./image/편의점.png")
+        st.image("./image/편의점.jpeg")
         if st.checkbox("편의점" , key = 1):
             con_store = 1
             check_cnt += 1
@@ -157,7 +157,7 @@ def show_infra(session:dict):
             
     with col2:
         st.header("약국")
-        st.image("./image/약국.png")
+        st.image("./image/약국.jpeg")
         if st.checkbox("약국" , key = 2):
             phar = 1
             check_cnt += 1
@@ -166,7 +166,7 @@ def show_infra(session:dict):
 
     with col3:
         st.header("카페")
-        st.image("./image/카페.png")
+        st.image("./image/카페.jpeg")
         if st.checkbox("카페" , key = 3):
             cafe = 1
             check_cnt += 1
@@ -175,7 +175,7 @@ def show_infra(session:dict):
 
     with col4:
         st.header("병원")
-        st.image("./image/병원.png")
+        st.image("./image/병원.jpeg")
         if st.checkbox("병원" , key = 4):
             hospital = 1
             check_cnt += 1
@@ -184,7 +184,7 @@ def show_infra(session:dict):
 
     with col5:
         st.header("공원")
-        st.image("./image/공원.png")
+        st.image("./image/공원.jpeg")
         if st.checkbox("공원" , key = 5):
             park = 1
             check_cnt += 1
@@ -193,7 +193,7 @@ def show_infra(session:dict):
 
     with col6:
         st.header("대형마트")
-        st.image("./image/대형마트.png")
+        st.image("./image/대형마트.jpeg")
         if st.checkbox("대형마트" , key = 6):
             mart = 1
             check_cnt += 1
@@ -202,7 +202,7 @@ def show_infra(session:dict):
 
     with col7:
         st.header("영화관")
-        st.image("./image/영화관.png")
+        st.image("./image/영화관.jpeg")
         if st.checkbox("영화관" , key = 7):
             theater = 1
             check_cnt += 1
@@ -211,16 +211,12 @@ def show_infra(session:dict):
 
     with col8:
         st.header("지하철")
-        st.image("./image/지하철.png")
+        st.image("./image/지하철.jpeg")
         if st.checkbox("지하철" , key = 8):
             subway = 1
             check_cnt += 1
         else:
             subway = 0
-
-    def disable():  
-        session["disabled"] = True
-
 
     if check_cnt >= 3:
         if st.button('제출하기'):
