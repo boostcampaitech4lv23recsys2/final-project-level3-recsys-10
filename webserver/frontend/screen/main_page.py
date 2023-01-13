@@ -1,24 +1,17 @@
 import pandas as pd 
 
 import streamlit as st
-import folium
-
-from streamlit_folium import st_folium
-from folium import plugins
-
-from utils import project_array
-
-from folium.map import Marker
-from jinja2 import Template
 
 # from screen.header import header
 # from screen.map import my_map
-import streamlit.components.v1 as components
 from screen.components import logout,get_list_component, get_detail_component, my_map, header
 
-import copy
+from config.config import BACKEND_ADDRESS, DOMAIN_INFO
 from st_click_detector import click_detector
+import copy
 
+print(BACKEND_ADDRESS)
+print(DOMAIN_INFO)
 COORD_MULT = 1000000000
 
 def show_main(session:dict,item_list:list):
@@ -56,7 +49,6 @@ def show_main(session:dict,item_list:list):
     session['show_detail'] = True if ( True == session['show_heart'] ) else session['show_detail']  
 
     left, right  = st.columns([5,3])
-    
 
     with st.spinner():
 
@@ -100,7 +92,7 @@ def show_main(session:dict,item_list:list):
                 session["show_item_list"] = list(filter(lambda item: item['location'] == clicked, item_list))
                 session["center"] = clicked.split(',')
 
-            st.markdown(f"**{clicked} clicked**" if clicked != "" else "**No click**")
+            # st.markdown(f"**{clicked} clicked**" if clicked != "" else "**No click**")
 
             # # bootstrap 4 collapse example
             # components.html(

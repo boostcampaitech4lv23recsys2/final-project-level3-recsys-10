@@ -9,6 +9,7 @@ from streamlit_folium import st_folium
 import requests
 
 import json
+from config.config import BACKEND_ADDRESS, DOMAIN_INFO, GU_INFO
 
 #count = 0 => 로그인
 #      = 1 => 회원가입
@@ -88,9 +89,7 @@ def show_signup(session:dict):
             if sex != '' :
                 info['credentials']['usernames'][username]['sex'] = sex
 
-            locat = ['강남구','강동구','강서구','강북구','관악구','광진구','구로구','금천구','노원구',
-            '동대문구','도봉구','동작구','마포구','서대문구','성동구','성북구','서초구','송파구',
-            '영등포구','용산구','양천구','은평구','종로구','중구','중랑구']
+            locat = GU_INFO
             locate = st.selectbox('지역을 선택하세요!', locat)
             #st.title(locate)
             #locate = st.text_input('지역을 입력하세요!  ex) xx구')
@@ -134,9 +133,7 @@ def show_signup(session:dict):
 
 def show_infra(session:dict):
 
-    locat = ['강남구','강동구','강서구','강북구','관악구','광진구','구로구','금천구','노원구',
-    '동대문구','도봉구','동작구','마포구','서대문구','성동구','성북구','서초구','송파구',
-    '영등포구','용산구','양천구','은평구','종로구','중구','중랑구']
+    locat = GU_INFO
     st.title('희망 거주 지역을 선택하세요 ')
     locate = st.selectbox(' ',locat)
 
