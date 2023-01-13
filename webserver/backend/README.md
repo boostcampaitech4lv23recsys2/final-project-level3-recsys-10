@@ -6,6 +6,8 @@ uvicorn main:app --reload --host 0.0.0.0 --port yourport
 
 > 예제 코드 출처 : [Flashback 님 : Python - FastAPI DB Connection ( SQLAlchemy )](https://phsun102.tistory.com/m/63)
 >
+> **주의** : !!slack 에 있는 .env 파일을 /webserver/backend/app/core 에 복사해야 합니다.!!
+>
 > 👀 FastAPI 에서 Sqlalchemy 를 이용해 GCP Compute Engine 의 MySQL Server 와 연결하는 내용을 담고 있습니다. 
 > - `KEYWORD` : Sqlalchemy, GCP Compute Engine, MySQL
 >
