@@ -13,6 +13,9 @@ fastapi = "^0.70.0"
 uvicorn = "^0.15.0"
 pandas = "1.0.0"
 pydantic = "1.7.4"
+sqlalchemy = "^1.4.46"
+python-dotenv = "0.20"
+pymysql = "^1.0.2"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^6.2.5"
