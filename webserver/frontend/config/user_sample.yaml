@@ -1,0 +1,95 @@
+cookie:
+  expiry_days: 30
+  key: some_signature_key
+  name: some_cookie_name
+credentials:
+  usernames:
+    adfsfdfsf:
+      age: sf
+      locate: "\uAC15\uB0A8\uAD6C"
+      name: sf
+      password: $2b$12$vjjHHvuUOvkNJSe1sP.U9O1.nr5Py1fywAaQo3yRbuLRyYPQW9Xzq
+      sex: "\uB0A8\uC790"
+    afasf:
+      age: ds
+      locate: "\uAC15\uB0A8\uAD6C"
+      name: sd
+      password: $2b$12$XlUQIlkD22KWuksbzy5GcOPzog4Iwy1fZMhw0oMrtuDVvQuUjRdPS
+      sex: "\uB0A8\uC790"
+    dsf:
+      age: sdf
+      locate: "\uAC15\uB0A8\uAD6C"
+      name: df
+      password: $2b$12$JvYZQaVaZBtm6TGA2a6YEeg.zBSqIAxGaZjL6VLlnnE2L.yOvFKdK
+      sex: "\uB0A8\uC790"
+    nice:
+      age: '26'
+      locate: "\uAC15\uB0A8\uAD6C"
+      name: hyeonwoo
+      password: $2b$12$1vKBWBcEtanr4xjO/laTp.CiwnEIuKNV/4w7gg./LH3MkoiBwGNGu
+      sex: "\uB0A8\uC790"
+    rbriggs:
+      email: rbriggs@gmail.com
+      name: Rebecca Briggs
+      password: $2b$12$to1ADtwtCOFGMFNow7iJj.GjWWqy6FOEeeBjl/c.FmCZBSkf2bCr.
+    rec_10:
+      email: jsmith@gmail.com
+      name: John Smith
+      password: $2b$12$kOhDMjVmP5CTaByYEexG4OIMyPknVsxLHKdlltN8NBtKZ.kCNEZz.
+    sdf:
+      age: sadf
+      locate: "\uC6A9\uC0B0\uAD6C"
+      name: sdf
+      password: $2b$12$p0ppXYIQ6QDH8VKVawCwqeXWkXw/YL2couINtMbGSNS6.hTYtT71W
+      sex: "\uB0A8\uC790"
+    sdfafa:
+      age: asdf
+      locate: "\uAC15\uB0A8\uAD6C"
+      name: sf
+      password: $2b$12$7j7ipE7sAu900lr70nDtPOCvxwGf6LU0.VyVagdoIgo9v0G3xlcMe
+      sex: "\uB0A8\uC790"
+    sdfsdf:
+      age: a
+      locate: "\uAC15\uB0A8\uAD6C"
+      name: a
+      password: $2b$12$gShjxhY9w1dcG6bgsbjd.e2sXDotScZxYsDpyjuiyJD5iO/ajEvhi
+      sex: "\uB0A8\uC790"
+    sdfsdfsdf:
+      age: sdf
+      locate: "\uAC15\uB0A8\uAD6C"
+      name: sdf
+      password: $2b$12$vKRpeqrdZtwJr.c3M4Dv7OlJWbn2cYXifRMp8As/LKSz/4KyAKDf2
+      sex: "\uB0A8\uC790"
+    sdfsdfsdfsdf:
+      age: sdfaf
+      locate: "\uAC15\uB0A8\uAD6C"
+      name: asfsdaf
+      password: $2b$12$FzF1wYeh5zpAw4nSbJC.3eD3Lu1/mbfkC63yt/MUSiL3eyMpsMl5e
+      sex: "\uB0A8\uC790"
+    zz:
+      age: zz
+      locate: "\uAC15\uB0A8\uAD6C"
+      name: zz
+      password: $2b$12$VZQJ0.NBptns1HgxHXpc1.MUiSSG900pyRwskjPkxPiHCfZon2EMS
+      sex: "\uB0A8\uC790"
+    zzzzzzzzzzzzzz:
+      age: s
+      locate: "\uAC15\uB0A8\uAD6C"
+      name: s
+      password: $2b$12$TIfIbcqtGt10USMtQU26xOxkslLq0V4jbqERTAWF60PSdtl1IKJcm
+      sex: "\uB0A8\uC790"
+    "\u314B\u314B":
+      age: "\u314B\u314B"
+      locate: "\uAC15\uB0A8\uAD6C"
+      name: "\u314B\u314B"
+      password: $2b$12$wsOSrg5HCAnJ17cUEKm6kuyFJpho6suW20GQ8ifSVDdfcTX4fnjVu
+      sex: "\uB0A8\uC790"
+    "\u314B\u314B\u314B":
+      age: "\u3134\u3147\u3139"
+      locate: "\uAC15\uB0A8\uAD6C"
+      name: "\u3141\u3134\u3147\u3139"
+      password: $2b$12$OuxIqkWdQw4A1oP6sb5sFuTfab2vYZal2kBh955H8CSmCccBP3iU6
+      sex: "\uB0A8\uC790"
+preauthorized:
+  emails:
+  - melsby@gmail.com
