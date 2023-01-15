@@ -1,38 +1,57 @@
 # crud/hobbang_crud_test.py
 
 from sqlalchemy.orm import Session
-from db.models.hobbang_model import HobbangTest
-from pydantic import BaseModel, Field
-from db.models import hobbang_model
+from db.models.hobbang_model import HouseInfo, UsersInfo, UsersInfra, UserZzim, Infra, InfraInfo, Grid, GridScore, LogClick
+from . import schemas
+
+######### common
+def get_user_by_user_id(user_id, db: Session):
+    return db.query(UsersInfo).filter_by(user_id=user_id).one()
+
+def get_infra_by_user_id(user_id, db: Session):
+    return db.query(UsersInfra.infra_type).filter_by(user_id=user_id, infra_yn='Y').all()
 
 def get_infra(db: Session):
-    return db.query(HobbangTest).all()
-
-class UserCreate(BaseModel):
-    """
-    despription: 새로운 유저 추가
-    application: 회원가입
-    """
-    # user_id: int = Field(None) # UUID = Field(default_factory=uuid4)
-    name: str = Field(None)
-    pw: str = Field(None)
-    user_gu: str = Field(None)
-    user_sex: int = Field(None)
-    user_age: int = Field(None)
-    user_type: str = Field(None)
+    return db.query(HouseInfo).filter_by(house_id=1).all()
 
 
-def create_user(db: Session, user: UserCreate):
-    # max_id_before = db.query(func.max(models.User.user_id)).scalar()
-    db_user = hobbang_model.User(
-                    name = user.name,
-                    pw=user.pw, 
-                    user_gu=user.user_gu,
-                    user_sex=user.user_sex,
+######### map
+def get_houses_gu(gu, db: Session):
+    return db.query(HouseInfo).filter_by(sold_yn = 'N', local2 = gu).all()
+
+def get_houses_zoom(map_zoom: schemas.MapZoom, db: Session):
+    # house_scores: Dict(ex: house_scores[house_id] = score)
+    house_ids = list(map_zoom.house_scores.keys())
+    # 형변환 문제
+    return db.query(HouseInfo).filter(
+        HouseInfo.house_id.in_(house_ids),
+        HouseInfo.lat >= map_zoom.min_lat,
+        HouseInfo.lat <= map_zoom.max_lat,
+        HouseInfo.lng >= map_zoom.min_lng,
+        HouseInfo.lng <= map_zoom.max_lng
+    ).all() # score별로 정렬 필요
+
+
+######### users
+def create_user(db: Session, user: schemas.UserCreate):
+    fake_hashed_password = user.pw + "notreallyhashed"    
+    # max_id_before = db.query(func.max(hobbang_model.UsersInfo.user_id)).scalar()
+    db_user = UsersInfo(
+                    # user_id=int(max_id_before + 1), 
+                    pw=fake_hashed_password, 
+                    name=user.name,
+                    user_gu = user.user_gu,
                     user_age=user.user_age,
-                    user_type=user.user_type,
-                     )
+                    user_sex=user.user_sex, 
+                    user_type = user.user_type
+                )
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
     return db_user
+
+def check_user_name(name, db: Session):
+    return db.query(UsersInfo).filter_by(name = name).count()
+
+def get_users(db: Session):
+    return db.query(UsersInfo).all()
