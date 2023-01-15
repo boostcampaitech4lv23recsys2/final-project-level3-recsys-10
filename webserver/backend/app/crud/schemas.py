@@ -32,3 +32,13 @@ class User(UserBase):
     birth: datetime = Field(default_factory=datetime.now)
     class Config:
         orm_mode = True
+
+
+class InferenceResult(BaseModel):
+    house_scores: Dict = Field(None)
+
+class MapZoom(InferenceResult):
+    min_lat: float = Field(None)
+    min_lng: float = Field(None)
+    max_lat: float = Field(None)
+    max_lng: float = Field(None)
