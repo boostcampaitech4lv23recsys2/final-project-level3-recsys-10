@@ -34,6 +34,7 @@ class UsersInfo(Base):
     __tablename__ = "USERS_INFO"
 
     user_id = Column(Integer, primary_key=True, index=True)
+    pw = Column(String)
     name = Column(String)
     user_gu = Column(String)
     user_age = Column(Integer)
