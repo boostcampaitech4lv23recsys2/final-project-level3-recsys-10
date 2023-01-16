@@ -17,12 +17,6 @@ router = APIRouter(
 # 찜목록 조회시 요청되는 api
 @router.get("/{user_id}") # Route Path
 def getZzimList(user_id, db: Session = Depends(get_db)):
-    # s = f"""
-    # SELECT * FROM hobbang_test.USER_ZZIM
-    # WHERE USER_ZZIM.user_id={user_id}
-    # """
-    # res = db.execute(s).all()
-
     res = hobbang_crud_test.get_zzim_list(user_id, db)
     
     return res
