@@ -55,3 +55,12 @@ def check_user_name(name, db: Session):
 
 def get_users(db: Session):
     return db.query(UsersInfo).all()
+
+
+######### zzim
+def get_zzim_list(user_id, db: Session):
+    s = f"""
+    SELECT * FROM hobbang_test.USER_ZZIM
+    WHERE USER_ZZIM.user_id={user_id}
+    """
+    return db.execute(s).all()
