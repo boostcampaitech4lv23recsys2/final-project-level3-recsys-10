@@ -17,11 +17,7 @@ router = APIRouter(
 # 찜목록 조회시 요청되는 api
 @router.get("/{user_id}") # Route Path
 def getZzimList(user_id, db: Session = Depends(get_db)):
-    s = f"""
-    SELECT * FROM hobbang_test.USER_ZZIM
-    WHERE USER_ZZIM.user_id={user_id}
-    """
-    res = db.execute(s).all()
+    res = hobbang_crud_test.get_zzim_list(user_id, db)
     
     return res
 
@@ -52,7 +48,6 @@ def makeZzim(user_id, house_id, db: Session = Depends(get_db)):
         db.refresh(db_zzim)
             
         return {
-            'a' : max_idx_before,
             "messege" : f"{house_id} 매물이 찜 목록에 추가되었습니다.",
             }
 
