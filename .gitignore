@@ -43,7 +43,7 @@ Thumbs.db
 **/*.npy
 
 # data folder except
-data/
+./data/
 
 # wandb folder except
 wandb/
