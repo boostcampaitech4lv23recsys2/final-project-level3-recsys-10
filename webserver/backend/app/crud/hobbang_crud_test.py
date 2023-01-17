@@ -290,6 +290,13 @@ def create_user_infra(user: schemas.UserSelect, db: Session):
     return 1
 
 
+def update_user_gu(user: schemas.UserSelect, db: Session):
+    user_info = db.query(UsersInfo).filter(UsersInfo.user_id == user.user_id).first()
+    user_info.user_gu = user.user_gu
+    db.commit()
+    return 1
+
+
 ######### zzim
 def get_zzim_list(user_id, db: Session):
     s = f"""

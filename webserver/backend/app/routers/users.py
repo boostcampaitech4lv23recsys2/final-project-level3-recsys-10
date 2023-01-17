@@ -68,15 +68,14 @@ def loginUser(user: schemas.UserBase, db: Session = Depends(get_db)):
 @router.post("/infra") # Route Path
 def selectInfra(UserSelect: schemas.UserSelect, db: Session = Depends(get_db)):
     # request: user_id(비회원이면 null), user_type
-    # 0) user: 비회원 > user_id
     user_id = UserSelect.user_id
     user_gu = UserSelect.user_gu
     user_type = UserSelect.user_type
     
-    # 1) selected_infra 정보 저장 > user_id, user_gu
-    ###### 여기서 쿼리 날려서 infra 정보 저장헤주세요~
-    
-    res = hobbang_crud_test.create_user_infra(UserSelect, db) # 예시   
+    # 1) selected_infra 정보 저장
+    res_infra = hobbang_crud_test.create_user_infra(UserSelect, db)
+    # 2) user_gu 저장
+    res_gu = hobbang_crud_test.update_user_gu(UserSelect, db)
     # return {
     #     "res" : res
     # }    
@@ -84,7 +83,6 @@ def selectInfra(UserSelect: schemas.UserSelect, db: Session = Depends(get_db)):
         "user_id" : user_id,
         "user_gu": user_gu
 	}
-
 
 
 # # 회원이 인프라 선택시 요청되는 api
