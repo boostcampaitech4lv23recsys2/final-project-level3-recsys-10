@@ -24,14 +24,13 @@ class UserCreate(UserBase):
     user_sex: int = Field(None)
     user_type: str = Field(None)
 
-    
 class UserSelect(BaseModel):
     # user_id
     user_id: int = Field(None)
     user_type: str = Field(None)
     user_gu: str = Field(None)
     infra: list = Field(None)
-
+    register_date: datetime = Field(None)
 
 class Inference(BaseModel):
     user_id: int = Field(None)

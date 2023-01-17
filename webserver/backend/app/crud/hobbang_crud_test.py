@@ -1,8 +1,11 @@
 # crud/hobbang_crud_test.py
 
 from sqlalchemy.orm import Session
+from sqlalchemy import func
 from db.models.hobbang_model import HouseInfo, UsersInfo, UsersInfra, UserZzim, Infra, InfraInfo, Grid, GridScore, LogClick
 from . import schemas
+from datetime import datetime
+from collections import defaultdict
 
 ######### common
 def get_user_by_user_id(user_id, db: Session):
@@ -193,6 +196,60 @@ def get_users(db: Session):
 
 def login_user(user: schemas.UserBase, db: Session):
     return db.query(UsersInfo).filter_by(name = user.name, pw = user.pw).first()
+
+def create_user_infra(user: schemas.UserSelect, db: Session):
+    
+    infra_list = defaultdict(int)
+    
+    for inf_type in user.infra: 
+        infra_list[inf_type]+=1
+    
+    s = f"""
+    INSERT INTO hobbang_test.USERS_INFRA(user_id, infra_type, infra_yn, register_date, update_date)
+	    VALUES ({user.user_id}, '01', IF({infra_list["01"]}=0, "N", "Y"), now(), now())
+                ,({user.user_id}, '02', IF({infra_list["02"]}=0, "N", "Y"), now(), now())
+                ,({user.user_id}, '03', IF({infra_list["03"]}=0, "N", "Y"), now(), now())
+                ,({user.user_id}, '04', IF({infra_list["04"]}=0, "N", "Y"), now(), now())
+                ,({user.user_id}, '05', IF({infra_list["05"]}=0, "N", "Y"), now(), now())
+                ,({user.user_id}, '06', IF({infra_list["06"]}=0, "N", "Y"), now(), now())
+                ,({user.user_id}, '07', IF({infra_list["07"]}=0, "N", "Y"), now(), now())
+    """
+    
+    # s = f"""
+    # DROP PROCEDURE IF EXISTS loopInsert;
+    # CREATE PROCEDURE loopInsert()
+    # BEGIN
+    #     DECLARE i INT DEFAULT 1;
+    #     WHILE i <= 7
+    #         DO
+    #             INSERT INTO hobbang_test.USERS_INFRA(user_id,infra_type,infra_yn,register_date,update_date)
+    #             VALUES (, CONCAT('0',CHAR(i)), );
+    #             SET i = i + 1;
+    #         END WHILE;
+    # END;
+    # CALL loopInsert();
+    # """
+    
+    # 인프라 총 7개 
+    # infra_types = {'subway':'01','cs':'02','mart':'03','park':'04','cafe':'05','phar':'06','theater':'07'}
+    
+    # for inf_type in infra_types.values() :
+    #     db_user_infra = UsersInfra(
+    #                     # idx : auto_increase
+    #                     # user_id = db.query(UsersInfo).filter_by(user_id=user.user_id).one().user_id,
+    #                     user_id = user.user_id,
+    #                     infra_type= inf_type,
+    #                     infra_yn = 'Y' if inf_type in user.infra  else 'N',
+    #                     register_date = user.register_date,
+    #                     update_date = datetime.now()
+    #                 )
+    #     db.add(db_user_infra)
+    #     db.commit()
+    #     db.refresh(db_user_infra)
+    # return db_user_infra
+    db.execute(s)
+    db.commit()
+    return 1
 
 
 ######### zzim
