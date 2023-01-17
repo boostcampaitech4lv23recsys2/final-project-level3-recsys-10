@@ -18,6 +18,8 @@ import torch
 from recbole.model.abstract_recommender import GeneralRecommender
 from recbole.utils import InputType, ModelType
 
+from tqdm import tqdm
+
 
 class ComputeSimilarity:
     def __init__(self, dataMatrix, topk=100, shrink=0, normalize=True):
@@ -82,7 +84,7 @@ class ComputeSimilarity:
 
         # Compute all similarities using vectorization
         while start_block < end_local:
-
+            
             end_block = min(start_block + block_size, end_local)
             this_block_size = end_block - start_block
 
@@ -165,7 +167,7 @@ class ItemKNN(GeneralRecommender):
     input_type = InputType.POINTWISE
     type = ModelType.TRADITIONAL
 
-    def __init__(self, config, dataset):
+    def __init__(self, config, dataset, pretrain=False):
         super(ItemKNN, self).__init__(config, dataset)
 
         # load parameters info

@@ -31,7 +31,7 @@ class FISM(GeneralRecommender):
 
     input_type = InputType.POINTWISE
 
-    def __init__(self, config, dataset):
+    def __init__(self, config, dataset, pretrain=False):
         super(FISM, self).__init__(config, dataset)
 
         # load dataset info
