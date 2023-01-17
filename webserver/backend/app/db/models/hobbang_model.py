@@ -118,4 +118,5 @@ class LogClick(Base):
     ip_address = Column(VARCHAR(255))
     user_id = Column(Integer)
     item_id = Column(Integer)
+    log_type = Column(CHAR(2))
     log_date = Column(DateTime)
