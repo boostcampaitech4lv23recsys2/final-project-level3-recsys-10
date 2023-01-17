@@ -1,52 +1,16 @@
 import argparse
 
-def parse_args():
+def arg_parse():
     parser = argparse.ArgumentParser()
+    parser.add_argument('--data_path', type=str, default='../data/', help='data path')
+    parser.add_argument('--grid_file', type=str, default='grid_infra_data_v1.1.csv', help='frid file name')
+    parser.add_argument('--infra_file', type=str, default='raw_data/직방크롤링원룸오피스텔.csv', help='infra score file name')
+
+    parser.add_argument('--user_name', type=str, default='1', help='name of user')
+    parser.add_argument('--user_loc', type=str, default='강남구', help='location selected')
     
-    # cuda setting
-    parser.add_argument("--device", default='cuda', type=str, help="cuda or cpu")
-    
-    # inference settings
-    parser.add_argument("--inference_info", action='store_true')  # 해당 인자를 입력하면 True로 작용하여 best모델 정보 업데이트
-    parser.add_argument("--update_batch_tag", action='store_true')  # 해당 인자를 입력하면 True로 작용하여 db의 batch tag 숫자 업데이트
-    
-    
-    ## make subparsers
-    subparsers = parser.add_subparsers(dest='model')
-    parser_als = subparsers.add_parser(name='als')
-    parser_bert2vec = subparsers.add_parser(name='bert2vec')
-    parser_BPR = subparsers.add_parser(name='BPR')
-    parser_LightGCN = subparsers.add_parser(name='LightGCN')
-    parser_MultiVAE = subparsers.add_parser(name='MultiVAE')
-    parser_MultiDAE = subparsers.add_parser(name='MultiDAE')
-    parser_CDAE = subparsers.add_parser(name='CDAE')
-    parser_RecVAE = subparsers.add_parser(name='RecVAE')
-    
-    # als settings
-    parser_als.add_argument("--n_epochs", default=5, type=int, help="iter n")
-    parser_als.add_argument("--patience", default=3, type=int, help="patient n. for early stopping")
-    parser_als.add_argument("--no_exp_save", action='store_true')  # 해당 인자를 입력할 때만 True로 적용하여 실험 결과를 저장하지 않음
-    parser_als.add_argument("--seed", default=42, type=int, help="seed")
-    parser_als.add_argument("--n_valid", default=1, type=int, help="validation set n")
-    parser_als.add_argument("--n_iter", default=20, type=int, help='iter in model')
-    parser_als.add_argument("--n_seq", default=1, type=int, help="sequence n in the validation set")
-    parser_als.add_argument("--factors", default=100, type=int, help="number of factors")
-    parser_als.add_argument("--regularization", default=0.001, type=float, help="regularization")
-    parser_als.add_argument("--als_dir",default="./foodcomImplicit/architects",type=str,help="als architects directory")
-    parser_als.add_argument("--top_k", default=3, type=int, help="recall at k")
-    parser_als.add_argument("--inference_n", default=10, type=int, help="argprtition n for inference")
-    
-    # bert2vec settings
-    parser_bert2vec.add_argument("--seed", default=42, type=int, help="seed")
-    parser_bert2vec.add_argument('--bert', type=str, default='bert-large-nli-stsb-mean-tokens', help='pretrained 모델')
-    parser_bert2vec.add_argument('--save_path', type=str, default='./foodcomItem2Vec', help='similar_answer 저장위치')
-    parser_bert2vec.add_argument("--cal_similarity", action='store_true')  # 해당 인자를 입력할 때만 True로 적용하여 실험 결과를 저장하지 않음
-    parser_bert2vec.add_argument('--batch', type=int, default=2000, help='cosine_similarity 계산시 batch')
-    parser_bert2vec.add_argument('--top_n', type=int, default=25, help='cosine_similarity에서 가져올 개수')
-    parser_bert2vec.add_argument('--col_name1', type=str, default='recipes1', help='첫 번째 col 이름')
-    parser_bert2vec.add_argument('--col_name2', type=str, default='recipes2', help='두 번째 col 이름')
-        
-    
+    parser.add_argument('--select_infra', type=str, default='영화관,약국,지하철,카페,편의점', help='infra selected')
+
     args = parser.parse_args()
 
-    return 
+    return args

@@ -234,7 +234,7 @@ class Trainer(AbstractTrainer):
             train_data.sampler.set_epoch(epoch_idx)
 
         scaler = amp.GradScaler(enabled=self.enable_scaler)
-        for batch_idx, interaction in enumerate(iter_data):
+        for batch_idx, interaction in tqdm(enumerate(iter_data)):
             interaction = interaction.to(self.device)
             self.optimizer.zero_grad()
             sync_loss = 0
@@ -416,7 +416,7 @@ class Trainer(AbstractTrainer):
         Args:
             train_data (DataLoader): the train data
             valid_data (DataLoader, optional): the valid data, default: None.
-                                               If it's None, the early_stopping is invalid.
+                                                If it's None, the early_stopping is invalid.
             verbose (bool, optional): whether to write training and evaluation information to logger, default: True
             saved (bool, optional): whether to save the model parameters, default: True
             show_progress (bool): Show the progress of training epoch and evaluate epoch. Defaults to ``False``.
@@ -424,7 +424,7 @@ class Trainer(AbstractTrainer):
                                     Includes (epoch_idx, valid_score) input arguments.
 
         Returns:
-             (float, dict): best valid score and best valid result. If valid_data is None, it returns (-1, None)
+            (float, dict): best valid score and best valid result. If valid_data is None, it returns (-1, None)
         """
         if saved and self.start_epoch >= self.epochs:
             self._save_checkpoint(-1, verbose=verbose)
@@ -432,8 +432,8 @@ class Trainer(AbstractTrainer):
         self.eval_collector.data_collect(train_data)
         if self.config["train_neg_sample_args"].get("dynamic", False):
             train_data.get_model(self.model)
-        valid_step = 0
 
+        valid_step = 0
         for epoch_idx in range(self.start_epoch, self.epochs):
             # train
             training_start_time = time()
@@ -874,7 +874,7 @@ class TraditionalTrainer(Trainer):
 
     def __init__(self, config, model):
         super(TraditionalTrainer, self).__init__(config, model)
-        self.epochs = 1  # Set the epoch to 1 when running memory based model
+        self.epochs = config['epochs']  # Set the epoch to 1 when running memory based model
 
 
 class DecisionTreeTrainer(AbstractTrainer):
