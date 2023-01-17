@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from db.connection import get_db
 from crud.schemas import getHousesList
 from crud import hobbang_crud_test, schemas
-from recommend.rule_based import inference
+from recommend.rule_based import inference_gu, inference_latlng
 
 # import os
 # print(os.getcwd())
@@ -20,48 +20,62 @@ router = APIRouter(
 
 
 # 맵 화면 진입시 요청되는 api
-# request: user_id, gu
-@router.post("/getHouses") # Route Path
+# request: user_id, user_gu
+@router.post("/items")
 def getHouses(map: schemas.Inference, db: Session = Depends(get_db)):
     # 1. user_id 로 USERS_INFRA.infra_type(infra_yn='Y')
-    infra = hobbang_crud_test.get_infra_by_user_id(map.user_id, db)
-    infra_list = [i.infra_type for i in infra]
+    # infra = hobbang_crud_test.get_infra_by_user_id(map.user_id, db)
+    # infra_list = [i.infra_type for i in infra]
 
     # 2. 모델 inference
-    house_ranking = inference(map.user_id, map.user_gu, db)
+    house_ranking = inference_gu(map.user_id, map.user_gu, db)
     map.house_ranking = {f'{house["house_id"]}': house["ranking"] for house in house_ranking}
 
     # 3. house 목록
     res = hobbang_crud_test.get_houses_gu(map, db)
     
     return {
-        "res": res,
-        "house_ranking": map.house_ranking,  # inference result
+        # "res": res,
+        # "house_ranking": map.house_ranking,  # inference result
         "houses": getHousesList(map, res)
     }
 
 
+# 맵 zoom in/out 했을 때 요청되는 api(infernece 포함)
+# request: user_id, lat/lng(최대, 최소)
+@router.post("/items/zoom")
+def getHousesZoom(map: schemas.MapZoom, db: Session = Depends(get_db)):
+    # 1. user_id 로 USERS_INFRA.infra_type(infra_yn='Y')
+    # infra = hobbang_crud_test.get_infra_by_user_id(map.user_id, db)
+    # infra_list = [i.infra_type for i in infra]
 
-# 맵 zoom in/out 했을 때 요청되는 api
-# request: 위도, 경도(최대, 최소)
-@router.post("/getZoomedHouses") # Route Path
-def getHousesZoom(map_zoom: schemas.MapZoom, db: Session = Depends(get_db)):
-    res = hobbang_crud_test.get_houses_zoom(map_zoom, db)
+    # 2. 모델 inference
+    house_ranking = inference_latlng(map.user_id,
+                                    map.min_lat,
+                                    map.max_lat,
+                                    map.min_lng,
+                                    map.max_lng, db)
+    map.house_ranking = {f'{house["house_id"]}': house["ranking"] for house in house_ranking}
+
+    # 3. house 목록
+    res = hobbang_crud_test.get_houses_gu(map, db)
     
     return {
-        "res": res,
-        "house_ranking": map_zoom.house_ranking,  # inference result
-        # "grid": [map_zoom.min_lat, map_zoom.min_lng, map_zoom.max_lat, map_zoom.max_lng], 
-        "houses": getHousesList(map_zoom, res)
+        # "res": res,
+        # "house_ranking": map.house_ranking,  # inference result
+        "houses": getHousesList(map, res)
     }
 
 
-# # 구 변화했을 때 요청되는 api
-# @router.get("/change_gu/{gu}") # Route Path
-# def changeGu(gu, db: Session = Depends(get_db)):
-#     res = hobbang_crud_test.get_houses_gu(gu, db)
-#     # res = crud_test.get_items(db)
+# # 맵 zoom in/out 했을 때 요청되는 api(infernece 없음)
+# # request: 위도, 경도(최대, 최소)
+# @router.post("/items/zoom")
+# def getHousesZoom(map_zoom: schemas.MapZoom, db: Session = Depends(get_db)):
+#     res = hobbang_crud_test.get_houses_zoom(map_zoom, db)
     
 #     return {
-#         "res" : res,
-# 	}
+#         "res": res,
+#         "house_ranking": map_zoom.house_ranking,  # inference result
+#         # "grid": [map_zoom.min_lat, map_zoom.min_lng, map_zoom.max_lat, map_zoom.max_lng], 
+#         "houses": getHousesList(map_zoom, res)
+#     }
