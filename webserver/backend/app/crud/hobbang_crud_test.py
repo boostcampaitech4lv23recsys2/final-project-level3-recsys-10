@@ -19,6 +19,8 @@ def get_infra(db: Session):
 def get_houses_gu(map: schemas.Inference, db: Session):
     # house_scores: Dict(ex: house_scores[house_id] = score)
     house_ids = list(map.house_ranking.keys())
+    if not house_ids:
+        return {}
     s = f"""
     SELECT H.*,
         I1.infra_id as id_01, I1.infra_dist as dist_01, I1.infra_cnt as cnt_01, I1.lat as lat_01, I1.lng as lng_01,
@@ -85,6 +87,8 @@ def get_houses_gu(map: schemas.Inference, db: Session):
 def get_houses_zoom(map_zoom: schemas.MapZoom, db: Session):
     # house_scores: Dict(ex: house_scores[house_id] = score)
     house_ids = list(map_zoom.house_ranking.keys())
+    if not house_ids:
+        return {}
     s = f"""
     SELECT H.*,
         I1.infra_id as id_01, I1.infra_dist as dist_01, I1.infra_cnt as cnt_01, I1.lat as lat_01, I1.lng as lng_01,
@@ -149,6 +153,18 @@ def get_houses_zoom(map_zoom: schemas.MapZoom, db: Session):
         AND H.lng <= {map_zoom.max_lng}
     """
     return db.execute(s).all()
+
+
+def write_click_log(user: schemas.ClickLog, db: Session):
+    db_click = LogClick(
+                    user_id=user.user_id,
+                    item_id=user.house_id,
+                    log_type=user.log_type
+                )
+    db.add(db_click)
+    db.commit()
+    db.refresh(db_click)
+    return db_click
 
 
 ######### users
