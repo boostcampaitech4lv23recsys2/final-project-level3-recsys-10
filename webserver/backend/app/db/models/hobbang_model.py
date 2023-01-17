@@ -1,7 +1,8 @@
 # models/test_model.py
 
 from sqlalchemy import Column, String, VARCHAR, CHAR, Integer, BigInteger, Float, DateTime
-from sqlalchemy.orm import relationship
+# from sqlalchemy.orm import relationship
+from geoalchemy2 import Geometry
 from db.session import Base
 
 
@@ -10,11 +11,12 @@ class HouseInfo(Base):
 
     house_id = Column(Integer, primary_key=True)
     zigbang_id = Column(Integer)
-    lat = Column(Float)
-    lng = Column(Float)
+    # lat = Column(Float)
+    # lng = Column(Float)
     grid_id = Column(Integer)   # Foreign key
     local1 = Column(VARCHAR(20))  # 시
     local2 = Column(VARCHAR(20))  # 구
+    latlng = Column(Geometry('POINT', srid=4326))
     sales_type = Column(VARCHAR(255))
     service_type = Column(VARCHAR(255))
     price_sales = Column(Integer)
@@ -75,10 +77,11 @@ class InfraInfo(Base):
     infra_id = Column(CHAR(20), primary_key=True)
     infra_type = Column(CHAR(2))
     name = Column(VARCHAR(255))
-    lat = Column(Float)
-    lng = Column(Float)
+    # lat = Column(Float)
+    # lng = Column(Float)
     local1 = Column(VARCHAR(20))
     local2 = Column(VARCHAR(20))
+    latlng = Column(Geometry('POINT', srid=4326))
     grid_id = Column(Integer)
     register_date = Column(DateTime)
     update_date = Column(DateTime)

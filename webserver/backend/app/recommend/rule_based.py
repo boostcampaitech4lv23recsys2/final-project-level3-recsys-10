@@ -17,12 +17,13 @@ def inference_gu(user_id, user_gu, db: Session):
     s = f"""
     SELECT H.house_id,
             RANK() over (ORDER BY (SUM(G.infra_dist_score) + SUM(G.infra_cnt_score)) DESC, H.house_id) as ranking
-    FROM HOUSE_INFO H,
-            GRID_SCORE G
+    FROM hobbang_test.HOUSE_INFO H,
+            hobbang_test.GRID_SCORE G
     WHERE H.grid_id = G.grid_id
+        AND H.sold_yn = 'N'
        	AND local2 = "{user_gu}"
         AND G.INFRA_TYPE IN (SELECT U.infra_type
-                            FROM USERS_INFRA U
+                            FROM hobbang_test.USERS_INFRA U
                             where U.user_id = {user_id}
                                 AND U.infra_yn = 'Y')
     GROUP BY H.house_id
