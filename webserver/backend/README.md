@@ -1,8 +1,22 @@
 **Usage**
-```python
+
+> **주의** : !!실행 전 slack 에 있는 .env 파일을 /webserver/backend/app/core 에 복사해야 합니다.!!
+
+```bash
+install -r requirements.txt  
+poetry shell
+poetry install
+pip install sqlalchemy  # ORM을 통하여 DB 쿼리문을 작성하기 위해 설치
+pip install python-dotenv  # DB관련 정보를 입력할 때, 환경변수를 통하여 내용을 입력하기 위해 dotenv 설치
+pip install pymysql
+
 # app 폴더 내에서 아래 명령어 실행
 uvicorn main:app --reload --host 0.0.0.0 --port yourport
 ```
+
+---
+
+**아래부터는 클라우드 환경 설정 방법입니다.!**
 
 > 예제 코드 출처 : [Flashback 님 : Python - FastAPI DB Connection ( SQLAlchemy )](https://phsun102.tistory.com/m/63)
 >

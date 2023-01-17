@@ -13,7 +13,7 @@ router = APIRouter(
 
 # 회원가입 시 요청되는 api
 # 닉네임, 나이 성별 지역 비번
-@router.post("/createuser/", response_model=schemas.UserCreate) # Route Path
+@router.post("/join/", response_model=schemas.UserCreate) # Route Path
 def createUser(user: schemas.UserCreate, db: Session = Depends(get_db)):
     res = hobbang_crud_test.create_user(db, user)  # get_infra(db): INFRA 테이블 조회(임시)
     return {
@@ -30,7 +30,7 @@ def createUser(user: schemas.UserCreate, db: Session = Depends(get_db)):
 
 
 # 닉네임 중복확인 시 요청되는 api
-@router.get("/checkname/{name}") # Route Path
+@router.get("/name/{name}") # Route Path
 def checkName(name, db: Session = Depends(get_db)):
     res = hobbang_crud_test.check_user_name(name, db)  # get_infra(db): INFRA 테이블 조회(임시)
     if res == 0:
@@ -65,7 +65,7 @@ def loginUser(user: schemas.UserBase, db: Session = Depends(get_db)):
 
 
 # 비회원/회원이 인프라 선택시 요청되는 api
-@router.post("/selectInfras") # Route Path
+@router.post("/infra") # Route Path
 def selectInfra(UserSelect: schemas.UserSelect, db: Session = Depends(get_db)):
     # request: user_id(비회원이면 null), user_type
     # 0) user: 비회원 > user_id
@@ -87,12 +87,12 @@ def selectInfra(UserSelect: schemas.UserSelect, db: Session = Depends(get_db)):
 
 
 
-# 회원이 인프라 선택시 요청되는 api
-@router.get("/") # Route Path
-def selectInfraUser(db: Session = Depends(get_db)):
-    res = hobbang_crud_test.get_infra(db)  # get_infra(db): INFRA 테이블 조회(임시)
-    # res = crud_test.get_items(db)
+# # 회원이 인프라 선택시 요청되는 api
+# @router.get("/") # Route Path
+# def selectInfraUser(db: Session = Depends(get_db)):
+#     res = hobbang_crud_test.get_infra(db)  # get_infra(db): INFRA 테이블 조회(임시)
+#     # res = crud_test.get_items(db)
     
-    return {
-        "res" : res,
-	}
+#     return {
+#         "res" : res,
+# 	}
