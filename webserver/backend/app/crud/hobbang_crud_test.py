@@ -19,6 +19,8 @@ def get_infra(db: Session):
 def get_houses_gu(map: schemas.Inference, db: Session):
     # house_scores: Dict(ex: house_scores[house_id] = score)
     house_ids = list(map.house_ranking.keys())
+    if not house_ids:
+        return {}
     s = f"""
     SELECT H.*,
         I1.infra_id as id_01, I1.infra_dist as dist_01, I1.infra_cnt as cnt_01, I1.lat as lat_01, I1.lng as lng_01,
@@ -85,6 +87,8 @@ def get_houses_gu(map: schemas.Inference, db: Session):
 def get_houses_zoom(map_zoom: schemas.MapZoom, db: Session):
     # house_scores: Dict(ex: house_scores[house_id] = score)
     house_ids = list(map_zoom.house_ranking.keys())
+    if not house_ids:
+        return {}
     s = f"""
     SELECT H.*,
         I1.infra_id as id_01, I1.infra_dist as dist_01, I1.infra_cnt as cnt_01, I1.lat as lat_01, I1.lng as lng_01,

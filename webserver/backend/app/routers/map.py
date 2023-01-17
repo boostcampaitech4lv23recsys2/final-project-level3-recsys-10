@@ -58,7 +58,7 @@ def getHousesZoom(map: schemas.MapZoom, db: Session = Depends(get_db)):
     map.house_ranking = {f'{house["house_id"]}': house["ranking"] for house in house_ranking}
 
     # 3. house 목록
-    res = hobbang_crud_test.get_houses_gu(map, db)
+    res = hobbang_crud_test.get_houses_zoom(map, db)
     
     return {
         # "res": res,

@@ -31,7 +31,7 @@ def inference_gu(user_id, user_gu, db: Session):
     return db.execute(s).all()
 
 
-def inference_latlng(user_id, min_lat, min_lng, max_lat, max_lng, db: Session):
+def inference_latlng(user_id, min_lat, max_lat, min_lng, max_lng, db: Session):
     s = f"""
     SELECT H.house_id,
             RANK() over (ORDER BY (SUM(G.infra_dist_score) + SUM(G.infra_cnt_score)) DESC, H.house_id) as ranking
@@ -41,7 +41,7 @@ def inference_latlng(user_id, min_lat, min_lng, max_lat, max_lng, db: Session):
         AND H.lat >= {min_lat}
         AND H.lat <= {max_lat}
         AND H.lng >= {min_lng}
-        AND H.lng <= {ßmax_lng}
+        AND H.lng <= {max_lng}
         AND G.INFRA_TYPE IN (SELECT U.infra_type
                             FROM USERS_INFRA U
                             where U.user_id = {user_id}
