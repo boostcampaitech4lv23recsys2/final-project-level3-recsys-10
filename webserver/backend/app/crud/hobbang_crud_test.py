@@ -153,11 +153,11 @@ def get_houses_zoom(map_zoom: schemas.MapZoom, db: Session):
 
 ######### users
 def create_user(db: Session, user: schemas.UserCreate):
-    fake_hashed_password = user.pw + "notreallyhashed"    
+    #fake_hashed_password = user.pw + "notreallyhashed"    
     # max_id_before = db.query(func.max(hobbang_model.UsersInfo.user_id)).scalar()
     db_user = UsersInfo(
                     # user_id=int(max_id_before + 1), 
-                    pw=fake_hashed_password, 
+                    pw=user.pw, 
                     name=user.name,
                     user_gu = user.user_gu,
                     user_age=user.user_age,
@@ -174,6 +174,9 @@ def check_user_name(name, db: Session):
 
 def get_users(db: Session):
     return db.query(UsersInfo).all()
+
+def login_user(user: schemas.UserBase, db: Session):
+    return db.query(UsersInfo).filter_by(name = user.name, pw = user.pw).one()
 
 
 ######### zzim

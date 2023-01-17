@@ -10,6 +10,7 @@ class UserBase(BaseModel):
     """
     user_id: int = Field(None) 
     name: str = Field(None)
+    pw: str = Field(None)
 
 class UserCreate(UserBase):
     """
@@ -17,22 +18,13 @@ class UserCreate(UserBase):
     application: 회원가입
     """
     # user_id: int = Field(None) # UUID = Field(default_factory=uuid4)
-    pw: str = Field(None)
+    # pw: str = Field(None)
     user_gu: str = Field(None)
     user_age: int = Field(None)
     user_sex: int = Field(None)
     user_type: str = Field(None)
 
-class User(UserBase):
-    """
-    description: 유저 한 명에 대한 정보 (조회용)
-    """
-    password: str = Field(None)
-    gender: str = Field(None)
-    birth: datetime = Field(default_factory=datetime.now)
-    class Config:
-        orm_mode = True
-
+    
 class UserSelect(BaseModel):
     # user_id
     user_id: int = Field(None)

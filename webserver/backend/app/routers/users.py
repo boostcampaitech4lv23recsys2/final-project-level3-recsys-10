@@ -44,14 +44,24 @@ def checkName(name, db: Session = Depends(get_db)):
 
 
 # 로그인 시 요청되는 api
-@router.get("/") # Route Path
-def loginUser(db: Session = Depends(get_db)):
-    res = hobbang_crud_test.get_infra(db)  # get_infra(db): INFRA 테이블 조회(임시)
-    # res = crud_test.get_items(db)
-    
-    return {
-        "res" : res,
-	}
+@router.post("/login/", response_model=schemas.User) # Route Path
+def loginUser(user: schemas.UserBase, db: Session = Depends(get_db)):
+    res = hobbang_crud_test.login_user(user, db)  # get_infra(db): INFRA 테이블 조회(임시)
+    if len(res) == 1:
+        return {
+            "msg": "로그인에 성공했습니다.",
+            "user_id": res.user_id,
+            "user_gu": res.user_gu,
+
+        }
+    else:
+        return {
+            "msg": "아이디 혹은 비밀번호가 일치하지 않습니다.",
+            "user_id": "",
+            "user_gu": "",
+        }
+
+
 
 
 # 비회원이 인프라 선택시 요청되는 api
