@@ -69,7 +69,7 @@ def getHousesZoom(map: schemas.MapZoom, db: Session = Depends(get_db)):
 
 # 매물 클릭시 요청되는 api
 # request: user_id, house_id, log_type
-@router.post("/itemd/click")
+@router.post("/items/click")
 def WriteClickLog(map: schemas.ClickLog, db: Session = Depends(get_db)):
     res = hobbang_crud_test.write_click_log(map, db)
 
