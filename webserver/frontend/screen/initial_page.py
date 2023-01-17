@@ -42,6 +42,7 @@ def show_login(session:dict):
     #     if submit:
     #         user_authentication = {'user_id' : user_name,
     #                                 'pw' : Password }
+    #     user_authentication -> 백 형식에 맞게 리퀘스트 보내기
 
 
     name, authentication_status, username = authenticator.login('Login', 'main')
@@ -134,16 +135,22 @@ def show_signup(session:dict):
 
         submit = st.form_submit_button("제출하기")
         if submit:
+            url  = ''.join([BACKEND_ADDRESS,DOMAIN_INFO['users'],DOMAIN_INFO['createUser']])
+            print(url)
+            #x = requests.post(url,data=json.dumps(user))
             if username in yaml_data['credentials']['usernames']:
                 st.error('사용중인 닉네임 입니다.')
             else:
-                USERS_INFO = {'name' : username,
-                            'pw' : hashed_passwords[0],
-                            "user_sex" : sex,
-                            "user_age" : age}
+                print(str(hashed_passwords[0]))
+                print(url)
+                USERS_INFO = {'name' : str(username),
+                            'pw' : str(hashed_passwords[0]),
+                            "user_sex" : int(0) if sex == '남자' else int(1),
+                            "user_age" : int(age)}
                 print(USERS_INFO)
+                # 사용 주석
+                #x = requests.post(url, data=json.dumps(USERS_INFO))
                 session['page_counter'] = 2
-
                 st.experimental_rerun()
         
 
@@ -238,7 +245,8 @@ def show_infra(session:dict):
         submit = st.form_submit_button("제출하기")
         if submit:
             if check_cnt >=3:
-                # USERS_INFRA -> 어떻게 보낼지 확인하기 
+                url = ''.join([BACKEND_ADDRESS,DOMAIN_INFO['signup'],DOMAIN_INFO['']])
+                #USERS_INFRA -> 어떻게 보낼지 확인하기 
                 # USERS_INFRA = {'uesr_id' : ,
                 #                'gu' : gu
                 #                 'infra_type' : ,
@@ -247,16 +255,6 @@ def show_infra(session:dict):
                 st.experimental_rerun()
             else:
                 st.error('3개 이상 선택하시오')
-
-        # if check_cnt >= 3:
-        #     submitted = st.form_submit_button("제출하기")
-        #     if submitted:
-        #         session['page_counter'] = 3
-        #         print(check_cnt)
-        #         st.experimental_rerun()
-        # else:
-        #     st.button('제출하기', disabled = True)
-        #     print(check_cnt)
 
 
 
@@ -271,3 +269,19 @@ def show_infra(session:dict):
         # print(x)
 
         
+    # '''
+    # 로그인
+    # id, pw(hashing) -> request   -> 인프라 정보가 없다 -> 회원 인프라 선택 페이지  
+    #                     -> 아이디 비밀번호가 틀리다 -> fail
+    #                     -> 인프라 정보, 아이디, 비밀번호 다 ok -> Map 페이지
+
+    # 회원가입
+    # id, pw(hashing), age, sex -> request -> 아이디 중복 -> st.error('중복된 닉네임 입니다.')
+    #                             -> 빈칸 -> st.error('xx을 입력하지 않으셨습니다.')
+    #                             -> 정상 -> Infra Page
+
+    # 인프라 선택
+    # 회원 인프라 선택 -> request : id, pw(hashing), age, sex, gu, infra
+    # 비회원 인프라 선택 -> request : id(timestamp?), gu, infra
+    
+    # '''
