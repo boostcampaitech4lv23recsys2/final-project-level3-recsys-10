@@ -9,6 +9,7 @@ from folium.map import Marker
 from folium import plugins
 import yaml
 import streamlit_authenticator as stauth    #암호 인증
+from config.config import BACKEND_ADDRESS, DOMAIN_INFO, GU_INFO
 
 def my_map(session:dict,items:list):
     # default center : 강남역
@@ -44,31 +45,19 @@ def my_map(session:dict,items:list):
     return st_data
 
 
-def header(session:dict):
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        option = st.selectbox(
-            label = "시",
-            options = ("시", "Home phone", "Mobile phone"),
-            label_visibility=st.session_state.visibility,
-            disabled=st.session_state.disabled
-        )
+def header(session:dict, selected_gu:str=""):
 
-    with col2:
-        option = st.selectbox(
-            label = "군",
-            options = ("군", "Home phone", "Mobile phone"),
-            label_visibility=st.session_state.visibility,
-            disabled=st.session_state.disabled
-        )
+    selected_idx = ( GU_INFO.index(selected_gu) if "" != selected_gu else 0)
+    
+    option = st.selectbox(
+        label = "구",
+        options = GU_INFO,
+        label_visibility=st.session_state.visibility,
+        disabled=st.session_state.disabled,
+        index = selected_idx
+    )
 
-    with col3:
-        option = st.selectbox(
-            label = "구",
-            options = ("구", "Home phone", "Mobile phone"),
-            label_visibility=st.session_state.visibility,
-            disabled=st.session_state.disabled
-        )
+    return option
 
 
 def logout(session:dict):

@@ -10,6 +10,7 @@ import requests
 
 import json
 from config.config import BACKEND_ADDRESS, DOMAIN_INFO, GU_INFO
+from screen.components import header
 
 #count = 0 => 로그인
 #      = 1 => 회원가입
@@ -106,8 +107,14 @@ def show_signup(session:dict):
             hashed_passwords = stauth.Hasher([password]).generate()
             #st.subheader(hashed_passwords)
             info['credentials']['usernames'][username]['password'] = hashed_passwords[0]
-        
-        
+
+
+        # url  = ''.join([BACKEND_ADDRESS,DOMAIN_INFO['signup']])
+        # user = { 
+            
+        # }
+        # requests.post(url, data=json.dumps(user))
+
         # if st.button('제출하기'):
         #     # TODO url,port config file 로 빼기
 
@@ -145,17 +152,16 @@ def show_signup(session:dict):
                 session['page_counter'] = 2
 
                 st.experimental_rerun()
-        
 
 
-
-
-
-def show_infra(session:dict):
+"""
+{'subway':'01','cs':'02','mart':'03','park':'04','cafe':'05','phar':'06','theater':'07'}
+"""
+def show_infra(session:dict, selected_gu:str=""):
     with st.form("show_infra_page"):
         locat = GU_INFO
         st.title('희망 거주 지역을 선택하세요 ')
-        locate = st.selectbox(' ',locat)
+        locate = header(session,selected_gu)
 
         st.title('원하는 인프라를 선택하세요 (3개 이상) ')
 
@@ -243,6 +249,11 @@ def show_infra(session:dict):
                 #                'gu' : gu
                 #                 'infra_type' : ,
                 #                 'infra_yn' : }
+                session['cur_user_info'] = {
+                    "user_id" : 1,
+                    "selected_gu" : locate,
+                    "infra_type" : ["01","04","03"]
+                }
                 session['page_counter'] = 3
                 st.experimental_rerun()
             else:

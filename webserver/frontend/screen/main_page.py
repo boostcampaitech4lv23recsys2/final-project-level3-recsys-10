@@ -16,7 +16,7 @@ COORD_MULT = 1000000000
 
 def show_main(session:dict,item_list:list):
     # print("check" , os.spath.isfile("/opt/ml/3rdproject/final_team_repo/webserver/frontend/config/user_sample.yaml") )
-       # item_list = item_list[5:6] if( True == session.show_detail) else item_list
+    # item_list = item_list[5:6] if( True == session.show_detail) else item_list
     # show_item_list 는 item_list 로 초기화된다. 
     if( None == session["show_item_list"]):
         session["show_item_list"] = copy.deepcopy(item_list)
@@ -24,21 +24,31 @@ def show_main(session:dict,item_list:list):
     if 'center' not in session:
         session.center = [37.4920372,127.0567124] 
 
-    else : 
-        # TODO Data loader 선택한 지역구의 매물 정보 가져오기 
-        pass 
-
     choice = st.selectbox(
     '유저',
-    ('전체보기','관심 목록'),
+    ('전체보기','관심 목록', '인프라 변경'),
     label_visibility=session.visibility)
     
     # TODO: logout 버튼 클릭 후 새로 고침해야하는 문제 있음 
     logout(session)
 
     if( '관심 목록'== choice ):
-        # TODO : 찜 목록 요청 
+        # TODO FT301
+        # TODO 찜 목록 요청 
+        # params = {
+        #     user_id : st.session_state['cur_user_info']['user_id'],
+
+        # }
+        # url = ''.join([BACKEND_ADDRESS, DOMAIN_INFO['zzim'], DOMAIN_INFO['items']])
+        # res = requests.get(url,params=params )
+        # pass
         session['show_heart'] = True
+        
+    elif('인프라 변경'== choice):
+        session['page_counter'] = 2
+        st.experimental_rerun()
+        pass
+    
     elif('로그 아웃'== choice):
         # TODO : 서버에 요청  
         pass
@@ -63,6 +73,16 @@ def show_main(session:dict,item_list:list):
                 session['ex_loaction'] = map_data["last_object_clicked"]
                 compare_location = f"{map_data['last_object_clicked']['lat']},{map_data['last_object_clicked']['lng']}"
                 session["show_item_list"] = list(filter(lambda item: item['location'] == compare_location, item_list))
+
+                # TODO FT401
+                # TODO Marker 내 매물 클릭 
+                # params = {
+                #     user_id : st.session_state['cur_user_info']['user_id'],
+
+                # }
+                # url = ''.join([BACKEND_ADDRESS, DOMAIN_INFO['map'], DOMAIN_INFO['click']])
+                # res = requests.get(url,params=params )
+                # pass
         
         with right:
             # detail 한 정보를 보여주는 상태일 때 
@@ -88,6 +108,16 @@ def show_main(session:dict,item_list:list):
             clicked = click_detector(str)
 
             if( "" != clicked and "love"!=clicked[:4]):
+                # TODO FT402
+                # TODO List 내 매물클릭 
+                # params = {
+                #     user_id : st.session_state['cur_user_info']['user_id'],
+
+                # }
+                # url = ''.join([BACKEND_ADDRESS, DOMAIN_INFO['map'], DOMAIN_INFO['click']])
+                # res = requests.get(url,params=params )
+                # pass
+                
                 session["show_detail"] = True
                 session["show_item_list"] = list(filter(lambda item: item['location'] == clicked, item_list))
                 session["center"] = clicked.split(',')

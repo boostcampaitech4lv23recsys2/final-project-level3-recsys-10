@@ -23,6 +23,7 @@ from screen.components import header
 from screen.initial_page import show_login, show_signup,show_infra
 from screen.main_page import show_main
 from utils import get_example_data
+from config.config import BACKEND_ADDRESS, DOMAIN_INFO
 
 import requests
 COORD_MULT = 1000000000
@@ -35,32 +36,59 @@ COORD_MULT = 1000000000
 # 지도도 같이 보여주는게 좋을 것 같다. 
 # left 는 그대로 두고, marker 뿌리고 오른쪽은 찜 목록으로 대체 
 
+def set_state_key(STATE_KEYS_VALS):
+    for k, v in STATE_KEYS_VALS:
+        if k not in st.session_state:
+            st.session_state[k] = v
+
+STATE_KEYS_VALS = [
+    ("is_login", False),
+    ("ex_loaction", None),
+    ("rand_list",None),
+    ("visibility",'collapsed'),
+    ('disabled',False),
+    ('sidebar_state','collapsed'), 
+    ('show_detail',False),
+    ('show_heart', False),
+    ('show_item_list',None),
+    ('page_counter',0),
+    ('cur_user_info',{
+        "user_id":None, 
+        "selected_gu":"",
+    }),
+    ('center',[37.4920372,127.0567124] ),
+    ('page_counter',0),
+    ('page_counter',0),
+]
+
+set_state_key(STATE_KEYS_VALS)
+
 # 초기 설정
-if 'is_login' not in st.session_state:
-    st.session_state['is_login'] = False
+# if 'is_login' not in st.session_state:
+#     st.session_state['is_login'] = False
 
-if 'ex_loaction' not in st.session_state:
-    st.session_state['ex_loaction'] = None
+# if 'ex_loaction' not in st.session_state:
+#     st.session_state['ex_loaction'] = None
 
-if 'rand_list' not in st.session_state:
-    st.session_state['rand_list'] = None
+# if 'rand_list' not in st.session_state:
+#     st.session_state['rand_list'] = None
 
 # Store the initial value of widgets in session state
-if "visibility" not in st.session_state:
-    st.session_state.visibility = "collapsed"
-    st.session_state.disabled = False
+# if "visibility" not in st.session_state:
+#     st.session_state.visibility = "collapsed"
+#     st.session_state.disabled = False
 
-if 'sidebar_state' not in st.session_state:
-    st.session_state.sidebar_state = 'collapsed'
+# if 'sidebar_state' not in st.session_state:
+#     st.session_state.sidebar_state = 'collapsed'
 
-if 'show_detail' not in st.session_state:
-    st.session_state.show_detail = False
+# if 'show_detail' not in st.session_state:
+#     st.session_state.show_detail = False
 
-if 'show_heart' not in st.session_state:
-    st.session_state.show_heart = False
+# if 'show_heart' not in st.session_state:
+#     st.session_state.show_heart = False
 
-if 'show_item_list' not in st.session_state:
-    st.session_state.show_item_list = None
+# if 'show_item_list' not in st.session_state:
+#     st.session_state.show_item_list = None
     
 
 #count = 0 => 로그인
@@ -68,8 +96,8 @@ if 'show_item_list' not in st.session_state:
 #      = 2 => 둘러보기(인프라 선택)
 #      = 3 => 지도
 
-if 'page_counter' not in st.session_state:
-    st.session_state['page_counter'] = 0
+# if 'page_counter' not in st.session_state:
+#     st.session_state['page_counter'] = 0
 
 
 st.set_page_config(layout="wide")
@@ -98,7 +126,19 @@ elif( 3 == st.session_state['page_counter'] ):
     example_item_list = get_example_data()
 
     if(  False == st.session_state['show_heart']):
-        # TODO Data loader 선택한 지역구의 매물 정보 가져오기 
-        header(st.session_state)
+        selected_gu = header(st.session_state, st.session_state['cur_user_info']['selected_gu'])
+
+        if( "" != selected_gu ):
+            pass
+            # TODO FT201
+            # TODO Data loader 선택한 지역구의 매물 정보 가져오기 
+            # params = {
+            #     user_id : st.session_state['cur_user_info']['user_id'],
+
+            # }
+            # url = ''.join([BACKEND_ADDRESS, DOMAIN_INFO['map'], DOMAIN_INFO['items']])
+            # res = requests.get(url,params=params )
+            # pass
+
     show_main(st.session_state,example_item_list)
     pass 
