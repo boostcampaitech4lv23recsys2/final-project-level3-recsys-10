@@ -13,7 +13,7 @@ router = APIRouter(
 
 # 회원가입 시 요청되는 api
 # 닉네임, 나이 성별 지역 비번
-@router.post("/createuser/", response_model=schemas.User) # Route Path
+@router.post("/createuser/", response_model=schemas.UserCreate) # Route Path
 def createUser(user: schemas.UserCreate, db: Session = Depends(get_db)):
     res = hobbang_crud_test.create_user(db, user)  # get_infra(db): INFRA 테이블 조회(임시)
     return {
@@ -44,10 +44,10 @@ def checkName(name, db: Session = Depends(get_db)):
 
 
 # 로그인 시 요청되는 api
-@router.post("/login/", response_model=schemas.User) # Route Path
+@router.post("/login/") # Route Path
 def loginUser(user: schemas.UserBase, db: Session = Depends(get_db)):
     res = hobbang_crud_test.login_user(user, db)  # get_infra(db): INFRA 테이블 조회(임시)
-    if len(res) == 1:
+    if res:
         return {
             "msg": "로그인에 성공했습니다.",
             "user_id": res.user_id,

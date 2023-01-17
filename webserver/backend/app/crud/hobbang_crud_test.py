@@ -192,7 +192,7 @@ def get_users(db: Session):
     return db.query(UsersInfo).all()
 
 def login_user(user: schemas.UserBase, db: Session):
-    return db.query(UsersInfo).filter_by(name = user.name, pw = user.pw).one()
+    return db.query(UsersInfo).filter_by(name = user.name, pw = user.pw).first()
 
 
 ######### zzim
