@@ -44,7 +44,7 @@ class UserSelect(BaseModel):
 class Inference(BaseModel):
     user_id: int = Field(None)
     user_gu: str = Field(None)
-    house_ranking: Dict = Field(None)
+    house_ranking: Dict = Field(None) # inference 결과 저장할 때 필요
 
 class MapZoom(Inference):
     min_lat: float = Field(None)
@@ -107,3 +107,8 @@ def getHousesList(map_zoom, res):
                             }
                         }
                         } for r in res}])
+
+class ClickLog(BaseModel):
+    user_id: int = Field(None)
+    house_id: int = Field(None)
+    log_type: str = Field(None)

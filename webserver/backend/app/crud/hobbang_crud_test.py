@@ -151,6 +151,18 @@ def get_houses_zoom(map_zoom: schemas.MapZoom, db: Session):
     return db.execute(s).all()
 
 
+def write_click_log(user: schemas.ClickLog, db: Session):
+    db_click = LogClick(
+                    user_id=user.user_id,
+                    item_id=user.house_id,
+                    log_type=user.log_type
+                )
+    db.add(db_click)
+    db.commit()
+    db.refresh(db_click)
+    return db_click
+
+
 ######### users
 def create_user(db: Session, user: schemas.UserCreate):
     fake_hashed_password = user.pw + "notreallyhashed"    
