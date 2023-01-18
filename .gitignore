@@ -16,6 +16,14 @@ Thumbs.db
 # csv file 
 **/*.csv
 
+# tsv file 
+**/*.tsv
+
+# .user .item .inter
+**/*.user
+**/*.item
+**/*.inter
+
 # png file
 **/*.png
 
@@ -35,7 +43,7 @@ Thumbs.db
 **/*.npy
 
 # data folder except
-data/
+./data/
 
 # wandb folder except
 wandb/

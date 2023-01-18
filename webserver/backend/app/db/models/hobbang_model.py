@@ -42,6 +42,9 @@ class UsersInfo(Base):
     user_age = Column(Integer)
     user_sex = Column(Integer)
     user_type = Column(CHAR)
+    register_date = Column(DateTime)
+    update_date = Column(DateTime)
+
 
 
 class UsersInfra(Base):
@@ -61,7 +64,9 @@ class UserZzim(Base):
     idx = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer)
     house_id = Column(Integer)
-    zzim_date = Column(DateTime)
+    register_date = Column(DateTime)
+    update_date = Column(DateTime)
+    zzim_yn = Column(CHAR(2))
 
 
 class Infra(Base):

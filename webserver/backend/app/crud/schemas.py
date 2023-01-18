@@ -23,6 +23,8 @@ class UserCreate(UserBase):
     user_age: int = Field(None)
     user_sex: int = Field(None)
     user_type: str = Field(None)
+    register_date: datetime = Field(None)
+    update_date: datetime = Field(None)
 
 class UserSelect(BaseModel):
     # user_id
@@ -95,6 +97,18 @@ def getHousesList(map_zoom, res):
                                 "nearest_lat": r.lat_05,
                                 "nearest_lng" : r.lng_05,
                                 "cnt": r.cnt_05
+                            },
+                            "06" : {
+                                "nearest_distance": r.dist_06,
+                                "nearest_lat": r.lat_06,
+                                "nearest_lng" : r.lng_06,
+                                "cnt": r.cnt_06
+                            },
+                            "07" : {
+                                "nearest_distance": r.dist_07,
+                                "nearest_lat": r.lat_07,
+                                "nearest_lng" : r.lng_07,
+                                "cnt": r.cnt_07
                             }
                         }
                         } for r in res}])
@@ -103,3 +117,8 @@ class ClickLog(BaseModel):
     user_id: int = Field(None)
     house_id: int = Field(None)
     log_type: str = Field(None)
+
+class ZzimBase(BaseModel):
+    user_id: int = Field(None)
+    house_id: int = Field(None)
+    zzim_yn: str = Field(None)
