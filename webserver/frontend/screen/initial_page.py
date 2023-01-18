@@ -205,16 +205,16 @@ def show_infra(session:dict, selected_gu:str=""):
 
         st.title('원하는 인프라를 선택하세요 (3개 이상) ')
 
-        num_of_infa = len(INFRA_INFO)
-        quotient  = num_of_infa // 2 
-        remainder = num_of_infa % 2 
+        num_of_infra = len(INFRA_INFO)
+        quotient  = num_of_infra // 2 
+        remainder = num_of_infra % 2 
 
         upper_col_list = st.columns(quotient + remainder)
         lower_col_list = st.columns(quotient)
         col_list = upper_col_list + lower_col_list
 
         check_cnt = 0 
-        select_list = [False] * num_of_infa
+        select_list = [False] * ( num_of_infra + 1 ) 
 
         # make_colum_by_infra(upper_col_list,check_cnt,select_infra)
         # make_colum_by_infra(lower_col_list,check_cnt,select_infra, len(upper_col_list))
