@@ -3,6 +3,7 @@ from fastapi import APIRouter, Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
 from db.connection import get_db
 from crud import hobbang_crud_test, schemas
+import bcrypt
 
 # from apis import test # main logic
 
@@ -13,7 +14,7 @@ router = APIRouter(
 
 # 회원가입 시 요청되는 api
 # 닉네임, 나이 성별 지역 비번
-@router.post("/join/", response_model=schemas.UserCreate) # Route Path
+@router.post("/join", response_model=schemas.UserCreate) # Route Path
 def createUser(user: schemas.UserCreate, db: Session = Depends(get_db)):
     res = hobbang_crud_test.create_user(db, user)  # get_infra(db): INFRA 테이블 조회(임시)
     return {
@@ -43,24 +44,21 @@ def checkName(name, db: Session = Depends(get_db)):
 
 
 # 로그인 시 요청되는 api
-@router.post("/login/") # Route Path
+@router.post("/login") # Route Path
 def loginUser(user: schemas.UserBase, db: Session = Depends(get_db)):
     res = hobbang_crud_test.login_user(user, db)  # get_infra(db): INFRA 테이블 조회(임시)
     if res:
-        return {
-            "msg": "로그인에 성공했습니다.",
-            "user_id": res.user_id,
-            "user_gu": res.user_gu,
-
-        }
-    else:
-        return {
-            "msg": "아이디 혹은 비밀번호가 일치하지 않습니다.",
-            "user_id": "",
-            "user_gu": "",
-        }
-
-
+        if bcrypt.checkpw(user.pw.encode('utf-8'), res.pw.encode('utf-8')):
+            return {
+                "msg": "로그인에 성공했습니다.",
+                "user_id": res.user_id,
+                "user_gu": res.user_gu,
+            }
+    return {
+        "msg": '아이디 혹은 비밀번호가 일치하지 않습니다.',
+        "user_id": "",
+        "user_gu": "",
+    }
 
 
 # 비회원/회원이 인프라 선택시 요청되는 api
