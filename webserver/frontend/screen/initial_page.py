@@ -19,6 +19,8 @@ from screen.components import header
 #      = 2 => 둘러보기(인프라 선택)
 #      = 3 => 지도
 
+# id = drop
+# pw = 1234
 
 def show_login(session:dict):
     # print(os.getcwd())
@@ -40,17 +42,23 @@ def show_login(session:dict):
     with st.form("login_page"):
         user_name = st.text_input('User name')
         password_login = st.text_input('Password', type = 'password')
+        #password_login = password_login.
         #hashed_password = bcrypt.hashpw(password_login.encode('utf-8'), bcrypt.gensalt())
-        hashed_password = bcrypt.hashpw(password_login.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+        #hashed_password = bcrypt.hashpw(password_login.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
         submit = st.form_submit_button("Login")
         if submit:
             url  = ''.join([BACKEND_ADDRESS,DOMAIN_INFO['users'],DOMAIN_INFO['login']])
 
             users_login = {'name' : str(user_name),
-                            'pw' : hashed_password}
-                            #str(hashed_password) }
+                            'pw' : str(password_login)}
 
             x = requests.post(url, data=json.dumps(users_login))
+            check = x.json()
+            if check['msg'] == "로그인에 성공했습니다.":
+                session['page_counter'] = 3
+                st.experimental_rerun()
+            elif check['msg'] ==  '아이디 혹은 비밀번호가 일치하지 않습니다.':
+                st.error('아이디 혹은 비밀번호가 일치하지 않습니다.')
             #print(msg['test'])
         #user_authentication -> 백 형식에 맞게 리퀘스트 보내기
 
@@ -167,7 +175,7 @@ def show_signup(session:dict):
                             "user_age" : int(age),
                             # "register_date" : str(datetime.now()),
                             # "update_date" : str(datetime.now()),
-                            "user_type" : CHAR('Y')}
+                            "user_type" : str('Y')}
                 
                 print(USERS_INFO)
                 # 사용 주석
