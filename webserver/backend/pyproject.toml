@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "test-fastapi"
+version = "0.1.0"
+description = "FastAPI Test"
+authors = ["hobbang2 <cattie@pukyong.ac.kr>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "test_fastapi"}]
+
+[tool.poetry.dependencies]
+python = ">=3.6.2,<3.10"
+fastapi = "^0.70.0"
+uvicorn = "^0.15.0"
+pandas = "1.0.0"
+pydantic = "1.7.4"
+sqlalchemy = "^1.4.46"
+python-dotenv = "0.20"
+pymysql = "^1.0.2"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^6.2.5"
+black = "^21.9b0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
