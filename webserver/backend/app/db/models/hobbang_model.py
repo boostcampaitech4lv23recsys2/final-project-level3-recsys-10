@@ -64,7 +64,9 @@ class UserZzim(Base):
     idx = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer)
     house_id = Column(Integer)
-    zzim_date = Column(DateTime)
+    register_date = Column(DateTime)
+    update_date = Column(DateTime)
+    zzim_yn = Column(CHAR(2))
 
 
 class Infra(Base):

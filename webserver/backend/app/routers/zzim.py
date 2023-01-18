@@ -22,20 +22,24 @@ def getZzimList(user_id, db: Session = Depends(get_db)):
     return res
 
 
-# 찜등록시 요청되는 api
+# 찜등록/취소시 요청되는 api
 @router.post("/items/register/") # Route Path
-def makeZzim(zzim: schemas.ClickLog, db: Session = Depends(get_db)):
-    res = hobbang_crud_test.check_item(zzim.house_id, db)
-    if res==0:
-        res = hobbang_crud_test.write_zzim_log(zzim, db)
-        return {
-            "messege" : f"{zzim.house_id} 매물이 찜 목록에 추가되었습니다.",
-            "zzim_list"  : res,
-            }
-    else:
-        return {
-            "messege" : "이미 찜 목록에 존재하는 매물입니다."
-        } 
+def makeZzim(zzim: schemas.ZzimBase, db: Session = Depends(get_db)):
+    res = hobbang_crud_test.update_zzim(zzim, db)
+    return {
+        "res": res
+    }
+    # res = hobbang_crud_test.check_item(zzim.house_id, db)
+    # if res==0:
+    #     res = hobbang_crud_test.write_zzim_log(zzim, db)
+    #     return {
+    #         "messege" : f"{zzim.house_id} 매물이 찜 목록에 추가되었습니다.",
+    #         "zzim_list"  : res,
+    #         }
+    # else:
+    #     return {
+    #         "messege" : "이미 찜 목록에 존재하는 매물입니다."
+    #     } 
 
         
 # # 찜등록시 요청되는 api
@@ -68,20 +72,20 @@ def makeZzim(zzim: schemas.ClickLog, db: Session = Depends(get_db)):
 #             }
 
         
-# 찜등록 취소시 요청되는 api
-@router.post("/items/unregister/") # Route Path
-def deleteZzim(zzim: schemas.ClickLog, db: Session = Depends(get_db)):
-    res = hobbang_crud_test.check_item(zzim.house_id, db)
+# # 찜등록 취소시 요청되는 api
+# @router.post("/items/unregister/") # Route Path
+# def deleteZzim(zzim: schemas.ClickLog, db: Session = Depends(get_db)):
+#     res = hobbang_crud_test.check_item(zzim.house_id, db)
     
-    if res==0:
-        return {
-            "message" : "삭제할 매물이 없습니다.",
-        }
-    else:
-        house_id = hobbang_crud_test.delete_zzim_log(zzim, db)
-        return {
-            "message" : f"{house_id} 매물이 삭제되었습니다.",
-	    }
+#     if res==0:
+#         return {
+#             "message" : "삭제할 매물이 없습니다.",
+#         }
+#     else:
+#         house_id = hobbang_crud_test.delete_zzim_log(zzim, db)
+#         return {
+#             "message" : f"{house_id} 매물이 삭제되었습니다.",
+# 	    }
         
         
 # # 찜등록 취소시 요청되는 api

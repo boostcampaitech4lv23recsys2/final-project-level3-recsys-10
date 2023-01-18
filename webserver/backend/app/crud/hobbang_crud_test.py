@@ -309,33 +309,51 @@ def get_zzim_list(user_id, db: Session):
     """
     return db.execute(s).all()
 
-def check_item(house_id, db: Session):
-    return db.query(UserZzim).filter_by(house_id = house_id).count()
-
-def write_zzim_log(zzim: schemas.ClickZzim, db: Session):
-    # db_click = LogClick(
-    #                 user_id=zzim.user_id,
-    #                 item_id=zzim.house_id,
-    #                 log_type=zzim.log_type
-    #             )
-    
-    max_idx_before = db.query(func.max(UserZzim.idx)).scalar()
-    if max_idx_before==None:
-        max_idx_before=0
-    
-    db_zzim = UserZzim(
-            idx=int(max_idx_before + 1),
-            user_id=zzim.user_id,       # 0부터 시작하게 되있어서 에러남
-            house_id=zzim.house_id,
-            zzim_date=datetime.now()
-            )
-    db.add(db_zzim)
+def update_zzim(zzim: schemas.ZzimBase, db: Session):
+    res = db.query(UserZzim).filter_by(user_id=zzim.user_id, house_id=zzim.house_id).first()
+    if res:
+        res.update_date=datetime.now()
+        res.zzim_yn=zzim.zzim_yn
+    else:
+        res = UserZzim(
+                    user_id=zzim.user_id,
+                    house_id=zzim.house_id,
+                    register_date=datetime.now(),
+                    update_date=datetime.now(),
+                    zzim_yn=zzim.zzim_yn
+                    )
+    db.add(res)
     db.commit()
-    db.refresh(db_zzim)
+    return res
+
+
+# def check_item(house_id, db: Session):
+#     return db.query(UserZzim).filter_by(house_id = house_id).count()
+
+# def write_zzim_log(zzim: schemas.ClickZzim, db: Session):
+#     # db_click = LogClick(
+#     #                 user_id=zzim.user_id,
+#     #                 item_id=zzim.house_id,
+#     #                 log_type=zzim.log_type
+#     #             )
+    
+#     max_idx_before = db.query(func.max(UserZzim.idx)).scalar()
+#     if max_idx_before==None:
+#         max_idx_before=0
+    
+#     db_zzim = UserZzim(
+#             idx=int(max_idx_before + 1),
+#             user_id=zzim.user_id,       # 0부터 시작하게 되있어서 에러남
+#             house_id=zzim.house_id,
+#             zzim_date=datetime.now()
+#             )
+#     db.add(db_zzim)
+#     db.commit()
+#     db.refresh(db_zzim)
         
-    return db_zzim
+#     return db_zzim
 
-def delete_zzim_log(zzim: schemas.ClickZzim, db: Session):
-    db.query(UserZzim).filter(UserZzim.user_id==zzim.user_id, UserZzim.house_id==zzim.house_id).delete(synchronize_session=False)
-    db.commit()
-    return zzim.house_id
+# def delete_zzim_log(zzim: schemas.ClickZzim, db: Session):
+#     db.query(UserZzim).filter(UserZzim.user_id==zzim.user_id, UserZzim.house_id==zzim.house_id).delete(synchronize_session=False)
+#     db.commit()
+#     return zzim.house_id
