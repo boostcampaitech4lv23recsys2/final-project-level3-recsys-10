@@ -11,7 +11,7 @@ import bcrypt   #암호화
 from datetime import datetime
 
 import json
-from config.config import BACKEND_ADDRESS, DOMAIN_INFO, GU_INFO
+from config.config import BACKEND_ADDRESS, DOMAIN_INFO, GU_INFO, INFRA_INFO
 from screen.components import header
 
 #count = 0 => 로그인
@@ -206,81 +206,127 @@ def show_infra(session:dict, selected_gu:str=""):
 
         st.title('원하는 인프라를 선택하세요 (3개 이상) ')
 
-        col1, col2, col3, col4 = st.columns(4)
-        col5, col6, col7, col8 = st.columns(4)
-        check_cnt = 0
+        num_of_infa = len(INFRA_INFO)
+        quotient  = num_of_infa // 2 
+        remainder = num_of_infa % 2 
 
-        with col1:
-            st.header("편의점")
-            st.image("./image/편의점.jpeg")
-            if st.checkbox("편의점" , key = 1):
-                con_store = 1
-                check_cnt += 1
-            else:
-                con_store = 0
+        upper_col_list = st.columns(quotient + remainder)
+        lower_col_list = st.columns(quotient)
+
+        check_cnt = 0 
+        check_info = 0
+        select_list = [False] * num_of_infa
+
+        for idx, col in enumerate(upper_col_list) : 
+            with col :
+                item_name = INFRA_INFO[idx]['ko']
+                item_key = INFRA_INFO[idx]['code']
+                st.header(item_name)
+                st.image(f'./image/{item_name}.jpeg')
                 
-        with col2:
-            st.header("약국")
-            st.image("./image/약국.jpeg")
-            if st.checkbox("약국" , key = 2):
-                phar = 1
-                check_cnt += 1
-            else:
-                phar = 0
+                if st.checkbox(f'{item_name}' , key = f'{item_key}'):
+                    check_cnt += 1 
+                    select_list[idx] = True
+                else:
+                    check_info ^= (1 << idx)
+                    select_list[idx] = False
+        
+        for idx, col in enumerate(lower_col_list) : 
+            idx += len(upper_col_list)
+            with col :
+                item_name = INFRA_INFO[idx]['ko']
+                item_key = INFRA_INFO[idx]['code']
+                st.header(item_name)
+                st.image(f'./image/{item_name}.jpeg')
+                
+                if st.checkbox(f'{item_name}' , key = f'{item_key}'):
+                    check_cnt += 1 
+                    select_list[idx] = True
+                else:
+                    select_list[idx] = False
 
-        with col3:
-            st.header("카페")
-            st.image("./image/카페.jpeg")
-            if st.checkbox("카페" , key = 3):
-                cafe = 1
-                check_cnt += 1
-            else:
-                cafe = 0
+        # col1, col2, col3, col4 = st.columns(4) 
+        # col5, col6, col7,col8 = st.columns(4)
+        # check_cnt = 0
 
-        with col4:
-            st.header("병원")
-            st.image("./image/병원.jpeg")
-            if st.checkbox("병원" , key = 4):
-                hospital = 1
-                check_cnt += 1
-            else:
-                hospital = 0
 
-        with col5:
-            st.header("공원")
-            st.image("./image/공원.jpeg")
-            if st.checkbox("공원" , key = 5):
-                park = 1
-                check_cnt += 1
-            else:
-                park = 0
 
-        with col6:
-            st.header("대형마트")
-            st.image("./image/대형마트.jpeg")
-            if st.checkbox("대형마트" , key = 6):
-                mart = 1
-                check_cnt += 1
-            else:
-                mart = 0
 
-        with col7:
-            st.header("영화관")
-            st.image("./image/영화관.jpeg")
-            if st.checkbox("영화관" , key = 7):
-                theater = 1
-                check_cnt += 1
-            else:
-                theater = 0
+        # with col1:
+        #     st.header("편의점")
+        #     st.image("./image/편의점.jpeg")
+        #     if st.checkbox("편의점" , key = 1):
+        #         con_store = 1
+        #         check_cnt += 1
+        #         print(check_cnt)
+        #     else:
+        #         print("편의점")
+        #         con_store = 0
+                
+        # with col2:
+        #     st.header("약국")
+        #     st.image("./image/약국.jpeg")
+        #     if st.checkbox("약국" , key = 2):
+        #         phar = 1
+        #         check_cnt += 1
+        #         print(check_cnt)
+        #     else:
+        #         phar = 0
 
-        with col8:
-            st.header("지하철")
-            st.image("./image/지하철.jpeg")
-            if st.checkbox("지하철" , key = 8):
-                subway = 1
-                check_cnt += 1
-            else:
-                subway = 0
+        # with col3:
+        #     st.header("카페")
+        #     st.image("./image/카페.jpeg")
+        #     if st.checkbox("카페" , key = 3):
+        #         cafe = 1
+        #         check_cnt += 1
+        #         print(check_cnt)
+        #     else:
+        #         cafe = 0
+
+        # with col4:
+        #     st.header("병원")
+        #     st.image("./image/병원.jpeg")
+        #     if st.checkbox("병원" , key = 4):
+        #         hospital = 1
+        #         check_cnt += 1
+        #     else:
+        #         hospital = 0
+
+        # with col5:
+        #     st.header("공원")
+        #     st.image("./image/공원.jpeg")
+        #     if st.checkbox("공원" , key = 5):
+        #         park = 1
+        #         check_cnt += 1
+        #     else:
+        #         park = 0
+
+        # with col6:
+        #     st.header("대형마트")
+        #     st.image("./image/대형마트.jpeg")
+        #     if st.checkbox("대형마트" , key = 6):
+        #         mart = 1
+        #         check_cnt += 1
+        #     else:
+        #         mart = 0
+
+        # with col7:
+        #     st.header("영화관")
+        #     st.image("./image/영화관.jpeg")
+        #     if st.checkbox("영화관" , key = 7):
+        #         theater = 1
+        #         check_cnt += 1
+        #     else:
+        #         theater = 0
+
+        # with col8:
+        #     st.header("지하철")
+        #     st.image("./image/지하철.jpeg")
+        #     if st.checkbox("지하철" , key = 8):
+        #         subway = 1
+        #         check_cnt += 1
+        #     else:
+        #         subway = 0
 
         submit = st.form_submit_button("제출하기")
         if submit:
@@ -291,11 +337,19 @@ def show_infra(session:dict, selected_gu:str=""):
                 #                'gu' : gu
                 #                 'infra_type' : ,
                 #                 'infra_yn' : }
+                selected_infra_list = []
+
+                for idx, is_select in enumerate(select_list):
+                    idx += 1 
+                    if ( True == is_select ):
+                        value_str = f'0{idx}' if  ( ( idx // 10 ) == 0 ) else f'{idx}' 
+                        selected_infra_list.append(value_str)
+                
                 session['ex_user_info'] = session['cur_user_info']
                 session['cur_user_info'] = {
                     "user_id" : 1,
                     "selected_gu" : locate,
-                    "infra_type" : ["01","04","03"]
+                    "infra_type" : selected_infra_list
                 }
                 session['page_counter'] = 3
                 st.experimental_rerun()
