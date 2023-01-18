@@ -4,6 +4,7 @@ from sqlalchemy import func
 from sqlalchemy.orm import Session
 from db.connection import get_db
 from crud import hobbang_crud_test, schemas
+from crud.schemas import getHousesList
 from db.models import hobbang_model
 # from apis import test # main logic
 
@@ -17,9 +18,15 @@ router = APIRouter(
 # 찜목록 조회시 요청되는 api
 @router.get("/items/{user_id}") # Route Path
 def getZzimList(user_id, db: Session = Depends(get_db)):
-    res = hobbang_crud_test.get_zzim_list(user_id, db)
+    house_zzim = hobbang_crud_test.get_zzim_list(user_id, db)
+
+    res = hobbang_crud_test.get_houses_zzim([f"{house.house_id}" for house in house_zzim], user_id, db)
     
-    return res
+    return {
+        "res": res,
+        # "house_zzim": house_zzim,
+        # "houses": getHousesList(map, res)
+    }
 
 
 # 찜등록/취소시 요청되는 api
