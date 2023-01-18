@@ -23,6 +23,8 @@ class UserCreate(UserBase):
     user_age: int = Field(None)
     user_sex: int = Field(None)
     user_type: str = Field(None)
+    register_date: datetime = Field(None)
+    update_date: datetime = Field(None)
 
 class UserSelect(BaseModel):
     # user_id

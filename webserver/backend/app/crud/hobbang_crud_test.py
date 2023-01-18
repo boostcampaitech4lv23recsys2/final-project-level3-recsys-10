@@ -221,7 +221,9 @@ def create_user(db: Session, user: schemas.UserCreate):
                     user_gu = user.user_gu,
                     user_age=user.user_age,
                     user_sex=user.user_sex, 
-                    user_type = user.user_type
+                    user_type = user.user_type,
+                    register_date = datetime.now(),
+                    update_date = datetime.now()
                 )
     db.add(db_user)
     db.commit()
@@ -296,6 +298,7 @@ def create_user_infra(user: schemas.UserSelect, db: Session):
 def update_user_gu(user: schemas.UserSelect, db: Session):
     user_info = db.query(UsersInfo).filter(UsersInfo.user_id == user.user_id).first()
     user_info.user_gu = user.user_gu
+    user_info.update_date = datetime.now()
     db.commit()
     return 1
 
