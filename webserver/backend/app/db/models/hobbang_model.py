@@ -42,6 +42,9 @@ class UsersInfo(Base):
     user_age = Column(Integer)
     user_sex = Column(Integer)
     user_type = Column(CHAR)
+    register_date = Column(DateTime)
+    update_date = Column(DateTime)
+
 
 
 class UsersInfra(Base):
