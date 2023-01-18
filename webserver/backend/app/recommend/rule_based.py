@@ -39,10 +39,12 @@ def inference_latlng(user_id, min_lat, max_lat, min_lng, max_lng, db: Session):
     FROM HOUSE_INFO H,
             GRID_SCORE G
     WHERE H.grid_id = G.grid_id
-        AND H.lat >= {min_lat}
-        AND H.lat <= {max_lat}
-        AND H.lng >= {min_lng}
-        AND H.lng <= {max_lng}
+        AND ST_CONTAINS(ST_POLYFROMTEXT('POLYGON(({min_lat} {min_lng}
+                                                , {min_lat} {max_lng}
+                                                , {max_lat} {max_lng}
+                                                , {max_lat} {min_lng}
+                                                , {min_lat} {min_lng}))')
+                                        , H.latlng)
         AND G.INFRA_TYPE IN (SELECT U.infra_type
                             FROM USERS_INFRA U
                             where U.user_id = {user_id}

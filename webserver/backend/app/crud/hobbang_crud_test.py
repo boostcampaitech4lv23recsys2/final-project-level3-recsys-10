@@ -1,7 +1,8 @@
 # crud/hobbang_crud_test.py
 
 from sqlalchemy.orm import Session
-from sqlalchemy import func
+from geoalchemy2 import functions
+from sqlalchemy.sql import func
 from db.models.hobbang_model import HouseInfo, UsersInfo, UsersInfra, UserZzim, Infra, InfraInfo, Grid, GridScore, LogClick
 from . import schemas
 from datetime import datetime
@@ -14,191 +15,164 @@ def get_user_by_user_id(user_id, db: Session):
 def get_infra_by_user_id(user_id, db: Session):
     return db.query(UsersInfra.infra_type).filter_by(user_id=user_id, infra_yn='Y').all()
 
-# def get_infra(db: Session):
-#     return db.query(HouseInfo).filter_by(house_id=1).all()
+def get_infra_kind(db: Session):
+    return db.query(Infra.infra_type).all()
 
 
 ######### map
-def get_houses_gu(map: schemas.Inference, db: Session):
+def get_houses_info(map: schemas.Map, db: Session):
+    house_list = {f'{house}': {"ranking": map.house_ranking[house]} for house in map.house_ranking}
+
+    # 1) house information
+    res = get_houses(map, db)
+    for r in res:
+        house_list[f"{r['house_id']}"]["house_id"] = r["house_id"]
+        house_list[f"{r['house_id']}"]["lat"] = r["lat"]
+        house_list[f"{r['house_id']}"]["lng"] = r["lng"]
+        house_list[f"{r['house_id']}"]["grid_id"] = r["grid_id"]
+        house_list[f"{r['house_id']}"]["information"] = r
+
+    for house_id in house_list:
+        # 2) zzim
+        zzim = 'N'
+        if check_zzimYN(map.user_id, house_id, db) > 1:
+            zzim = 'Y'
+
+        house_list[f"{house_id}"]["zzim"] = zzim
+
+        # 3) related_infra
+        grid_id = house_list[f"{house_id}"]['grid_id']
+        res = get_houses_infra(grid_id, db)
+        infra_dict = {}
+        for r in res:
+            infra_dict[r["infra_type"]] = {
+                "nearest_distance": r.infra_dist,
+                "nearest_lat": r.lat,
+                "nearest_lng" : r.lng,
+                "cnt": r.infra_cnt
+            }
+        house_list[f"{house_id}"]["related_infra"] = infra_dict
+
+    # 4) 랭킹순으로 정렬(house_list[ranking] = house_info)
+    houses = dict(sorted({house_list[house]["ranking"]: house_list[house] for house in house_list}.items()))
+    
+    return houses
+
+def get_houses(map: schemas.Map, db: Session):
     # house_scores: Dict(ex: house_scores[house_id] = score)
     house_ids = list(map.house_ranking.keys())
-    print(house_ids)
-    return db.query(*[c for c in HouseInfo.__table__.c if c.name != 'latlng'],
-                    func.ST_AsText(HouseInfo.latlng)).filter(HouseInfo.house_id.in_([1, 2]))
-    # if not house_ids:
-    #     return {}
-    # s = f"""
-    # SELECT H.*,
-    #     I1.infra_id as id_01, I1.infra_dist as dist_01, I1.infra_cnt as cnt_01, ST_X(I1.latlng) as lat_01, ST_Y(I1.latlng) as lng_01,
-    #     I2.infra_id as id_02, I2.infra_dist as dist_02, I2.infra_cnt as cnt_02, ST_X(I2.latlng) as lat_02, ST_Y(I2.latlng) as lng_02,
-    #     I3.infra_id as id_03, I3.infra_dist as dist_03, I3.infra_cnt as cnt_03, ST_X(I3.latlng) as lat_03, ST_Y(I3.latlng) as lng_03,
-    #     I4.infra_id as id_04, I4.infra_dist as dist_04, I4.infra_cnt as cnt_04, ST_X(I4.latlng) as lat_04, ST_Y(I4.latlng) as lng_04,
-    #     I5.infra_id as id_05, I5.infra_dist as dist_05, I5.infra_cnt as cnt_05, ST_X(I5.latlng) as lat_05, ST_Y(I5.latlng) as lng_05,
-    #     I6.infra_id as id_06, I6.infra_dist as dist_06, I6.infra_cnt as cnt_06, ST_X(I6.latlng) as lat_06, ST_Y(I6.latlng) as lng_06,
-    #     I7.infra_id as id_07, I7.infra_dist as dist_07, I7.infra_cnt as cnt_07, ST_X(I7.latlng) as lat_07, ST_Y(I7.latlng) as lng_07,
-    #     (CASE 
-    #         WHEN(SELECT COUNT(*)
-    #                 FROM hobbang_test.USER_ZZIM Z
-    #             WHERE Z.user_id = {map.user_id}
-    #                 AND Z.zzim_yn = 'Y'
-    #                 AND H.house_id = Z.house_id) > 0
-    #         THEN 'Y'
-    #         ELSE 'N'
-    #     END) zzim
-    # FROM hobbang_test.HOUSE_INFO H,
-    #     (SELECT G.infra_id, G.infra_dist, G.infra_cnt, G.grid_id,
-    #             I.latlng
-    #         FROM hobbang_test.GRID_SCORE G,
-    #                 hobbang_test.INFRA_INFO I
-    #         WHERE G.infra_id = I.infra_id
-    #             AND G.infra_type = '01'
-    #         ) I1,
-    #         (SELECT G.infra_id, G.infra_dist, G.infra_cnt, G.grid_id,
-    #             I.latlng
-    #         FROM hobbang_test.GRID_SCORE G,
-    #                 hobbang_test.INFRA_INFO I
-    #         WHERE G.infra_id = I.infra_id
-    #             AND G.infra_type = '02'
-    #         ) I2,
-    #         (SELECT G.infra_id, G.infra_dist, G.infra_cnt, G.grid_id,
-    #             I.latlng
-    #         FROM hobbang_test.GRID_SCORE G,
-    #                 hobbang_test.INFRA_INFO I
-    #         WHERE G.infra_id = I.infra_id
-    #             AND G.infra_type = '03'
-    #         ) I3,
-    #         (SELECT G.infra_id, G.infra_dist, G.infra_cnt, G.grid_id,
-    #             I.latlng
-    #         FROM hobbang_test.GRID_SCORE G,
-    #                 hobbang_test.INFRA_INFO I
-    #         WHERE G.infra_id = I.infra_id
-    #             AND G.infra_type = '04'
-    #         ) I4,
-    #         (SELECT G.infra_id, G.infra_dist, G.infra_cnt, G.grid_id,
-    #             I.latlng
-    #         FROM hobbang_test.GRID_SCORE G,
-    #                 hobbang_test.INFRA_INFO I
-    #         WHERE G.infra_id = I.infra_id
-    #             AND G.infra_type = '05'
-    #         ) I5,
-    #         (SELECT G.infra_id, G.infra_dist, G.infra_cnt, G.grid_id,
-    #             I.latlng
-    #         FROM hobbang_test.GRID_SCORE G,
-    #                 hobbang_test.INFRA_INFO I
-    #         WHERE G.infra_id = I.infra_id
-    #             AND G.infra_type = '06'
-    #         ) I6,
-    #         (SELECT G.infra_id, G.infra_dist, G.infra_cnt, G.grid_id,
-    #             I.latlng
-    #         FROM hobbang_test.GRID_SCORE G,
-    #                 hobbang_test.INFRA_INFO I
-    #         WHERE G.infra_id = I.infra_id
-    #             AND G.infra_type = '07'
-    #         ) I7
-    # WHERE 1=1
-    #     AND H.house_id in ({", ".join(house_ids)})
-    #     AND H.local2 = "{map.user_gu}"
-    #  	AND H.grid_id = I1.grid_id
-    #  	AND H.grid_id = I2.grid_id
-    #  	AND H.grid_id = I3.grid_id
-    #  	AND H.grid_id = I4.grid_id
-    #  	AND H.grid_id = I5.grid_id
-    #     AND H.grid_id = I6.grid_id
-    #     AND H.grid_id = I7.grid_id
-    # """
-    # return db.execute(s).all()
-
-
-def get_houses_zoom(map_zoom: schemas.MapZoom, db: Session):
-    # house_scores: Dict(ex: house_scores[house_id] = score)
-    house_ids = list(map_zoom.house_ranking.keys())
     if not house_ids:
         return {}
-    s = f"""
-    SELECT H.*,
-        I1.infra_id as id_01, I1.infra_dist as dist_01, I1.infra_cnt as cnt_01, ST_X(I1.latlng) as lat_01, ST_Y(I1.latlng) as lng_01,
-        I2.infra_id as id_02, I2.infra_dist as dist_02, I2.infra_cnt as cnt_02, ST_X(I2.latlng) as lat_02, ST_Y(I2.latlng) as lng_02,
-        I3.infra_id as id_03, I3.infra_dist as dist_03, I3.infra_cnt as cnt_03, ST_X(I3.latlng) as lat_03, ST_Y(I3.latlng) as lng_03,
-        I4.infra_id as id_04, I4.infra_dist as dist_04, I4.infra_cnt as cnt_04, ST_X(I4.latlng) as lat_04, ST_Y(I4.latlng) as lng_04,
-        I5.infra_id as id_05, I5.infra_dist as dist_05, I5.infra_cnt as cnt_05, ST_X(I5.latlng) as lat_05, ST_Y(I5.latlng) as lng_05,
-        I6.infra_id as id_06, I6.infra_dist as dist_06, I6.infra_cnt as cnt_06, ST_X(I6.latlng) as lat_06, ST_Y(I6.latlng) as lng_06,
-        I7.infra_id as id_07, I7.infra_dist as dist_07, I7.infra_cnt as cnt_07, ST_X(I7.latlng) as lat_07, ST_Y(I7.latlng) as lng_07,
-        (CASE 
-            WHEN(SELECT COUNT(*)
-                    FROM hobbang_test.USER_ZZIM Z
-                WHERE Z.user_id = {map_zoom.user_id}
-                    AND Z.zzim_yn = 'Y'
-                    AND H.house_id = Z.house_id) > 0
-            THEN 'Y'
-            ELSE 'N'
-        END) zzim
-    FROM hobbang_test.HOUSE_INFO H,
-        (SELECT G.infra_id, G.infra_dist, G.infra_cnt, G.grid_id,
-                I.latlng
-            FROM hobbang_test.GRID_SCORE G,
-                    hobbang_test.INFRA_INFO I
-            WHERE G.infra_id = I.infra_id
-                AND G.infra_type = '01'
-            ) I1,
-            (SELECT G.infra_id, G.infra_dist, G.infra_cnt, G.grid_id,
-                I.latlng
-            FROM hobbang_test.GRID_SCORE G,
-                    hobbang_test.INFRA_INFO I
-            WHERE G.infra_id = I.infra_id
-                AND G.infra_type = '02'
-            ) I2,
-            (SELECT G.infra_id, G.infra_dist, G.infra_cnt, G.grid_id,
-                I.latlng
-            FROM hobbang_test.GRID_SCORE G,
-                    hobbang_test.INFRA_INFO I
-            WHERE G.infra_id = I.infra_id
-                AND G.infra_type = '03'
-            ) I3,
-            (SELECT G.infra_id, G.infra_dist, G.infra_cnt, G.grid_id,
-                I.latlng
-            FROM hobbang_test.GRID_SCORE G,
-                    hobbang_test.INFRA_INFO I
-            WHERE G.infra_id = I.infra_id
-                AND G.infra_type = '04'
-            ) I4,
-            (SELECT G.infra_id, G.infra_dist, G.infra_cnt, G.grid_id,
-                I.latlng
-            FROM hobbang_test.GRID_SCORE G,
-                    hobbang_test.INFRA_INFO I
-            WHERE G.infra_id = I.infra_id
-                AND G.infra_type = '05'
-            ) I5,
-            (SELECT G.infra_id, G.infra_dist, G.infra_cnt, G.grid_id,
-                I.latlng
-            FROM hobbang_test.GRID_SCORE G,
-                    hobbang_test.INFRA_INFO I
-            WHERE G.infra_id = I.infra_id
-                AND G.infra_type = '06'
-            ) I6,
-            (SELECT G.infra_id, G.infra_dist, G.infra_cnt, G.grid_id,
-                I.latlng
-            FROM hobbang_test.GRID_SCORE G,
-                    hobbang_test.INFRA_INFO I
-            WHERE G.infra_id = I.infra_id
-                AND G.infra_type = '07'
-            ) I7
-    WHERE 1=1
-        AND H.house_id in ({", ".join(house_ids)})
-     	AND H.grid_id = I1.grid_id
-     	AND H.grid_id = I2.grid_id
-     	AND H.grid_id = I3.grid_id
-     	AND H.grid_id = I4.grid_id
-     	AND H.grid_id = I5.grid_id
-        AND H.grid_id = I6.grid_id
-        AND H.grid_id = I7.grid_id
-        AND ST_CONTAINS(ST_POLYFROMTEXT('POLYGON(({map_zoom.min_lat} {map_zoom.min_lng}
-                                                , {map_zoom.min_lat} {map_zoom.max_lng}
-                                                , {map_zoom.max_lat} {map_zoom.max_lng}
-                                                , {map_zoom.max_lat} {map_zoom.min_lng}
-                                                , {map_zoom.min_lat} {map_zoom.min_lng}))')
-                                        , H.latlng)
-    """
-    return db.execute(s).all()
+    
+    return db.query(*[c for c in HouseInfo.__table__.c if c.name != 'latlng']
+                    , func.ST_X(HouseInfo.latlng).label('lat')
+                    , func.ST_Y(HouseInfo.latlng).label('lng'))\
+                .filter(HouseInfo.house_id.in_(house_ids)).all()
+
+def check_zzimYN(user_id, house_id, db: Session):
+    return db.query(UserZzim)\
+            .filter_by(user_id=user_id
+                        , house_id=house_id
+                        , zzim_yn="Y").count()
+
+def get_houses_infra(grid_id, db: Session):
+    return db.query(GridScore)\
+                .join(InfraInfo, GridScore.infra_id==InfraInfo.infra_id)\
+                .add_columns(GridScore.infra_id, GridScore.infra_dist, GridScore.infra_cnt, GridScore.grid_id
+                            , InfraInfo.infra_type, func.ST_X(InfraInfo.latlng).label('lat'), func.ST_Y(InfraInfo.latlng).label('lng'))\
+                .filter(GridScore.grid_id==grid_id)\
+                .order_by(InfraInfo.infra_type).all()
+
+# def get_houses_zoom(map_zoom: schemas.MapZoom, db: Session):
+#     # house_scores: Dict(ex: house_scores[house_id] = score)
+#     house_ids = list(map_zoom.house_ranking.keys())
+#     if not house_ids:
+#         return {}
+#     s = f"""
+#     SELECT H.*,
+#         I1.infra_id as id_01, I1.infra_dist as dist_01, I1.infra_cnt as cnt_01, ST_X(I1.latlng) as lat_01, ST_Y(I1.latlng) as lng_01,
+#         I2.infra_id as id_02, I2.infra_dist as dist_02, I2.infra_cnt as cnt_02, ST_X(I2.latlng) as lat_02, ST_Y(I2.latlng) as lng_02,
+#         I3.infra_id as id_03, I3.infra_dist as dist_03, I3.infra_cnt as cnt_03, ST_X(I3.latlng) as lat_03, ST_Y(I3.latlng) as lng_03,
+#         I4.infra_id as id_04, I4.infra_dist as dist_04, I4.infra_cnt as cnt_04, ST_X(I4.latlng) as lat_04, ST_Y(I4.latlng) as lng_04,
+#         I5.infra_id as id_05, I5.infra_dist as dist_05, I5.infra_cnt as cnt_05, ST_X(I5.latlng) as lat_05, ST_Y(I5.latlng) as lng_05,
+#         I6.infra_id as id_06, I6.infra_dist as dist_06, I6.infra_cnt as cnt_06, ST_X(I6.latlng) as lat_06, ST_Y(I6.latlng) as lng_06,
+#         I7.infra_id as id_07, I7.infra_dist as dist_07, I7.infra_cnt as cnt_07, ST_X(I7.latlng) as lat_07, ST_Y(I7.latlng) as lng_07,
+#         (CASE 
+#             WHEN(SELECT COUNT(*)
+#                     FROM hobbang_test.USER_ZZIM Z
+#                 WHERE Z.user_id = {map_zoom.user_id}
+#                     AND Z.zzim_yn = 'Y'
+#                     AND H.house_id = Z.house_id) > 0
+#             THEN 'Y'
+#             ELSE 'N'
+#         END) zzim
+#     FROM hobbang_test.HOUSE_INFO H,
+#         (SELECT G.infra_id, G.infra_dist, G.infra_cnt, G.grid_id,
+#                 I.latlng
+#             FROM hobbang_test.GRID_SCORE G,
+#                     hobbang_test.INFRA_INFO I
+#             WHERE G.infra_id = I.infra_id
+#                 AND G.infra_type = '01'
+#             ) I1,
+#             (SELECT G.infra_id, G.infra_dist, G.infra_cnt, G.grid_id,
+#                 I.latlng
+#             FROM hobbang_test.GRID_SCORE G,
+#                     hobbang_test.INFRA_INFO I
+#             WHERE G.infra_id = I.infra_id
+#                 AND G.infra_type = '02'
+#             ) I2,
+#             (SELECT G.infra_id, G.infra_dist, G.infra_cnt, G.grid_id,
+#                 I.latlng
+#             FROM hobbang_test.GRID_SCORE G,
+#                     hobbang_test.INFRA_INFO I
+#             WHERE G.infra_id = I.infra_id
+#                 AND G.infra_type = '03'
+#             ) I3,
+#             (SELECT G.infra_id, G.infra_dist, G.infra_cnt, G.grid_id,
+#                 I.latlng
+#             FROM hobbang_test.GRID_SCORE G,
+#                     hobbang_test.INFRA_INFO I
+#             WHERE G.infra_id = I.infra_id
+#                 AND G.infra_type = '04'
+#             ) I4,
+#             (SELECT G.infra_id, G.infra_dist, G.infra_cnt, G.grid_id,
+#                 I.latlng
+#             FROM hobbang_test.GRID_SCORE G,
+#                     hobbang_test.INFRA_INFO I
+#             WHERE G.infra_id = I.infra_id
+#                 AND G.infra_type = '05'
+#             ) I5,
+#             (SELECT G.infra_id, G.infra_dist, G.infra_cnt, G.grid_id,
+#                 I.latlng
+#             FROM hobbang_test.GRID_SCORE G,
+#                     hobbang_test.INFRA_INFO I
+#             WHERE G.infra_id = I.infra_id
+#                 AND G.infra_type = '06'
+#             ) I6,
+#             (SELECT G.infra_id, G.infra_dist, G.infra_cnt, G.grid_id,
+#                 I.latlng
+#             FROM hobbang_test.GRID_SCORE G,
+#                     hobbang_test.INFRA_INFO I
+#             WHERE G.infra_id = I.infra_id
+#                 AND G.infra_type = '07'
+#             ) I7
+#     WHERE 1=1
+#         AND H.house_id in ({", ".join(house_ids)})
+#      	AND H.grid_id = I1.grid_id
+#      	AND H.grid_id = I2.grid_id
+#      	AND H.grid_id = I3.grid_id
+#      	AND H.grid_id = I4.grid_id
+#      	AND H.grid_id = I5.grid_id
+#         AND H.grid_id = I6.grid_id
+#         AND H.grid_id = I7.grid_id
+#         AND ST_CONTAINS(ST_POLYFROMTEXT('POLYGON(({map_zoom.min_lat} {map_zoom.min_lng}
+#                                                 , {map_zoom.min_lat} {map_zoom.max_lng}
+#                                                 , {map_zoom.max_lat} {map_zoom.max_lng}
+#                                                 , {map_zoom.max_lat} {map_zoom.min_lng}
+#                                                 , {map_zoom.min_lat} {map_zoom.min_lng}))')
+#                                         , H.latlng)
+#     """
+#     return db.execute(s).all()
 
 
 def write_click_log(user: schemas.ClickLog, db: Session):
