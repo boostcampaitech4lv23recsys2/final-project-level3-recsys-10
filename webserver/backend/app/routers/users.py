@@ -14,11 +14,12 @@ router = APIRouter(
 
 # 회원가입 시 요청되는 api
 # 닉네임, 나이 성별 지역 비번
-@router.post("/join", response_model=schemas.UserCreate) # Route Path
+@router.post("/join/") # Route Path
 def createUser(user: schemas.UserCreate, db: Session = Depends(get_db)):
     res = hobbang_crud_test.create_user(db, user)  # get_infra(db): INFRA 테이블 조회(임시)
     return {
-        "res": res
+        # "res": res,
+        "user_id": res.user_id
     }
 
 # # 회원가입
