@@ -7,6 +7,8 @@ import pymysql
 import folium
 from streamlit_folium import st_folium
 import requests
+import bcrypt   #암호화
+from datetime import datetime
 
 import json
 from config.config import BACKEND_ADDRESS, DOMAIN_INFO, GU_INFO
@@ -34,28 +36,35 @@ def show_login(session:dict):
 
     st.title('RecBang')
     #폼 부분
-    # st.title('로그인')
-    # with st.form("login_page"):
-    #     user_name = st.text_input('User name')
-    #     Password = st.text_input('Password')
+    st.title('로그인')
+    with st.form("login_page"):
+        user_name = st.text_input('User name')
+        password_login = st.text_input('Password', type = 'password')
+        #hashed_password = bcrypt.hashpw(password_login.encode('utf-8'), bcrypt.gensalt())
+        hashed_password = bcrypt.hashpw(password_login.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+        submit = st.form_submit_button("Login")
+        if submit:
+            url  = ''.join([BACKEND_ADDRESS,DOMAIN_INFO['users'],DOMAIN_INFO['login']])
 
-    #     submit = st.form_submit_button("Login")
-    #     if submit:
-    #         user_authentication = {'user_id' : user_name,
-    #                                 'pw' : Password }
-    #     user_authentication -> 백 형식에 맞게 리퀘스트 보내기
+            users_login = {'name' : str(user_name),
+                            'pw' : hashed_password}
+                            #str(hashed_password) }
+
+            x = requests.post(url, data=json.dumps(users_login))
+            #print(msg['test'])
+        #user_authentication -> 백 형식에 맞게 리퀘스트 보내기
 
 
-    name, authentication_status, username = authenticator.login('Login', 'main')
+    # name, authentication_status, username = authenticator.login('Login', 'main')
 
-    if True == authentication_status:
-        session['page_counter'] = 3
-        st.experimental_rerun()
+    # if True == authentication_status:
+    #     session['page_counter'] = 3
+    #     st.experimental_rerun()
 
-        # return 3 # 지도 화면으로 전환
+    #     # return 3 # 지도 화면으로 전환
 
-    elif False == authentication_status :
-        st.error('아이디 혹은 비밀번호가 틀렸습니다.')
+    # elif False == authentication_status :
+    #     st.error('아이디 혹은 비밀번호가 틀렸습니다.')
 
     col1, col2 = st.columns(2)
     # print(session['page_counter'])
@@ -105,9 +114,11 @@ def show_signup(session:dict):
 
         password = st.text_input('비밀번호를 입력하세요!', type = 'password')
         if password != '' :
-            hashed_passwords = stauth.Hasher([password]).generate()
+            #hashed_passwords = stauth.Hasher([password]).generate()
+            #hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+            hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
             #st.subheader(hashed_passwords)
-            info['credentials']['usernames'][username]['password'] = hashed_passwords[0]
+            #info['credentials']['usernames'][username]['password'] = hashed_passwords[0]
 
 
         # url  = ''.join([BACKEND_ADDRESS,DOMAIN_INFO['signup']])
@@ -142,21 +153,25 @@ def show_signup(session:dict):
 
         submit = st.form_submit_button("제출하기")
         if submit:
-            url  = ''.join([BACKEND_ADDRESS,DOMAIN_INFO['users'],DOMAIN_INFO['createUser']])
+            url  = ''.join([BACKEND_ADDRESS,DOMAIN_INFO['users'],DOMAIN_INFO['join']])
             print(url)
             #x = requests.post(url,data=json.dumps(user))
             if username in yaml_data['credentials']['usernames']:
                 st.error('사용중인 닉네임 입니다.')
             else:
-                print(str(hashed_passwords[0]))
+                #print(str(hashed_passwords[0]))
                 print(url)
                 USERS_INFO = {'name' : str(username),
-                            'pw' : str(hashed_passwords[0]),
+                            'pw' : str(hashed_password),
                             "user_sex" : int(0) if sex == '남자' else int(1),
-                            "user_age" : int(age)}
+                            "user_age" : int(age),
+                            # "register_date" : str(datetime.now()),
+                            # "update_date" : str(datetime.now()),
+                            "user_type" : CHAR('Y')}
+                
                 print(USERS_INFO)
                 # 사용 주석
-                #x = requests.post(url, data=json.dumps(USERS_INFO))
+                x = requests.post(url, data=json.dumps(USERS_INFO))
                 session['page_counter'] = 2
                 st.experimental_rerun()
 

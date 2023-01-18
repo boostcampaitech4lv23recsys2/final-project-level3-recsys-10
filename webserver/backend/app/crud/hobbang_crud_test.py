@@ -195,7 +195,8 @@ def get_users(db: Session):
     return db.query(UsersInfo).all()
 
 def login_user(user: schemas.UserBase, db: Session):
-    return db.query(UsersInfo).filter_by(name = user.name, pw = user.pw).first()
+    #return db.query(UsersInfo).filter_by(name = user.name, pw = user.pw).first()
+    return db.query(UsersInfo).filter_by(name = user.name).first()
 
 def create_user_infra(user: schemas.UserSelect, db: Session):
     
