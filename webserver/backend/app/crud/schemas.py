@@ -34,12 +34,12 @@ class UserSelect(BaseModel):
     infra: list = Field(None)
     register_date: datetime = Field(None)
 
-class Map(BaseModel):
+class Items(BaseModel):
     user_id: int = Field(None)
     user_gu: str = Field(None)
     house_ranking: Dict = Field(None) # inference 결과 저장할 때 필요
 
-class MapZoom(Map):
+class MapZoom(Items):
     min_lat: float = Field(None)
     min_lng: float = Field(None)
     max_lat: float = Field(None)

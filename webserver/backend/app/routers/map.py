@@ -22,7 +22,7 @@ router = APIRouter(
 # 맵 화면 진입시 요청되는 api
 # request: user_id, user_gu
 @router.post("/items")
-def getHouses(map: schemas.Map, db: Session = Depends(get_db)):
+def getHouses(map: schemas.Items, db: Session = Depends(get_db)):
     # 1. user_id 로 USERS_INFRA.infra_type(infra_yn='Y')
     # infra = hobbang_crud_test.get_infra_by_user_id(map.user_id, db)
     # infra_list = [i.infra_type for i in infra]
@@ -33,6 +33,9 @@ def getHouses(map: schemas.Map, db: Session = Depends(get_db)):
     # 3. house_info 가져오기
     map.house_ranking = {f'{house["house_id"]}': house["ranking"] for house in house_ranking}
     houses = hobbang_crud_test.get_houses_info(map, db)
+
+    # 4. 랭킹순으로 정렬(house_list[ranking] = house_info)
+    houses = dict(sorted({houses[house]["ranking"]: houses[house] for house in houses}.items()))
     
     return {
         # "res": res
@@ -60,6 +63,9 @@ def getHousesZoom(map: schemas.MapZoom, db: Session = Depends(get_db)):
     # 3. house_info 가져오기
     map.house_ranking = {f'{house["house_id"]}': house["ranking"] for house in house_ranking}
     houses = hobbang_crud_test.get_houses_info(map, db)
+
+    # 4. 랭킹순으로 정렬(house_list[ranking] = house_info)
+    houses = dict(sorted({houses[house]["ranking"]: houses[house] for house in houses}.items()))
     
     return {
         # "res": res
