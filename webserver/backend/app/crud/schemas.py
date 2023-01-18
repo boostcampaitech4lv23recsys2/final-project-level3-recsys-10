@@ -116,6 +116,7 @@ class ClickLog(BaseModel):
     house_id: int = Field(None)
     log_type: str = Field(None)
 
-class ClickZzim(BaseModel):
+class ZzimBase(BaseModel):
     user_id: int = Field(None)
     house_id: int = Field(None)
+    zzim_yn: str = Field(None)
