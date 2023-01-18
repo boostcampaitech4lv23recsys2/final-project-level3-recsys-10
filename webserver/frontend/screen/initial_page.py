@@ -158,30 +158,40 @@ def show_signup(session:dict):
         # with open('./config/user_sample.yaml', 'w') as f:
         #     yaml.safe_dump(yaml_data, f)
 
-
         submit = st.form_submit_button("제출하기")
         if submit:
-            url  = ''.join([BACKEND_ADDRESS,DOMAIN_INFO['users'],DOMAIN_INFO['join']])
-            print(url)
-            #x = requests.post(url,data=json.dumps(user))
-            if username in yaml_data['credentials']['usernames']:
-                st.error('사용중인 닉네임 입니다.')
-            else:
-                #print(str(hashed_passwords[0]))
-                print(url)
-                USERS_INFO = {'name' : str(username),
-                            'pw' : str(hashed_password),
-                            "user_sex" : int(0) if sex == '남자' else int(1),
-                            "user_age" : int(age),
-                            # "register_date" : str(datetime.now()),
-                            # "update_date" : str(datetime.now()),
-                            "user_type" : str('Y')}
+            try:
+                url  = ''.join([BACKEND_ADDRESS,DOMAIN_INFO['users'],DOMAIN_INFO['name'],"/",str(username)])
+                checkName = {'name' : str(username)}
+                x = requests.get(url, data=json.dumps(checkName))
+                check = x.json()
                 
-                print(USERS_INFO)
-                # 사용 주석
-                x = requests.post(url, data=json.dumps(USERS_INFO))
-                session['page_counter'] = 2
-                st.experimental_rerun()
+                if check['res'] == "중복된 이름이 있습니다":
+                    st.error('중복된 이름이 있습니다. 닉네을 확인해주세요.')
+
+                elif check['res'] == "사용할 수 있는 이름입니다":
+                    url  = ''.join([BACKEND_ADDRESS,DOMAIN_INFO['users'],DOMAIN_INFO['join']])
+                    print(url)
+                    USERS_INFO = {'name' : str(username),
+                                'pw' : str(hashed_password),
+                                "user_sex" : int(0) if sex == '남자' else int(1),
+                                "user_age" : int(age),
+                                # "register_date" : str(datetime.now()),
+                                #" : str(datetime.now()),
+                                "user_type" : str('Y')}
+                    x = requests.post(url, data=json.dumps(USERS_INFO))
+                    session['page_counter'] = 2
+                    st.experimental_rerun()
+            except:
+                st.error('모든 항목을 입력해주세요.')
+
+
+            #x = requests.post(url,data=json.dumps(user))
+            # if username in yaml_data['credentials']['usernames']:
+            #     st.error('사용중인 닉네임 입니다.')
+            # else:
+                #print(str(hashed_passwords[0]))
+
 
 
 """
