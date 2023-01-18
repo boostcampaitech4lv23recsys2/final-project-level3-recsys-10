@@ -251,12 +251,13 @@ def show_infra(session:dict, selected_gu:str=""):
         submit = st.form_submit_button("제출하기")
         if submit:
             if check_cnt >=3:
-                url = ''.join([BACKEND_ADDRESS,DOMAIN_INFO['signup'],DOMAIN_INFO['']])
+                # url = ''.join([BACKEND_ADDRESS,DOMAIN_INFO['signup'],DOMAIN_INFO['']])
                 #USERS_INFRA -> 어떻게 보낼지 확인하기 
                 # USERS_INFRA = {'uesr_id' : ,
                 #                'gu' : gu
                 #                 'infra_type' : ,
                 #                 'infra_yn' : }
+                session['ex_user_info'] = session['cur_user_info']
                 session['cur_user_info'] = {
                     "user_id" : 1,
                     "selected_gu" : locate,
@@ -266,10 +267,6 @@ def show_infra(session:dict, selected_gu:str=""):
                 st.experimental_rerun()
             else:
                 st.error('3개 이상 선택하시오')
-
-
-
-
         
         # url = 'http://27.96.130.120:30002/infra'
         # infra = {
