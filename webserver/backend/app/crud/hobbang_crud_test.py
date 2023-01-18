@@ -31,12 +31,13 @@ def get_houses_gu(map: schemas.Inference, db: Session):
         I3.infra_id as id_03, I3.infra_dist as dist_03, I3.infra_cnt as cnt_03, ST_X(I3.latlng) as lat_03, ST_Y(I3.latlng) as lng_03,
         I4.infra_id as id_04, I4.infra_dist as dist_04, I4.infra_cnt as cnt_04, ST_X(I4.latlng) as lat_04, ST_Y(I4.latlng) as lng_04,
         I5.infra_id as id_05, I5.infra_dist as dist_05, I5.infra_cnt as cnt_05, ST_X(I5.latlng) as lat_05, ST_Y(I5.latlng) as lng_05,
-        --I6.infra_id as id_06, I6.infra_dist as dist_06, I6.infra_cnt as cnt_06, ST_X(I6.latlng) as lat_06, ST_Y(I6.latlng) as lng_06,
-        --I7.infra_id as id_07, I7.infra_dist as dist_07, I7.infra_cnt as cnt_07, ST_X(I7.latlng) as lat_07, ST_Y(I7.latlng) as lng_07,
+        I6.infra_id as id_06, I6.infra_dist as dist_06, I6.infra_cnt as cnt_06, ST_X(I6.latlng) as lat_06, ST_Y(I6.latlng) as lng_06,
+        I7.infra_id as id_07, I7.infra_dist as dist_07, I7.infra_cnt as cnt_07, ST_X(I7.latlng) as lat_07, ST_Y(I7.latlng) as lng_07,
         (CASE 
             WHEN(SELECT COUNT(*)
                     FROM hobbang_test.USER_ZZIM Z
                 WHERE Z.user_id = {map.user_id}
+                    AND Z.zzim_yn = 'Y'
                     AND H.house_id = Z.house_id) > 0
             THEN 'Y'
             ELSE 'N'
@@ -123,6 +124,7 @@ def get_houses_zoom(map_zoom: schemas.MapZoom, db: Session):
             WHEN(SELECT COUNT(*)
                     FROM hobbang_test.USER_ZZIM Z
                 WHERE Z.user_id = {map_zoom.user_id}
+                    AND Z.zzim_yn = 'Y'
                     AND H.house_id = Z.house_id) > 0
             THEN 'Y'
             ELSE 'N'
@@ -219,7 +221,9 @@ def create_user(db: Session, user: schemas.UserCreate):
                     user_gu = user.user_gu,
                     user_age=user.user_age,
                     user_sex=user.user_sex, 
-                    user_type = user.user_type
+                    user_type = user.user_type,
+                    register_date = datetime.now(),
+                    update_date = datetime.now()
                 )
     db.add(db_user)
     db.commit()
@@ -294,14 +298,150 @@ def create_user_infra(user: schemas.UserSelect, db: Session):
 def update_user_gu(user: schemas.UserSelect, db: Session):
     user_info = db.query(UsersInfo).filter(UsersInfo.user_id == user.user_id).first()
     user_info.user_gu = user.user_gu
+    user_info.update_date = datetime.now()
     db.commit()
     return 1
 
 
 ######### zzim
 def get_zzim_list(user_id, db: Session):
+    # s = f"""
+    # SELECT * FROM hobbang_test.USER_ZZIM
+    # WHERE USER_ZZIM.user_id={user_id}
+    # """
+    # return db.execute(s).all()
+    return db.query(UserZzim.house_id).filter_by(user_id=user_id, zzim_yn='Y').all()
+
+def get_houses_zzim(house_ids, user_id, db: Session):
+    print(house_ids)
+    if not house_ids:
+        return {}
     s = f"""
-    SELECT * FROM hobbang_test.USER_ZZIM
-    WHERE USER_ZZIM.user_id={user_id}
+    SELECT H.*,
+        I1.infra_id as id_01, I1.infra_dist as dist_01, I1.infra_cnt as cnt_01, ST_X(I1.latlng) as lat_01, ST_Y(I1.latlng) as lng_01,
+        I2.infra_id as id_02, I2.infra_dist as dist_02, I2.infra_cnt as cnt_02, ST_X(I2.latlng) as lat_02, ST_Y(I2.latlng) as lng_02,
+        I3.infra_id as id_03, I3.infra_dist as dist_03, I3.infra_cnt as cnt_03, ST_X(I3.latlng) as lat_03, ST_Y(I3.latlng) as lng_03,
+        I4.infra_id as id_04, I4.infra_dist as dist_04, I4.infra_cnt as cnt_04, ST_X(I4.latlng) as lat_04, ST_Y(I4.latlng) as lng_04,
+        I5.infra_id as id_05, I5.infra_dist as dist_05, I5.infra_cnt as cnt_05, ST_X(I5.latlng) as lat_05, ST_Y(I5.latlng) as lng_05,
+        I6.infra_id as id_06, I6.infra_dist as dist_06, I6.infra_cnt as cnt_06, ST_X(I6.latlng) as lat_06, ST_Y(I6.latlng) as lng_06,
+        I7.infra_id as id_07, I7.infra_dist as dist_07, I7.infra_cnt as cnt_07, ST_X(I7.latlng) as lat_07, ST_Y(I7.latlng) as lng_07,
+        (CASE 
+            WHEN(SELECT COUNT(*)
+                    FROM hobbang_test.USER_ZZIM Z
+                WHERE Z.user_id = {user_id}
+                    AND Z.zzim_yn = 'Y'
+                    AND H.house_id = Z.house_id) > 0
+            THEN 'Y'
+            ELSE 'N'
+        END) zzim
+    FROM hobbang_test.HOUSE_INFO H,
+        (SELECT G.infra_id, G.infra_dist, G.infra_cnt, G.grid_id,
+                I.latlng
+            FROM hobbang_test.GRID_SCORE G,
+                    hobbang_test.INFRA_INFO I
+            WHERE G.infra_id = I.infra_id
+                AND G.infra_type = '01'
+            ) I1,
+            (SELECT G.infra_id, G.infra_dist, G.infra_cnt, G.grid_id,
+                I.latlng
+            FROM hobbang_test.GRID_SCORE G,
+                    hobbang_test.INFRA_INFO I
+            WHERE G.infra_id = I.infra_id
+                AND G.infra_type = '02'
+            ) I2,
+            (SELECT G.infra_id, G.infra_dist, G.infra_cnt, G.grid_id,
+                I.latlng
+            FROM hobbang_test.GRID_SCORE G,
+                    hobbang_test.INFRA_INFO I
+            WHERE G.infra_id = I.infra_id
+                AND G.infra_type = '03'
+            ) I3,
+            (SELECT G.infra_id, G.infra_dist, G.infra_cnt, G.grid_id,
+                I.latlng
+            FROM hobbang_test.GRID_SCORE G,
+                    hobbang_test.INFRA_INFO I
+            WHERE G.infra_id = I.infra_id
+                AND G.infra_type = '04'
+            ) I4,
+            (SELECT G.infra_id, G.infra_dist, G.infra_cnt, G.grid_id,
+                I.latlng
+            FROM hobbang_test.GRID_SCORE G,
+                    hobbang_test.INFRA_INFO I
+            WHERE G.infra_id = I.infra_id
+                AND G.infra_type = '05'
+            ) I5,
+            (SELECT G.infra_id, G.infra_dist, G.infra_cnt, G.grid_id,
+                I.latlng
+            FROM hobbang_test.GRID_SCORE G,
+                    hobbang_test.INFRA_INFO I
+            WHERE G.infra_id = I.infra_id
+                AND G.infra_type = '06'
+            ) I6,
+            (SELECT G.infra_id, G.infra_dist, G.infra_cnt, G.grid_id,
+                I.latlng
+            FROM hobbang_test.GRID_SCORE G,
+                    hobbang_test.INFRA_INFO I
+            WHERE G.infra_id = I.infra_id
+                AND G.infra_type = '07'
+            ) I7
+    WHERE 1=1
+        AND H.house_id in ({", ".join(house_ids)})
+        AND H.sold_yn = 'N'
+     	AND H.grid_id = I1.grid_id
+     	AND H.grid_id = I2.grid_id
+     	AND H.grid_id = I3.grid_id
+     	AND H.grid_id = I4.grid_id
+     	AND H.grid_id = I5.grid_id
+        AND H.grid_id = I6.grid_id
+        AND H.grid_id = I7.grid_id
     """
     return db.execute(s).all()
+
+def update_zzim(zzim: schemas.ZzimBase, db: Session):
+    res = db.query(UserZzim).filter_by(user_id=zzim.user_id, house_id=zzim.house_id).first()
+    if res:
+        res.update_date=datetime.now()
+        res.zzim_yn=zzim.zzim_yn
+    else:
+        res = UserZzim(
+                    user_id=zzim.user_id,
+                    house_id=zzim.house_id,
+                    register_date=datetime.now(),
+                    update_date=datetime.now(),
+                    zzim_yn=zzim.zzim_yn
+                    )
+    db.add(res)
+    db.commit()
+    return res
+
+
+# def check_item(house_id, db: Session):
+#     return db.query(UserZzim).filter_by(house_id = house_id).count()
+
+# def write_zzim_log(zzim: schemas.ClickZzim, db: Session):
+#     # db_click = LogClick(
+#     #                 user_id=zzim.user_id,
+#     #                 item_id=zzim.house_id,
+#     #                 log_type=zzim.log_type
+#     #             )
+    
+#     max_idx_before = db.query(func.max(UserZzim.idx)).scalar()
+#     if max_idx_before==None:
+#         max_idx_before=0
+    
+#     db_zzim = UserZzim(
+#             idx=int(max_idx_before + 1),
+#             user_id=zzim.user_id,       # 0부터 시작하게 되있어서 에러남
+#             house_id=zzim.house_id,
+#             zzim_date=datetime.now()
+#             )
+#     db.add(db_zzim)
+#     db.commit()
+#     db.refresh(db_zzim)
+        
+#     return db_zzim
+
+# def delete_zzim_log(zzim: schemas.ClickZzim, db: Session):
+#     db.query(UserZzim).filter(UserZzim.user_id==zzim.user_id, UserZzim.house_id==zzim.house_id).delete(synchronize_session=False)
+#     db.commit()
+#     return zzim.house_id

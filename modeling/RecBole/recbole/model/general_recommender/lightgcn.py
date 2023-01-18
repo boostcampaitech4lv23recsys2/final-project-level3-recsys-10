@@ -41,7 +41,7 @@ class LightGCN(GeneralRecommender):
     """
     input_type = InputType.PAIRWISE
 
-    def __init__(self, config, dataset):
+    def __init__(self, config, dataset, pretrain=False):
         super(LightGCN, self).__init__(config, dataset)
 
         # load dataset info
