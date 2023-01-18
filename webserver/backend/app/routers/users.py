@@ -3,6 +3,7 @@ from fastapi import APIRouter, Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
 from db.connection import get_db
 from crud import hobbang_crud_test, schemas
+import bcrypt
 
 # from apis import test # main logic
 
@@ -48,18 +49,17 @@ def checkName(name, db: Session = Depends(get_db)):
 def loginUser(user: schemas.UserBase, db: Session = Depends(get_db)):
     res = hobbang_crud_test.login_user(user, db)  # get_infra(db): INFRA 테이블 조회(임시)
     if res:
-        return {
-            "msg": "로그인에 성공했습니다.",
-            "user_id": res.user_id,
-            "user_gu": res.user_gu,
-
-        }
-    else:
-        return {
-            "msg": "아이디 혹은 비밀번호가 일치하지 않습니다.",
-            "user_id": "",
-            "user_gu": "",
-        }
+        if bcrypt.checkpw(user.pw.encode('utf-8'), res.pw.encode('utf-8')):
+            return {
+                "msg": "로그인에 성공했습니다.",
+                "user_id": res.user_id,
+                "user_gu": res.user_gu,
+            }
+    return {
+        "msg": "아이디 혹은 비밀번호가 일치하지 않습니다.",
+        "user_id": "",
+        "user_gu": "",
+    }
 
 
 
