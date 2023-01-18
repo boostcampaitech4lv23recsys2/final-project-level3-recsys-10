@@ -194,7 +194,6 @@ def show_signup(session:dict):
                 #print(str(hashed_passwords[0]))
 
 
-
 """
 {'subway':'01','cs':'02','mart':'03','park':'04','cafe':'05','phar':'06','theater':'07'}
 """
@@ -212,45 +211,47 @@ def show_infra(session:dict, selected_gu:str=""):
 
         upper_col_list = st.columns(quotient + remainder)
         lower_col_list = st.columns(quotient)
+        col_list = upper_col_list + lower_col_list
 
         check_cnt = 0 
-        check_info = 0
         select_list = [False] * num_of_infa
 
-        for idx, col in enumerate(upper_col_list) : 
+        # make_colum_by_infra(upper_col_list,check_cnt,select_infra)
+        # make_colum_by_infra(lower_col_list,check_cnt,select_infra, len(upper_col_list))
+
+        # TODO 함수화
+        for idx, col in enumerate(col_list) : 
             with col :
                 item_name = INFRA_INFO[idx]['ko']
                 item_key = INFRA_INFO[idx]['code']
+                int_item_key = int(item_key)
+
                 st.header(item_name)
                 st.image(f'./image/{item_name}.jpeg')
                 
                 if st.checkbox(f'{item_name}' , key = f'{item_key}'):
                     check_cnt += 1 
-                    select_list[idx] = True
+                    select_list[int_item_key] = True
                 else:
-                    check_info ^= (1 << idx)
-                    select_list[idx] = False
+                    select_list[int_item_key] = False
         
-        for idx, col in enumerate(lower_col_list) : 
-            idx += len(upper_col_list)
-            with col :
-                item_name = INFRA_INFO[idx]['ko']
-                item_key = INFRA_INFO[idx]['code']
-                st.header(item_name)
-                st.image(f'./image/{item_name}.jpeg')
+        # for idx, col in enumerate(lower_col_list) : 
+        #     idx += len(upper_col_list)
+        #     with col :
+        #         item_name = INFRA_INFO[idx]['ko']
+        #         item_key = INFRA_INFO[idx]['code']
+        #         st.header(item_name)
+        #         st.image(f'./image/{item_name}.jpeg')
                 
-                if st.checkbox(f'{item_name}' , key = f'{item_key}'):
-                    check_cnt += 1 
-                    select_list[idx] = True
-                else:
-                    select_list[idx] = False
+        #         if st.checkbox(f'{item_name}' , key = f'{item_key}'):
+        #             check_cnt += 1 
+        #             select_list[idx] = True
+        #         else:
+        #             select_list[idx] = False
 
         # col1, col2, col3, col4 = st.columns(4) 
         # col5, col6, col7,col8 = st.columns(4)
         # check_cnt = 0
-
-
-
 
         # with col1:
         #     st.header("편의점")
