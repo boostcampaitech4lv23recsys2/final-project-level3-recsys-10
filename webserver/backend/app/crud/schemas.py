@@ -8,7 +8,7 @@ class UserBase(BaseModel):
     """
     description: 유저 한 명에 대한 정보
     """
-    user_id: int = Field(None) 
+    # user_id: int = Field(None) 
     name: str = Field(None)
     pw: str = Field(None)
 
@@ -19,7 +19,7 @@ class UserCreate(UserBase):
     """
     # user_id: int = Field(None) # UUID = Field(default_factory=uuid4)
     # pw: str = Field(None)
-    user_gu: str = Field(None)
+    # user_gu: str = Field(None)
     user_age: int = Field(None)
     user_sex: int = Field(None)
     user_type: str = Field(None)
