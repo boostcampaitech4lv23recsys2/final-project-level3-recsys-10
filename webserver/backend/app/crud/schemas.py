@@ -95,13 +95,13 @@ def getHousesList(map_zoom, res):
                                 "nearest_lat": r.lat_05,
                                 "nearest_lng" : r.lng_05,
                                 "cnt": r.cnt_05
-                            }
+                            },
                             "06" : {
                                 "nearest_distance": r.dist_06,
                                 "nearest_lat": r.lat_06,
                                 "nearest_lng" : r.lng_06,
                                 "cnt": r.cnt_06
-                            }
+                            },
                             "07" : {
                                 "nearest_distance": r.dist_07,
                                 "nearest_lat": r.lat_07,
