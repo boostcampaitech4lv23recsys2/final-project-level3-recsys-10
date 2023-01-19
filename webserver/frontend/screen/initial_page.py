@@ -47,24 +47,27 @@ def show_login(session:dict):
         #hashed_password = bcrypt.hashpw(password_login.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
         submit = st.form_submit_button("Login")
         if submit:
-            url  = ''.join([BACKEND_ADDRESS,DOMAIN_INFO['users'],DOMAIN_INFO['login']])
+            try:
+                url  = ''.join([BACKEND_ADDRESS,DOMAIN_INFO['users'],DOMAIN_INFO['login']])
 
-            users_login = {'name' : str(user_name),
-                            'pw' : str(password_login)}
+                users_login = {'name' : str(user_name),
+                                'pw' : str(password_login)}
 
-            x = requests.post(url, data=json.dumps(users_login))
-            check = x.json()
-            st.title(check["user_gu"])
-            if check["user_gu"] == None and check['msg'] == "로그인에 성공했습니다.":
-                session['page_counter'] = 2 #Infra Page
-                st.experimental_rerun()
+                x = requests.post(url, data=json.dumps(users_login))
+                check = x.json()
+                st.title(check["user_gu"])
+                if check["user_gu"] == None and check['msg'] == "로그인에 성공했습니다.":
+                    session['page_counter'] = 2 #Infra Page
+                    st.experimental_rerun()
 
-            elif check["user_gu"] != '' and check['msg'] == "로그인에 성공했습니다.":
-                session['page_counter'] = 3 #Map Page
-                st.experimental_rerun()
+                elif check["user_gu"] != '' and check['msg'] == "로그인에 성공했습니다.":
+                    session['page_counter'] = 3 #Map Page
+                    st.experimental_rerun()
 
-            elif check['msg'] ==  '아이디 혹은 비밀번호가 일치하지 않습니다.':
-                st.error('아이디 혹은 비밀번호가 일치하지 않습니다.')
+                elif check['msg'] ==  '아이디 혹은 비밀번호가 일치하지 않습니다.':
+                    st.error('아이디 혹은 비밀번호가 일치하지 않습니다.')
+            except:
+                st.error('아이디 혹은 비밀번호를 입력해주세요.')
 
     # name, authentication_status, username = authenticator.login('Login', 'main')
 
@@ -175,7 +178,7 @@ def show_signup(session:dict):
                 check = x.json()
 
                 if check['res'] == "중복된 이름이 있습니다":
-                    st.error('중복된 이름이 있습니다. 닉네을 확인해주세요.')
+                    st.error('중복된 이름이 있습니다. 닉네임을 확인해주세요.')
 
                 elif check['res'] == "사용할 수 있는 이름입니다":
                     url  = ''.join([BACKEND_ADDRESS,DOMAIN_INFO['users'],DOMAIN_INFO['join']])
