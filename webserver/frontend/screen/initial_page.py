@@ -55,8 +55,10 @@ def show_login(session:dict):
 
                 x = requests.post(url, data=json.dumps(users_login))
                 check = x.json()
-                st.title(check["user_gu"])
+                #st.title(check["user_gu"])
                 if check["user_gu"] == None and check['msg'] == "로그인에 성공했습니다.":
+                    #st.title(check['user_id'])
+                    st.session_state['cur_user_info']['user_id'] = check['user_id']
                     session['page_counter'] = 2 #Infra Page
                     st.experimental_rerun()
 
@@ -95,6 +97,7 @@ def show_login(session:dict):
             tasting = {'user_type' : str('N')}
             x = requests.post(url, data=json.dumps(tasting))
             check = x.json()
+            st.session_state['cur_user_info']['user_id'] = check['user_id']
             #st.title(check['user_id'])
             session['page_counter'] = 2
             st.experimental_rerun()
@@ -356,7 +359,7 @@ def show_infra(session:dict, selected_gu:str="",user_type:int=0):
                 
                 session['ex_user_info'] = session['cur_user_info']
                 session['cur_user_info'] = {
-                    "user_id" : 1,
+                    "user_id" : st.session_state['cur_user_info']['user_id'],
                     "selected_gu" : locate,
                     "infra_type" : selected_infra_list
                 }
