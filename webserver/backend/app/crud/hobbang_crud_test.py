@@ -3,7 +3,7 @@
 from sqlalchemy.orm import Session
 from geoalchemy2 import functions
 from sqlalchemy.sql import func
-from db.models.hobbang_model import HouseInfo, UsersInfo, UsersInfra, UserZzim, Infra, InfraInfo, Grid, GridScore, LogClick
+from db.models.hobbang_model import HouseInfo2, UsersInfo, UsersInfra, UserZzim, Infra, InfraInfo, Grid, GridScore, LogClick
 from . import schemas
 from datetime import datetime
 from collections import defaultdict
@@ -62,10 +62,10 @@ def get_houses(map: schemas.Items, db: Session):
     if not house_ids:
         return {}
     
-    return db.query(*[c for c in HouseInfo.__table__.c if c.name != 'latlng']
-                    , func.ST_X(HouseInfo.latlng).label('lat')
-                    , func.ST_Y(HouseInfo.latlng).label('lng'))\
-                .filter(HouseInfo.house_id.in_(house_ids)).all()
+    return db.query(*[c for c in HouseInfo2.__table__.c if c.name != 'latlng']
+                    , func.ST_Y(HouseInfo2.latlng).label('lat')
+                    , func.ST_X(HouseInfo2.latlng).label('lng'))\
+                .filter(HouseInfo2.house_id.in_(house_ids)).all()
 
 def check_zzimYN(user_id, house_id, db: Session):
     return db.query(UserZzim)\
@@ -77,7 +77,7 @@ def get_houses_infra(grid_id, db: Session):
     return db.query(GridScore)\
                 .join(InfraInfo, GridScore.infra_id==InfraInfo.infra_id)\
                 .add_columns(GridScore.infra_id, GridScore.infra_dist, GridScore.infra_cnt, GridScore.grid_id
-                            , InfraInfo.infra_type, func.ST_X(InfraInfo.latlng).label('lat'), func.ST_Y(InfraInfo.latlng).label('lng'))\
+                            , InfraInfo.infra_type, func.ST_Y(InfraInfo.latlng).label('lat'), func.ST_X(InfraInfo.latlng).label('lng'))\
                 .filter(GridScore.grid_id==grid_id)\
                 .order_by(InfraInfo.infra_type).all()
 

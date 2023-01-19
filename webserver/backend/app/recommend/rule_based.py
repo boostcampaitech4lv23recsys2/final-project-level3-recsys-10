@@ -17,7 +17,7 @@ def inference_gu(user_id, user_gu, db: Session):
     s = f"""
     SELECT H.house_id,
             RANK() over (ORDER BY (SUM(G.infra_dist_score) + SUM(G.infra_cnt_score)) DESC, H.house_id) as ranking
-    FROM hobbang_test.HOUSE_INFO H,
+    FROM hobbang_test.HOUSE_INFO2 H,
             hobbang_test.GRID_SCORE G
     WHERE H.grid_id = G.grid_id
         AND H.sold_yn = 'N'
@@ -36,7 +36,7 @@ def inference_latlng(user_id, min_lat, max_lat, min_lng, max_lng, db: Session):
     s = f"""
     SELECT H.house_id,
             RANK() over (ORDER BY (SUM(G.infra_dist_score) + SUM(G.infra_cnt_score)) DESC, H.house_id) as ranking
-    FROM HOUSE_INFO H,
+    FROM HOUSE_INFO2 H,
             GRID_SCORE G
     WHERE H.grid_id = G.grid_id
         AND ST_CONTAINS(ST_POLYFROMTEXT('POLYGON(({min_lat} {min_lng}
