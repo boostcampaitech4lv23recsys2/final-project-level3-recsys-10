@@ -30,33 +30,36 @@ def show_main(session:dict,item_list:list):
     ('전체보기','관심 목록', '인프라 변경'),
     label_visibility=session.visibility)
     
-    # TODO: logout 버튼 클릭 후 새로 고침해야하는 문제 있음 
-    logout(session)
-
     if( '관심 목록'== choice ):
         # TODO FT301
         # TODO 찜 목록 요청 
-        # params = {
-        #     user_id : st.session_state['cur_user_info']['user_id'],
-
-        # }
-        # url = ''.join([BACKEND_ADDRESS, DOMAIN_INFO['zzim'], DOMAIN_INFO['items']])
-        # res = requests.get(url,params=params )
-        # pass
+        user_info = {
+            "user_id" : session['cur_user_info']['user_id'],
+            "user_gu" : session['cur_user_info']['user_gu'],
+            "house_ranking":{}
+        }
+        url = ''.join([BACKEND_ADDRESS, DOMAIN_INFO['zzim'], DOMAIN_INFO['items']])
+        res = requests.post(url,data=json.dumps(user_info) )
+        st.session_state['show_item_list'] = [*res.json()['houses'].values()]
 
         session['show_heart'] = True
         
     elif('인프라 변경'== choice):
         session['page_counter'] = 2
         st.experimental_rerun()
-        pass
     
-    elif('로그 아웃'== choice):
-        # TODO : 서버에 요청  
-        pass
     else : 
+        session["show_item_list"] = copy.deepcopy(item_list)
         session['show_heart'] = False
+        session['show_detail'] = False
     
+    if ( st.button('로그아웃')):
+    
+        # TODO : session 적용시 서버에 요청  
+        session['page_counter'] = 0
+        st.experimental_rerun()
+
+
     # 관심 목록은 detail 한 것을 보여준다. 
     session['show_detail'] = True if ( True == session['show_heart'] ) else session['show_detail']  
 
@@ -77,19 +80,22 @@ def show_main(session:dict,item_list:list):
                                 and (map_data["last_object_clicked"]['lng'] == item['lng']) 
                 # session["show_item_list"] = list(filter(lambda item: item['location'] == compare_location, item_list))
                 session["show_item_list"] = list(filter(lambda item:  (map_data["last_object_clicked"]['lat'] == item['lat'])\
-                and (map_data["last_object_clicked"]['lng'] == item['lng']) , item_list))
+                                            and (map_data["last_object_clicked"]['lng'] == item['lng']) , item_list))
 
-                # DONE FT401
-                # DONE Marker 내 매물 클릭 
-                # TODO 함수화 
-                params = {
-                    "user_id" : st.session_state['cur_user_info']['user_id'],
-                    "house_id" : 4,
-                    "log_type" : "M"
-                }
-                url = ''.join([BACKEND_ADDRESS, DOMAIN_INFO['map'],DOMAIN_INFO['items'], DOMAIN_INFO['click']])
-                res = requests.post(url,data=json.dumps(params) )
-                # pass
+                if( 0 != len(session["show_item_list"])):
+                    # DONE FT401
+                    # DONE Marker 내 매물 클릭 
+                    # TODO 함수화 
+                    params = {
+                        "user_id" : st.session_state['cur_user_info']['user_id'],
+                        "house_id" : session["show_item_list"][0]['house_id'],
+                        "log_type" : "M"
+                    }
+                    url = ''.join([BACKEND_ADDRESS, DOMAIN_INFO['map'],DOMAIN_INFO['items'], DOMAIN_INFO['click']])
+                    res = requests.post(url,data=json.dumps(params) )
+                    # pass
+                else : 
+                    st.warning('선택된 아이템이 없습니다.', icon="⚠️")
         
         with right:
             # detail 한 정보를 보여주는 상태일 때 
@@ -134,9 +140,21 @@ def show_main(session:dict,item_list:list):
                 session["center"] = list(map(float,clicked_info[1:]))
 
             if( "" != clicked and "zzim"==clicked_info[0]):
+                print(session['show_item_list'])
                 zzim_status, house_id = clicked_info[1:]
-                next_zzim_status =  'N' if ( 'Y' == zzim_status ) else 'N' 
-                print(f'backend 미구현 zzim {zzim_status} , {house_id}')
+                next_zzim_status =  'N' if ( 'Y' == zzim_status ) else 'Y' 
+
+                # 가지고 있는 item list 의 목록에서 해당하는 데이터의 zzim 여부를 변경한다. 
+                change_target = list(filter(lambda item:  int(house_id) == item['house_id'], session["show_item_list"] ) )
+                change_target[0]["zzim"] = next_zzim_status
+
+                user_info = {
+                    "user_id"  : st.session_state['cur_user_info']['user_id'],
+                    "house_id" : house_id,
+                    "zzim_yn"  : next_zzim_status,
+                }
+                url = ''.join([BACKEND_ADDRESS, DOMAIN_INFO['zzim'], DOMAIN_INFO['items'], DOMAIN_INFO['register']])
+                res = requests.post(url,data=json.dumps(user_info) )
 
                 # params = {'param1': 'value1', 'param2': 'value'}
                 # url = ''.join([BACKEND_ADDRESS, DOMAIN_INFO['zzim'], DOMAIN_INFO['house']])

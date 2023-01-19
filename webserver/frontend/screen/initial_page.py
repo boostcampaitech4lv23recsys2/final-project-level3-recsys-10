@@ -54,6 +54,10 @@ def show_login(session:dict):
 
             x = requests.post(url, data=json.dumps(users_login))
             check = x.json()
+
+            session['cur_user_info']['user_id'] = check['user_id']
+            session['cur_user_info']['user_gu'] = check['user_gu']
+
             st.title(check["user_gu"])
             if check["user_gu"] == None and check['msg'] == "로그인에 성공했습니다.":
                 session['page_counter'] = 2 #Infra Page
@@ -88,6 +92,18 @@ def show_login(session:dict):
 
     with col2:
         if st.button("둘러보기"):
+            url  = ''.join([BACKEND_ADDRESS,DOMAIN_INFO['users'],DOMAIN_INFO['join']])
+            USERS_INFO = {'name' : str(datetime.now().timestamp()),
+                          'pw' : None,
+                          'user_sex' : None,
+                          'user_age' : None,
+                          'user_type' : str('N')}
+            
+            x = requests.post(url, data=json.dumps(USERS_INFO))
+            check = x.json()
+            session['cur_user_info']['user_id'] = check['user_id'] 
+
+            print(session['cur_user_info'])
             session['page_counter'] = 2
             st.experimental_rerun()
             # return 2 # infra 선택 화면으로 전환 
@@ -174,13 +190,15 @@ def show_signup(session:dict):
 
                 elif check['res'] == "사용할 수 있는 이름입니다":
                     url  = ''.join([BACKEND_ADDRESS,DOMAIN_INFO['users'],DOMAIN_INFO['join']])
-                    print(url)
                     USERS_INFO = {'name' : str(username),
                                   'pw' : str(hashed_password),
                                   'user_sex' : int(0) if sex == '남자' else int(1),
                                   'user_age' : int(age),
                                   'user_type' : str('Y')}
+                    
                     x = requests.post(url, data=json.dumps(USERS_INFO))
+                    session['cur_user_info']['user_id'] = x['user_id'] 
+                    
                     session['page_counter'] = 2
                     st.experimental_rerun()
             except:
@@ -346,12 +364,18 @@ def show_infra(session:dict, selected_gu:str="",user_type:int=0):
                         value_str = f'0{idx}' if  ( ( idx // 10 ) == 0 ) else f'{idx}' 
                         selected_infra_list.append(value_str)
                 
-                session['ex_user_info'] = session['cur_user_info']
-                session['cur_user_info'] = {
-                    "user_id" : 1,
-                    "selected_gu" : locate,
-                    "infra_type" : selected_infra_list
+                # session['ex_user_info'] = session['cur_user_info']
+                session['cur_user_info']['user_gu'] = locate
+
+                infra_user_info = {
+                "user_id" : st.session_state['cur_user_info']['user_id'],
+                "user_gu" : st.session_state['cur_user_info']['user_gu'],
+                "infra": selected_infra_list
                 }
+
+                url = ''.join([BACKEND_ADDRESS, DOMAIN_INFO['users'], DOMAIN_INFO['infra']])
+                res = requests.post(url,data=json.dumps(infra_user_info) )
+
                 session['page_counter'] = 3
                 st.experimental_rerun()
             else:
