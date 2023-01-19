@@ -93,20 +93,6 @@ def header(session:dict, selected_gu:str=""):
     return option
 
 
-def logout(session:dict):
-    with open('./config/user_sample.yaml') as file:
-        config = yaml.load(file, Loader=yaml.SafeLoader)
-
-    authenticator = stauth.Authenticate(
-        config['credentials'],
-        config['cookie']['name'],
-        config['cookie']['key'],
-        config['cookie']['expiry_days'],
-        config['preauthorized']
-    )
-
-    authenticator.logout('Logout', 'main')
-
 # id : house_id_위도_경도 ( 현재는 이름만 경도 위도 순으로 되어 있음 )
 def get_list_component( item:dict, clickevent=None):
         

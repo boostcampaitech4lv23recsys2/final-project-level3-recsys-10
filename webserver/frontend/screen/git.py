@@ -25,8 +25,20 @@ from screen.components import header
 def show_login(session:dict):
     # print(os.getcwd())
     # print("check" , os.spath.isfile("/opt/ml/3rdproject/final_team_repo/webserver/frontend/config/user_sample.yaml") )
-    st.image("./image/hobbang_banner.png",width = 600)
+    with open('./config/user_sample.yaml') as file:
+        config = yaml.load(file, Loader=yaml.SafeLoader)
+
+    authenticator = stauth.Authenticate(
+    config['credentials'],
+    config['cookie']['name'],
+    config['cookie']['key'],
+    config['cookie']['expiry_days'],
+    config['preauthorized']
+    )
+
+    st.title('RecBang')
     #폼 부분
+    st.title('로그인')
     with st.form("login_page"):
         user_name = st.text_input('User name')
         password_login = st.text_input('Password', type = 'password')
@@ -35,27 +47,42 @@ def show_login(session:dict):
         #hashed_password = bcrypt.hashpw(password_login.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
         submit = st.form_submit_button("Login")
         if submit:
-            url  = ''.join([BACKEND_ADDRESS,DOMAIN_INFO['users'],DOMAIN_INFO['login']])
+            try:
+                url  = ''.join([BACKEND_ADDRESS,DOMAIN_INFO['users'],DOMAIN_INFO['login']])
 
-            users_login = {'name' : str(user_name),
-                            'pw' : str(password_login)}
+                users_login = {'name' : str(user_name),
+                                'pw' : str(password_login)}
 
+<<<<<<< frontend_dev_userid
+                x = requests.post(url, data=json.dumps(users_login))
+                check = x.json()
+                #st.title(check["user_gu"])
+                if check["user_gu"] == None and check['msg'] == "로그인에 성공했습니다.":
+                    #st.title(check['user_id'])
+                    st.session_state['cur_user_info']['user_id'] = check['user_id']
+                    session['page_counter'] = 2 #Infra Page
+                    st.experimental_rerun()
+=======
             x = requests.post(url, data=json.dumps(users_login))
             check = x.json()
 
             session['cur_user_info']['user_id'] = check['user_id']
             session['cur_user_info']['user_gu'] = check['user_gu']
 
+            st.title(check["user_gu"])
             if check["user_gu"] == None and check['msg'] == "로그인에 성공했습니다.":
                 session['page_counter'] = 2 #Infra Page
                 st.experimental_rerun()
+>>>>>>> frontend_dev
 
-            elif check["user_gu"] != '' and check['msg'] == "로그인에 성공했습니다.":
-                session['page_counter'] = 3 #Map Page
-                st.experimental_rerun()
+                elif check["user_gu"] != '' and check['msg'] == "로그인에 성공했습니다.":
+                    session['page_counter'] = 3 #Map Page
+                    st.experimental_rerun()
 
-            elif check['msg'] ==  '아이디 혹은 비밀번호가 일치하지 않습니다.':
-                st.error('아이디 혹은 비밀번호가 일치하지 않습니다.')
+                elif check['msg'] ==  '아이디 혹은 비밀번호가 일치하지 않습니다.':
+                    st.error('아이디 혹은 비밀번호가 일치하지 않습니다.')
+            except:
+                st.error('아이디 혹은 비밀번호를 입력해주세요.')
 
     # name, authentication_status, username = authenticator.login('Login', 'main')
 
@@ -80,6 +107,13 @@ def show_login(session:dict):
     with col2:
         if st.button("둘러보기"):
             url  = ''.join([BACKEND_ADDRESS,DOMAIN_INFO['users'],DOMAIN_INFO['join']])
+<<<<<<< frontend_dev_userid
+            tasting = {'user_type' : str('N')}
+            x = requests.post(url, data=json.dumps(tasting))
+            check = x.json()
+            st.session_state['cur_user_info']['user_id'] = check['user_id']
+            #st.title(check['user_id'])
+=======
             USERS_INFO = {'name' : str(datetime.now().timestamp()),
                           'pw' : None,
                           'user_sex' : None,
@@ -91,6 +125,7 @@ def show_login(session:dict):
             session['cur_user_info']['user_id'] = check['user_id'] 
 
             print(session['cur_user_info'])
+>>>>>>> frontend_dev
             session['page_counter'] = 2
             st.experimental_rerun()
             # return 2 # infra 선택 화면으로 전환 
@@ -101,6 +136,8 @@ def show_signup(session:dict):
         st.session_state["disabled"] = True
 
     st.title("회원가입")
+    with open('./config/user_sample.yaml') as f:
+        yaml_data = yaml.load(f, Loader=yaml.SafeLoader)
     info = {'credentials': {'usernames' : {}}}
 
 # 1. 이름 입력
@@ -171,7 +208,7 @@ def show_signup(session:dict):
                 check = x.json()
 
                 if check['res'] == "중복된 이름이 있습니다":
-                    st.error('중복된 이름이 있습니다. 닉네을 확인해주세요.')
+                    st.error('중복된 이름이 있습니다. 닉네임을 확인해주세요.')
 
                 elif check['res'] == "사용할 수 있는 이름입니다":
                     url  = ''.join([BACKEND_ADDRESS,DOMAIN_INFO['users'],DOMAIN_INFO['join']])
@@ -230,7 +267,7 @@ def show_infra(session:dict, selected_gu:str="",user_type:int=0):
                 int_item_key = int(item_key)
 
                 st.header(item_name)
-                st.image(f'./image/{item_name}.jpg')
+                st.image(f'./image/{item_name}.jpeg')
                 
                 if st.checkbox(f'{item_name}' , key = f'{item_key}'):
                     check_cnt += 1 
@@ -349,6 +386,13 @@ def show_infra(session:dict, selected_gu:str="",user_type:int=0):
                         value_str = f'0{idx}' if  ( ( idx // 10 ) == 0 ) else f'{idx}' 
                         selected_infra_list.append(value_str)
                 
+<<<<<<< frontend_dev_userid
+                session['ex_user_info'] = session['cur_user_info']
+                session['cur_user_info'] = {
+                    "user_id" : st.session_state['cur_user_info']['user_id'],
+                    "selected_gu" : locate,
+                    "infra_type" : selected_infra_list
+=======
                 # session['ex_user_info'] = session['cur_user_info']
                 session['cur_user_info']['user_gu'] = locate
 
@@ -356,6 +400,7 @@ def show_infra(session:dict, selected_gu:str="",user_type:int=0):
                 "user_id" : st.session_state['cur_user_info']['user_id'],
                 "user_gu" : st.session_state['cur_user_info']['user_gu'],
                 "infra": selected_infra_list
+>>>>>>> frontend_dev
                 }
 
                 url = ''.join([BACKEND_ADDRESS, DOMAIN_INFO['users'], DOMAIN_INFO['infra']])
