@@ -50,7 +50,7 @@ class HouseInfo2(Base):
     local1 = Column(VARCHAR(20))  # 시
     local2 = Column(VARCHAR(20))  # 구
     title = Column(VARCHAR(500))
-    desecription = Column(VARCHAR(1000))
+    description = Column(VARCHAR(1000))
     image_thumbnail = Column(VARCHAR(255))
     images = Column(VARCHAR(1000))
     floor = Column(Integer)
