@@ -67,46 +67,53 @@ setting = {
 
     # 230117 backend {'subway':'01','cs':'02','mart':'03','park':'04','cafe':'05','phar':'06','theater':'07'}    
     "2infra":{
-        '지하철':{
+        '01':{
             "en":"subway",
             "ko":"지하철",
             "code":"01",
+            "img":"",
+            "icon":"subway",
         },
-        '편의점':{
+        '02':{
             "en":"convenience store",
             "ko":"편의점",
             "code":"02",
-            "img" : ""
+            "img":"",
+            "icon":"shopping-basket",
         },
-        '대형마트':{
+        '03':{
             "en":"mart",
             "ko":"대형마트",
             "code":"03",
-            "img" : ""
+            "img" : "",
+            "icon":"shopping-cart",
         },
-        '공원':{
+        '04':{
             "en":"park",
             "ko":"공원",
             "code":"04",
-            "img" : ""
+            "img" : "",
+            "icon":"futbol-o",
         },
-        '카페':{
+        '05':{
             "en":"cafe",
             "ko":"카페",
             "code":"05",
-            "img" : ""
+            "img" : "",
+            "icon":"coffee",
         },
-        '약국':{
+        '06':{
             "en":"pharmacy",
             "ko":"약국",
             "code":"06",
-            "img" : ""
+            "img" : "",
+            "icon":"ambulance",
         },
-        '영화관':{
+        '07':{
             "en":"theater",
             "ko":"영화관",
-            "code":"07",
-            "img" : ""
+            "img" : "",
+            "icon":"film",
         },
     },
     "infra":
@@ -114,42 +121,50 @@ setting = {
             "en":"subway",
             "ko":"지하철",
             "code":"01",
+            "img":"",
+            "icon":"subway",
         },
         {
             "en":"convenience store",
             "ko":"편의점",
             "code":"02",
-            "img" : ""
+            "img":"",
+            "icon":"shopping-basket",
         },
         {
             "en":"mart",
             "ko":"대형마트",
             "code":"03",
-            "img" : ""
+            "img" : "",
+            "icon":"shopping-cart",
         },
         {
             "en":"park",
             "ko":"공원",
             "code":"04",
-            "img" : ""
+            "img" : "",
+            "icon":"futbol-o",
         },
         {
             "en":"cafe",
             "ko":"카페",
             "code":"05",
-            "img" : ""
+            "img" : "",
+            "icon":"coffee",
         },
         {
             "en":"pharmacy",
             "ko":"약국",
             "code":"06",
-            "img" : ""
+            "img" : "",
+            "icon":"ambulance",
         },
         {
             "en":"theater",
             "ko":"영화관",
             "code":"07",
-            "img" : ""
+            "img" : "",
+            "icon":"film",
         }
     ]
 }
@@ -160,3 +175,4 @@ GU_INFO = setting["location"]["gu"]["name_list"]
 GU_INFO_CENTER = setting["location"]["gu"]["center_code"]
 # INFRA_INFO = [*setting["infra"].values()]
 INFRA_INFO = setting["infra"]
+INFRA_INFO_DICT= setting["2infra"]
