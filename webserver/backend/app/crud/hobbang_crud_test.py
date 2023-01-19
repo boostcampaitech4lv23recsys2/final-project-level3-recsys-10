@@ -46,9 +46,9 @@ def get_houses_info(map: schemas.Items, db: Session):
         infra_dict = {}
         for r in res:
             infra_dict[r["infra_type"]] = {
-                "nearest_distance": r.infra_dist,
-                "nearest_lat": r.lat,
-                "nearest_lng" : r.lng,
+                "distance": r.infra_dist,
+                "lat": r.lat,
+                "lng" : r.lng,
                 "cnt": r.infra_cnt
             }
         house_list[f"{house_id}"]["related_infra"] = infra_dict
