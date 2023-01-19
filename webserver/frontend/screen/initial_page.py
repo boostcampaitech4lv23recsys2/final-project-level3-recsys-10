@@ -88,6 +88,11 @@ def show_login(session:dict):
 
     with col2:
         if st.button("둘러보기"):
+            url  = ''.join([BACKEND_ADDRESS,DOMAIN_INFO['users'],DOMAIN_INFO['join']])
+            tasting = {'user_type' : str('N')}
+            x = requests.post(url, data=json.dumps(tasting))
+            check = x.json()
+            #st.title(check['user_id'])
             session['page_counter'] = 2
             st.experimental_rerun()
             # return 2 # infra 선택 화면으로 전환 
