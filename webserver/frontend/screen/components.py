@@ -20,7 +20,7 @@ def make_marker(items:list, start_idx:int, end_idx:int, m, marker_color:str="red
 
         popup_str = ""
         for k in related_item_dict.keys():
-            popup_str += f'가장 가까운 {INFRA_INFO_DICT[k]["ko"]} : {round(related_item_dict[k]["distance"] * 1000)}m <br>'
+            popup_str += f' <p> {INFRA_INFO_DICT[k]["emoji"]} 가장 가까운 {INFRA_INFO_DICT[k]["ko"]} : {round(related_item_dict[k]["distance"] * 1000)}m </p>'
 
         popup = folium.Popup(popup_str, min_width=200, max_width=200)
 
