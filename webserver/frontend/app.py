@@ -62,7 +62,7 @@ STATE_KEYS_VALS = [
         "user_id":None, 
         "user_gu":"",
     }),
-    ('center',[37.4920372,127.0567124] ),
+    ('center',{ 'coord' : [37.4920372,127.0567124] , 'level':15}),
     ('item_list',[]),
     ('page_counter',0),
 ]
@@ -105,7 +105,7 @@ STATE_KEYS_VALS = [
 #     st.session_state['page_counter'] = 0
 
 
-st.set_page_config(layout="wide")
+st.set_page_config(page_icon="./image/hobbang_favicon.png",layout="wide", page_title="당신이 선호하는 방, 호빵")
 
 # params  = {'userid': 3, 'location': '수영구'}
 # url = 'http://27.96.130.120:30002/'
@@ -151,9 +151,10 @@ elif( 3 == st.session_state['page_counter'] ):
                 "user_gu" : st.session_state['cur_user_info']['user_gu'],
                 "house_ranking":{}
             }
-            st.session_state['center'] = [GU_INFO_CENTER[selected_gu]["lat"],GU_INFO_CENTER[selected_gu]["lng"]]
+            st.session_state['center']['coord'] = [GU_INFO_CENTER[selected_gu]["lat"],GU_INFO_CENTER[selected_gu]["lng"]]
             url = ''.join([BACKEND_ADDRESS, DOMAIN_INFO['map'], DOMAIN_INFO['items']])
             res = requests.post(url,data=json.dumps(user_info) )
             st.session_state['item_list'] = [*res.json()['houses'].values()]
+            st.session_state["show_item_list"] = st.session_state['item_list'] 
 
-    show_main(st.session_state, st.session_state['item_list'])
+    show_main(st.session_state, st.session_state['show_item_list'])

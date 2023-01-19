@@ -35,10 +35,8 @@ def show_login(session:dict):
     config['cookie']['expiry_days'],
     config['preauthorized']
     )
-
-    st.title('RecBang')
+    st.image("./image/hobbang_banner.png",width = 600)
     #폼 부분
-    st.title('로그인')
     with st.form("login_page"):
         user_name = st.text_input('User name')
         password_login = st.text_input('Password', type = 'password')
@@ -245,7 +243,7 @@ def show_infra(session:dict, selected_gu:str="",user_type:int=0):
                 int_item_key = int(item_key)
 
                 st.header(item_name)
-                st.image(f'./image/{item_name}.jpeg')
+                st.image(f'./image/{item_name}.jpg')
                 
                 if st.checkbox(f'{item_name}' , key = f'{item_key}'):
                     check_cnt += 1 
