@@ -176,10 +176,10 @@ def show_signup(session:dict):
                     url  = ''.join([BACKEND_ADDRESS,DOMAIN_INFO['users'],DOMAIN_INFO['join']])
                     print(url)
                     USERS_INFO = {'name' : str(username),
-                                'pw' : str(hashed_password),
-                                "user_sex" : int(0) if sex == '남자' else int(1),
-                                "user_age" : int(age),
-                                "user_type" : str('Y')}
+                                  'pw' : str(hashed_password),
+                                  'user_sex' : int(0) if sex == '남자' else int(1),
+                                  'user_age' : int(age),
+                                  'user_type' : str('Y')}
                     x = requests.post(url, data=json.dumps(USERS_INFO))
                     session['page_counter'] = 2
                     st.experimental_rerun()
@@ -197,7 +197,7 @@ def show_signup(session:dict):
 """
 {'subway':'01','cs':'02','mart':'03','park':'04','cafe':'05','phar':'06','theater':'07'}
 """
-def show_infra(session:dict, selected_gu:str=""):
+def show_infra(session:dict, selected_gu:str="",user_type:int=0):
     with st.form("show_infra_page"):
         locat = GU_INFO
         st.title('희망 거주 지역을 선택하세요 ')
