@@ -3,7 +3,7 @@
 from sqlalchemy.orm import Session
 from geoalchemy2 import functions
 from sqlalchemy.sql import func
-from db.models.hobbang_model import HouseInfo, UsersInfo, UsersInfra, UserZzim, Infra, InfraInfo, Grid, GridScore, LogClick
+from db.models.hobbang_model import HouseInfo2, UsersInfo, UsersInfra, UserZzim, Infra, InfraInfo, Grid, GridScore, LogClick
 from . import schemas
 from datetime import datetime
 from collections import defaultdict
@@ -62,10 +62,10 @@ def get_houses(map: schemas.Items, db: Session):
     if not house_ids:
         return {}
     
-    return db.query(*[c for c in HouseInfo.__table__.c if c.name != 'latlng']
-                    , func.ST_Y(HouseInfo.latlng).label('lat')
-                    , func.ST_X(HouseInfo.latlng).label('lng'))\
-                .filter(HouseInfo.house_id.in_(house_ids)).all()
+    return db.query(*[c for c in HouseInfo2.__table__.c if c.name != 'latlng']
+                    , func.ST_Y(HouseInfo2.latlng).label('lat')
+                    , func.ST_X(HouseInfo2.latlng).label('lng'))\
+                .filter(HouseInfo2.house_id.in_(house_ids)).all()
 
 def check_zzimYN(user_id, house_id, db: Session):
     return db.query(UserZzim)\

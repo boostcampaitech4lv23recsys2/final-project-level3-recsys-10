@@ -32,6 +32,35 @@ class HouseInfo(Base):
     sold_yn = Column(CHAR(1))
 
 
+class HouseInfo2(Base):
+    __tablename__ = "HOUSE_INFO2"
+
+    house_id = Column(Integer, primary_key=True)
+    zigbang_id = Column(Integer)
+    latlng = Column(Geometry('POINT', srid=4326))
+    grid_id = Column(Integer)   # Foreign key
+    sales_type = Column(VARCHAR(255))
+    service_type = Column(VARCHAR(255))
+    house_area = Column(Float)
+    price_sales = Column(Integer)
+    price_deposit = Column(Integer)
+    price_monthly_rent = Column(Integer)
+    manage_cost = Column(Integer)
+    address = Column(VARCHAR(255))
+    local1 = Column(VARCHAR(20))  # 시
+    local2 = Column(VARCHAR(20))  # 구
+    title = Column(VARCHAR(500))
+    desecription = Column(VARCHAR(1000))
+    image_thumbnail = Column(VARCHAR(255))
+    images = Column(VARCHAR(1000))
+    floor = Column(Integer)
+    floor_total = Column(Integer)
+    # room_cnt = Column(Integer)
+    bathroom_cnt = Column(Integer)
+    register_date = Column(DateTime)
+    update_date = Column(DateTime)
+    sold_yn = Column(CHAR(1))
+
 class UsersInfo(Base):
     __tablename__ = "USERS_INFO"
 
