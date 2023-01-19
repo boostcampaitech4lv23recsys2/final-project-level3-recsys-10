@@ -23,7 +23,7 @@ from screen.components import header
 from screen.initial_page import show_login, show_signup,show_infra
 from screen.main_page import show_main
 from utils import get_example_data
-from config.config import BACKEND_ADDRESS, DOMAIN_INFO, GU_INFO_CENTER
+from config.config import BACKEND_ADDRESS, DOMAIN_INFO, GU_INFO_CENTER,STATE_KEYS_VALS
 
 import requests
 import json
@@ -42,30 +42,6 @@ def set_state_key(STATE_KEYS_VALS):
     for k, v in STATE_KEYS_VALS:
         if k not in st.session_state:
             st.session_state[k] = v
-
-STATE_KEYS_VALS = [
-    ("is_login", False),
-    ("ex_loaction", None),
-    ("rand_list",None),
-    ("visibility",'collapsed'),
-    ('disabled',False),
-    ('sidebar_state','collapsed'), 
-    ('show_detail',False),
-    ('show_heart', False),
-    ('show_item_list',None),
-    ('page_counter',0),
-    ('cur_user_info',{
-        "user_id":None, 
-        "user_gu":"",
-    }),
-    ('ex_user_info',{
-        "user_id":None, 
-        "user_gu":"",
-    }),
-    ('center',{ 'coord' : [37.4920372,127.0567124] , 'level':15}),
-    ('item_list',[]),
-    ('page_counter',0),
-]
 
 
 # 초기 설정
@@ -105,7 +81,10 @@ STATE_KEYS_VALS = [
 #     st.session_state['page_counter'] = 0
 
 
-st.set_page_config(page_icon="./image/hobbang_favicon.png",layout="wide", page_title="당신이 선호하는 방, 호빵")
+st.set_page_config( initial_sidebar_state = "expanded",
+                    page_icon="./image/hobbang_favicon_outline.png",
+                    layout="wide", 
+                    page_title="당신이 선호하는 방, 호빵")
 
 # params  = {'userid': 3, 'location': '수영구'}
 # url = 'http://27.96.130.120:30002/'
