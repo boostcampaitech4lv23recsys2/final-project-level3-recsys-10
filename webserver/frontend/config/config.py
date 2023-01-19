@@ -66,13 +66,14 @@ setting = {
     },
 
     # 230117 backend {'subway':'01','cs':'02','mart':'03','park':'04','cafe':'05','phar':'06','theater':'07'}    
-    "2infra":{
+    "infra":{
         '01':{
             "en":"subway",
             "ko":"지하철",
             "code":"01",
             "img":"",
             "icon":"subway",
+            "emoji":"&#128650;",
         },
         '02':{
             "en":"convenience store",
@@ -80,6 +81,7 @@ setting = {
             "code":"02",
             "img":"",
             "icon":"shopping-basket",
+            "emoji":"&#127857;",
         },
         '03':{
             "en":"mart",
@@ -87,6 +89,7 @@ setting = {
             "code":"03",
             "img" : "",
             "icon":"shopping-cart",
+            "emoji":"&#128717;",
         },
         '04':{
             "en":"park",
@@ -94,6 +97,7 @@ setting = {
             "code":"04",
             "img" : "",
             "icon":"futbol-o",
+            "emoji":"&#128054;",
         },
         '05':{
             "en":"cafe",
@@ -101,6 +105,7 @@ setting = {
             "code":"05",
             "img" : "",
             "icon":"coffee",
+            "emoji":"&#127849;",
         },
         '06':{
             "en":"pharmacy",
@@ -108,15 +113,18 @@ setting = {
             "code":"06",
             "img" : "",
             "icon":"ambulance",
+            "emoji":"&#128138;",
         },
         '07':{
             "en":"theater",
             "ko":"영화관",
+            "code":"07",
             "img" : "",
             "icon":"film",
+            "emoji":"&#127916;",
         },
     },
-    "infra":
+    "2infra":
         [ {
             "en":"subway",
             "ko":"지하철",
@@ -166,7 +174,30 @@ setting = {
             "img" : "",
             "icon":"film",
         }
-    ]
+    ],
+    "state_key":[
+        ("is_login", False),
+        ("ex_loaction", None),
+        ("rand_list",None),
+        ("visibility",'collapsed'),
+        ('disabled',False),
+        ('sidebar_state','collapsed'), 
+        ('show_detail',False),
+        ('show_heart', False),
+        ('show_item_list',None),
+        ('page_counter',0),
+        ('cur_user_info',{
+            "user_id":None, 
+            "user_gu":"",
+        }),
+        ('ex_user_info',{
+            "user_id":None, 
+            "user_gu":"",
+        }),
+        ('center',{ 'coord' : [37.4920372,127.0567124] , 'level':15}),
+        ('item_list',[]),
+        ('page_counter',0),
+        ]
 }
 
 BACKEND_ADDRESS = f'{setting["backend"]["protocol"]}{setting["backend"]["address"]}:{setting["backend"]["port"]}'
@@ -174,5 +205,6 @@ DOMAIN_INFO = setting["domain"]
 GU_INFO = setting["location"]["gu"]["name_list"]
 GU_INFO_CENTER = setting["location"]["gu"]["center_code"]
 # INFRA_INFO = [*setting["infra"].values()]
-INFRA_INFO = setting["infra"]
-INFRA_INFO_DICT= setting["2infra"]
+INFRA_INFO = [*setting["infra"].values()]
+INFRA_INFO_DICT= setting["infra"]
+STATE_KEYS_VALS = setting["state_key"]
