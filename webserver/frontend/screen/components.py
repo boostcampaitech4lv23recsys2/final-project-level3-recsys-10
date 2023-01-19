@@ -77,20 +77,16 @@ def logout(session:dict):
 
     authenticator.logout('Logout', 'main')
 
-
 def get_list_component( item:dict, clickevent=None):
     return f'<div><a href="#" id="{item["house_id"]}_{item["lng"]}_{item["lat"]}">\
         <div style="display:inline-block;vertical-align:top;">\
             <img alt="" draggable="false" src="https://ic.zigbang.com/ic/items/34463020/1.jpg?w=400&amp;h=300&amp;q=70&amp;a=1" class="css-9pa8cd"  align="top">\
         </div>\
-        <div style="display:inline-block;">\
-            <div>\
-                <button type="button" class="heart-shape" style="display:inline-block;">\
-                <a href="#" id="zzim_{item["house_id"]}">\
-                    <span class="ico_comm ico_likebig"></span>\
+            <div style="display:inline-block;">\
+                <a href="#" id="zzim_{item["zzim"]}_{item["house_id"]}">\
+                    <i id="heart_{item["zzim"]}" class="fa fa-heart"></i>\
                 </a>\
-                </button>\
-                <div style="display:inline-block;"> {item["ranking"]} </div>\
+                <div style="display:inline-block; font-size:50px;"> {item["ranking"]} </div>\
                 <div> "item[title] 자리입니다." </div>\
             </div>\
             <div> "item[summary] 자리입니다." </div>\
@@ -106,11 +102,9 @@ def get_detail_component( item:dict,clickevent=None ):
         </div>\
         <div >\
             <div style="display:inline-block;">\
-                <button type="button" class="heart-shape" style="display:inline-block;">\
-                    <a href="#" id="zzim_{item["zzim"]}_{item["house_id"]}">\
-                        <span class="ico_comm ico_likebig"></span>\
-                    </a>\
-                </button>\
+                <a href="#" id="zzim_{item["zzim"]}_{item["house_id"]}">\
+                    <i id="heart_{item["zzim"]}" class="fa fa-heart"></i>\
+                </a>\
             </div>\
             <div style="display:inline-block;"> {item["ranking"]} </div>\
         </div>\
