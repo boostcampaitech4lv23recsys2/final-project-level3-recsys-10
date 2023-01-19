@@ -4,7 +4,7 @@ import streamlit as st
 
 # from screen.header import header
 # from screen.map import my_map
-from screen.components import logout,get_list_component, get_detail_component, my_map, header
+from screen.components import get_list_component, get_detail_component, my_map, header
 
 from config.config import BACKEND_ADDRESS, DOMAIN_INFO,GU_INFO_CENTER
 from st_click_detector import click_detector
@@ -97,8 +97,9 @@ def show_main(session:dict,item_list:list):
                     url = ''.join([BACKEND_ADDRESS, DOMAIN_INFO['map'],DOMAIN_INFO['items'], DOMAIN_INFO['click']])
                     res = requests.post(url,data=json.dumps(params) )
                     
+                    last_object_clicked_coord = [ map_data["last_object_clicked"]['lat'] ,map_data["last_object_clicked"]['lng']  ]
                     session["show_item_list"] = temp_item_list
-                    change_center_info(session, [item['lat'],item['lng']], 18)
+                    change_center_info(session, last_object_clicked_coord, 18)
 
                     st.experimental_rerun()
                     # pass
