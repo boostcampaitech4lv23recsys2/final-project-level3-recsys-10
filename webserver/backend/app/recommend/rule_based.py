@@ -15,42 +15,49 @@ import os
 
 def inference_gu(user_id, user_gu, db: Session):
     s = f"""
-    SELECT H.house_id,
-            RANK() over (ORDER BY (SUM(G.infra_dist_score) + SUM(G.infra_cnt_score)) DESC, H.house_id) as ranking
-    FROM hobbang_test.HOUSE_INFO2 H,
-            hobbang_test.GRID_SCORE G
-    WHERE H.grid_id = G.grid_id
-        AND H.sold_yn = 'N'
-       	AND local2 = "{user_gu}"
-        AND G.INFRA_TYPE IN (SELECT U.infra_type
-                            FROM hobbang_test.USERS_INFRA U
-                            where U.user_id = {user_id}
+        SELECT H.house_id, 
+                RANK() over (ORDER BY (SUM(G.infra_dist_score) + SUM(G.infra_cnt_score)) DESC, H.house_id) as ranking
+        FROM (SELECT MAX(house_id) as house_id, MAX(grid_id) as grid_id
+                        FROM hobbang_test.HOUSE_INFO2
+                WHERE sold_yn = 'N'
+                        AND local2 = "{user_gu}"
+                GROUP BY latlng ) H,
+                hobbang_test.GRID_SCORE G
+        WHERE H.grid_id = G.grid_id
+                AND G.INFRA_TYPE IN (SELECT U.infra_type
+                                FROM hobbang_test.USERS_INFRA U
+                                where U.user_id = {user_id}
                                 AND U.infra_yn = 'Y')
-    GROUP BY H.house_id
-    ORDER BY ranking 
-    """
+        GROUP BY H.house_id
+        ORDER BY ranking 
+        LIMIT 80
+        """
     return db.execute(s).all()
 
 
 def inference_latlng(user_id, min_lat, max_lat, min_lng, max_lng, db: Session):
     s = f"""
-    SELECT H.house_id,
-            RANK() over (ORDER BY (SUM(G.infra_dist_score) + SUM(G.infra_cnt_score)) DESC, H.house_id) as ranking
-    FROM HOUSE_INFO2 H,
-            GRID_SCORE G
-    WHERE H.grid_id = G.grid_id
-        AND ST_CONTAINS(ST_POLYFROMTEXT('POLYGON(({min_lat} {min_lng}
-                                                , {min_lat} {max_lng}
-                                                , {max_lat} {max_lng}
-                                                , {max_lat} {min_lng}
-                                                , {min_lat} {min_lng}))')
-                                        , H.latlng)
-        AND G.INFRA_TYPE IN (SELECT U.infra_type
-                            FROM USERS_INFRA U
-                            where U.user_id = {user_id}
-                                AND U.infra_yn = 'Y')
-    GROUP BY H.house_id
-    ORDER BY ranking 
+        SELECT H.house_id,
+                RANK() over (ORDER BY (SUM(G.infra_dist_score) + SUM(G.infra_cnt_score)) DESC, H.house_id) as ranking
+        FROM (SELECT MAX(house_id) as house_id, MAX(grid_id) as grid_id
+                                FROM hobbang_test.HOUSE_INFO2
+                        WHERE sold_yn = 'N'
+                                AND ST_CONTAINS(ST_POLYFROMTEXT('POLYGON(({min_lat} {min_lng}
+                                                        , {min_lat} {max_lng}
+                                                        , {max_lat} {max_lng}
+                                                        , {max_lat} {min_lng}
+                                                        , {min_lat} {min_lng}))')
+                                                , latlng)
+                        GROUP BY latlng ) H,
+                GRID_SCORE G
+        WHERE H.grid_id = G.grid_id
+                AND G.INFRA_TYPE IN (SELECT U.infra_type
+                                FROM USERS_INFRA U
+                                where U.user_id = {user_id}
+                                        AND U.infra_yn = 'Y')
+        GROUP BY H.house_id
+        ORDER BY ranking
+        LIMIT 80
     """
     return db.execute(s).all()
 
