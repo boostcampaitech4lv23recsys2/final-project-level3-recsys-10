@@ -10,8 +10,9 @@ from config.config import BACKEND_ADDRESS, DOMAIN_INFO
 from st_click_detector import click_detector
 import copy
 
-print(BACKEND_ADDRESS)
-print(DOMAIN_INFO)
+import requests
+import json
+
 COORD_MULT = 1000000000
 
 def show_main(session:dict,item_list:list):
@@ -42,6 +43,7 @@ def show_main(session:dict,item_list:list):
         # url = ''.join([BACKEND_ADDRESS, DOMAIN_INFO['zzim'], DOMAIN_INFO['items']])
         # res = requests.get(url,params=params )
         # pass
+
         session['show_heart'] = True
         
     elif('인프라 변경'== choice):
@@ -64,7 +66,6 @@ def show_main(session:dict,item_list:list):
 
         with left : 
             map_data = my_map(session,item_list)
-            
             # 클릭된 좌표가 이전 것과 같지 않고, 클릭된 것이 있을 때 
             # detail 한 정보를 보여준다. 
             if( ( session['ex_loaction'] != map_data["last_object_clicked"] ) and 
@@ -72,16 +73,22 @@ def show_main(session:dict,item_list:list):
                 session['show_detail'] = True
                 session['ex_loaction'] = map_data["last_object_clicked"]
                 compare_location = f"{map_data['last_object_clicked']['lat']},{map_data['last_object_clicked']['lng']}"
-                session["show_item_list"] = list(filter(lambda item: item['location'] == compare_location, item_list))
+                is_same_coord = (map_data["last_object_clicked"]['lat'] == item['lat'])\
+                                and (map_data["last_object_clicked"]['lng'] == item['lng']) 
+                # session["show_item_list"] = list(filter(lambda item: item['location'] == compare_location, item_list))
+                session["show_item_list"] = list(filter(lambda item:  (map_data["last_object_clicked"]['lat'] == item['lat'])\
+                and (map_data["last_object_clicked"]['lng'] == item['lng']) , item_list))
 
-                # TODO FT401
-                # TODO Marker 내 매물 클릭 
-                # params = {
-                #     user_id : st.session_state['cur_user_info']['user_id'],
-
-                # }
-                # url = ''.join([BACKEND_ADDRESS, DOMAIN_INFO['map'], DOMAIN_INFO['click']])
-                # res = requests.get(url,params=params )
+                # DONE FT401
+                # DONE Marker 내 매물 클릭 
+                # TODO 함수화 
+                params = {
+                    "user_id" : st.session_state['cur_user_info']['user_id'],
+                    "house_id" : 4,
+                    "log_type" : "M"
+                }
+                url = ''.join([BACKEND_ADDRESS, DOMAIN_INFO['map'],DOMAIN_INFO['items'], DOMAIN_INFO['click']])
+                res = requests.post(url,data=json.dumps(params) )
                 # pass
         
         with right:
@@ -96,6 +103,7 @@ def show_main(session:dict,item_list:list):
             <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square-neo.css" rel="stylesheet" " crossorigin="anonymous">\
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">\
             <link rel="stylesheet" href="css_basic.css">\
+            <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">\
                 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>\
                 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>\
                 <div style="overflow-y: scroll; height:1500px;">'
@@ -106,22 +114,33 @@ def show_main(session:dict,item_list:list):
                 str+= make_html(item)
             str+= "</div>"
             clicked = click_detector(str)
+            clicked_info = clicked.split('_')
 
-            if( "" != clicked and "love"!=clicked[:4]):
-                # TODO FT402
-                # TODO List 내 매물클릭 
-                # params = {
-                #     user_id : st.session_state['cur_user_info']['user_id'],
-
-                # }
-                # url = ''.join([BACKEND_ADDRESS, DOMAIN_INFO['map'], DOMAIN_INFO['click']])
-                # res = requests.get(url,params=params )
-                # pass
+            if( "" != clicked and "zzim"!=clicked_info[0]):
+                # DONE FT402
+                # DONE List 내 매물클릭 
+                # TODO 함수화 
+                params = {
+                    "user_id" : st.session_state['cur_user_info']['user_id'],
+                    "house_id" : int(clicked_info[0]),
+                    "log_type" : "L"
+                }
+                url = ''.join([BACKEND_ADDRESS, DOMAIN_INFO['map'],DOMAIN_INFO['items'], DOMAIN_INFO['click']])
+                res = requests.post(url,data=json.dumps(params) )
                 
                 session["show_detail"] = True
-                session["show_item_list"] = list(filter(lambda item: item['location'] == clicked, item_list))
-                session["center"] = clicked.split(',')
+                session["show_item_list"] = list(filter(lambda item:  int(clicked_info[0]) == item['house_id'], item_list) )
+                # session["show_item_list"] = list(filter(lambda item: item['location'] == clicked, item_list))
+                session["center"] = list(map(float,clicked_info[1:]))
 
+            if( "" != clicked and "zzim"==clicked_info[0]):
+                zzim_status, house_id = clicked_info[1:]
+                next_zzim_status =  'N' if ( 'Y' == zzim_status ) else 'N' 
+                print(f'backend 미구현 zzim {zzim_status} , {house_id}')
+
+                # params = {'param1': 'value1', 'param2': 'value'}
+                # url = ''.join([BACKEND_ADDRESS, DOMAIN_INFO['zzim'], DOMAIN_INFO['house']])
+                # res = requests.get(URL, params=params)
             # st.markdown(f"**{clicked} clicked**" if clicked != "" else "**No click**")
 
             # # bootstrap 4 collapse example

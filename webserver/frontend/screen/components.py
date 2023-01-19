@@ -12,33 +12,36 @@ import streamlit_authenticator as stauth    #암호 인증
 from config.config import BACKEND_ADDRESS, DOMAIN_INFO, GU_INFO
 
 def my_map(session:dict,items:list):
-    # default center : 강남역
-    center = [37.4920372,127.0567124] 
     # center on Liberty Bell, add marker
     m = folium.Map(location=session.center, zoom_start=15)
     # markers = plugins.MarkerCluster(transformed_coord_list )
     # markers.add_to(m) 
     with st.spinner() : 
         for item in items[:40]:
-            x,y = item["location"].split(',')
-            popup = folium.Popup(f"{item['description'][:100]}", min_width=200, max_width=200)
+            x,y = item["lng"],item["lat"]
+            # print(item["lng"],item["lat"])
+            # x,y = item["location"].split(',')
+            popup = folium.Popup(f"{item['information']['local1']} {item['information']['local2']}", min_width=200, max_width=200)
             folium.Marker(
-                [x,y], popup=popup, tooltip=f"{item['title']}",icon=folium.Icon(icon = 'home', color = 'red')
+                [x,y],icon=folium.Icon(icon = 'home', color = 'red')
             ).add_to(m)
 
-        for item in items[40:60]:
-            x,y = item["location"].split(',')
-            popup = folium.Popup(f"{item['description'][:100]}", min_width=200, max_width=200)
-            folium.Marker(
-                [x,y], popup=popup, tooltip=f"{item['title']}",icon=folium.Icon(icon = 'home', color = 'lightgray')
-            ).add_to(m)
+        # for item in items[40:60]:
+        #     x,y = item["lng"],item["lat"]
+        #     # print(item["lng"],item["lat"])
+        #     x,y = item["location"].split(',')
+        #     popup = folium.Popup(f"{item['local1']} {item['local2']}", min_width=200, max_width=200)
+        #     folium.Marker(
+        #         [x,y], popup=popup, tooltip=f"{item['title']}",icon=folium.Icon(icon = 'home', color = 'lightgray')
+        #     ).add_to(m)
 
-        for item in items[60:]:
-            x,y = item["location"].split(',')
-            popup = folium.Popup(f"{item['description'][:100]}", min_width=200, max_width=200)
-            folium.Marker(
-                [x,y], popup=popup, tooltip=f"{item['title']}",icon=folium.Icon(icon = 'home', color = 'lightblue')
-            ).add_to(m)
+        # for item in items[60:]:
+        #     x,y = item["lng"],item["lat"]
+        #     # x,y = item["location"].split(',')
+        #     popup = folium.Popup(f"{item['description'][:100]}", min_width=200, max_width=200)
+        #     folium.Marker(
+        #         [x,y], popup=popup, tooltip=f"{item['title']}",icon=folium.Icon(icon = 'home', color = 'lightblue')
+        #     ).add_to(m)
 
     # call to render Folium map in Streamlit
     st_data = st_folium(m, width=1250,height=1250)
@@ -48,7 +51,7 @@ def my_map(session:dict,items:list):
 def header(session:dict, selected_gu:str=""):
 
     selected_idx = ( GU_INFO.index(selected_gu) if "" != selected_gu else 0)
-    
+
     option = st.selectbox(
         label = "구",
         options = GU_INFO,
@@ -74,28 +77,19 @@ def logout(session:dict):
 
     authenticator.logout('Logout', 'main')
 
-
 def get_list_component( item:dict, clickevent=None):
-    
-    return f'<div><a href="#" id="{item["location"]}">\
-        <div style="display:inline-block;vertical-align:top;" onclick={clickevent}>\
-            <img alt="" draggable="false" src={item["img"]} class="css-9pa8cd"  align="top">\
+    return f'<div><a href="#" id="{item["house_id"]}_{item["lng"]}_{item["lat"]}">\
+        <div style="display:inline-block;vertical-align:top;">\
+            <img alt="" draggable="false" src="https://ic.zigbang.com/ic/items/34463020/1.jpg?w=400&amp;h=300&amp;q=70&amp;a=1" class="css-9pa8cd"  align="top">\
         </div>\
-        <div style="display:inline-block;">\
-            <div>\
-                <button type="button" class="heart-shape" style="display:inline-block;">\
-                <a href="#" id="love_{item["id"]}">\
-                    <span class="ico_comm ico_likebig"></span>\
+            <div style="display:inline-block;">\
+                <a href="#" id="zzim_{item["zzim"]}_{item["house_id"]}">\
+                    <i id="heart_{item["zzim"]}" class="fa fa-heart"></i>\
                 </a>\
-                </button>\
-                <div style="display:inline-block;"> {item["rank"]} </div>\
-                <div> {item["title"]} </div>\
+                <div style="display:inline-block; font-size:50px;"> {item["ranking"]} </div>\
+                <div> "item[title] 자리입니다." </div>\
             </div>\
-            <div> {item["summary"]} </div>\
-            <details>\
-                <summary>상세보기</summary>\
-                <div> {item["description"]} </div>\
-            </details>\
+            <div> "item[summary] 자리입니다." </div>\
         </a></div>\
         <hr/>'
 
@@ -103,17 +97,17 @@ def get_list_component( item:dict, clickevent=None):
 def get_detail_component( item:dict,clickevent=None ):
     
     return f'<div>\
-        <div style="display:inline-block;vertical-align:top;" onclick={clickevent}>\
-            <img alt="" draggable="false" src={item["img"]} class="css-9pa8cd"  align="top">\
+        <div style="display:inline-block;vertical-align:top;">\
+            <img alt="" draggable="false" src="https://ic.zigbang.com/ic/items/34463030/1.jpg?w=400&amp;h=300&amp;q=70&amp;a=1" class="css-9pa8cd"  align="top">\
         </div>\
         <div >\
             <div style="display:inline-block;">\
-                <button type="button" class="btn_grpshare" style="display:inline-block;">\
-                    <span class="ico_comm ico_likebig">좋아요</span>\
-                </button>\
+                <a href="#" id="zzim_{item["zzim"]}_{item["house_id"]}">\
+                    <i id="heart_{item["zzim"]}" class="fa fa-heart"></i>\
+                </a>\
             </div>\
-            <div style="display:inline-block;"> {item["rank"]} </div>\
+            <div style="display:inline-block;"> {item["ranking"]} </div>\
         </div>\
-        <div> {item["title"]} </div>\
-        <div> {item["description"]} </div>\
+        <div> "item[title] 자리입니다." </div>\
+        <div> "item[description] 자리입니다."</div>\
         <hr/>'
