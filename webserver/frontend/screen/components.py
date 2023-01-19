@@ -77,7 +77,13 @@ def logout(session:dict):
 
     authenticator.logout('Logout', 'main')
 
+# id : house_id_위도_경도 ( 현재는 이름만 경도 위도 순으로 되어 있음 )
 def get_list_component( item:dict, clickevent=None):
+        
+    item["information"]["price_deposit"] = "문의" if item["information"]["price_deposit"] == None else item["information"]["price_deposit"] 
+    item["information"]["price_sales"]   = "문의" if item["information"]["price_sales"] == None else item["information"]["price_sales"] 
+    cur_item_info = item["information"]
+    
     return f'<div><a href="#" id="{item["house_id"]}_{item["lng"]}_{item["lat"]}">\
         <div style="display:inline-block;vertical-align:top;">\
             <img alt="" draggable="false" src="https://ic.zigbang.com/ic/items/34463020/1.jpg?w=400&amp;h=300&amp;q=70&amp;a=1" class="css-9pa8cd"  align="top">\
@@ -87,7 +93,7 @@ def get_list_component( item:dict, clickevent=None):
                     <i id="heart_{item["zzim"]}" class="fa fa-heart"></i>\
                 </a>\
                 <div style="display:inline-block; font-size:50px;"> {item["ranking"]} </div>\
-                <div> "item[title] 자리입니다." </div>\
+                <div> { cur_item_info["price_deposit"] } / { cur_item_info["price_sales"] } item[title] 자리입니다." </div>\
             </div>\
             <div> "item[summary] 자리입니다." </div>\
         </a></div>\
@@ -96,6 +102,10 @@ def get_list_component( item:dict, clickevent=None):
 
 def get_detail_component( item:dict,clickevent=None ):
     
+    item["information"]["price_deposit"] = "문의" if item["information"]["price_deposit"] == None else item["information"]["price_deposit"] 
+    item["information"]["price_sales"]   = "문의" if item["information"]["price_sales"] == None else item["information"]["price_sales"] 
+    cur_item_info = item["information"]
+
     return f'<div>\
         <div style="display:inline-block;vertical-align:top;">\
             <img alt="" draggable="false" src="https://ic.zigbang.com/ic/items/34463030/1.jpg?w=400&amp;h=300&amp;q=70&amp;a=1" class="css-9pa8cd"  align="top">\
@@ -109,5 +119,6 @@ def get_detail_component( item:dict,clickevent=None ):
             <div style="display:inline-block;"> {item["ranking"]} </div>\
         </div>\
         <div> "item[title] 자리입니다." </div>\
+        <div> { cur_item_info["price_deposit"] } / { cur_item_info["price_sales"] } item[title] 자리입니다." </div>\
         <div> "item[description] 자리입니다."</div>\
         <hr/>'
