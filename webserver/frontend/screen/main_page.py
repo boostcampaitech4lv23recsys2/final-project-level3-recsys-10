@@ -6,7 +6,7 @@ import streamlit as st
 # from screen.map import my_map
 from screen.components import get_list_component, get_detail_component, my_map, header
 
-from config.config import BACKEND_ADDRESS, DOMAIN_INFO,GU_INFO_CENTER
+from config.config import BACKEND_ADDRESS, DOMAIN_INFO,GU_INFO_CENTER,STATE_KEYS_VALS
 from st_click_detector import click_detector
 import copy
 
@@ -15,6 +15,12 @@ import json
 
 COORD_MULT = 1000000000
 
+
+def logout(session : dict):
+    
+    for k, v in STATE_KEYS_VALS:
+        if k in session:
+            del session[k]
 
 def change_center_info(session,coord, level):
     session['center']['coord'] = coord
@@ -26,7 +32,9 @@ def show_main(session:dict,item_list:list):
     # item_list = item_list[5:6] if( True == session.show_detail) else item_list
     # show_item_list 는 item_list 로 초기화된다. 
     if( None == session["show_item_list"]):
-        session["show_item_list"] = copy.deepcopy(session["item_list"])
+        # 찜 동기화를 위해 deepcopy 비활성화 
+        # session["show_item_list"] = copy.deepcopy(session["item_list"])
+        session["show_item_list"] = (session["item_list"])
 
     choice = st.selectbox(
     '유저',
@@ -55,7 +63,9 @@ def show_main(session:dict,item_list:list):
         temp_center = [GU_INFO_CENTER[temp_selected_gu]["lat"],GU_INFO_CENTER[temp_selected_gu]["lng"]]
        
         change_center_info(session, temp_center , 14 )
-        session["show_item_list"] = copy.deepcopy(session["item_list"])
+        # 찜 동기화를 위해 deepcopy 비활성화 
+        # session["show_item_list"] = copy.deepcopy(session["item_list"])
+        session["show_item_list"] = (session["item_list"])
         session['show_heart'] = False
         session['show_detail'] = False
         # st.experimental_rerun()
@@ -64,6 +74,7 @@ def show_main(session:dict,item_list:list):
     if ( st.button('로그아웃')):
     
         # TODO : session 적용시 서버에 요청  
+        logout(session)
         session['page_counter'] = 0
         st.experimental_rerun()
 
@@ -117,7 +128,9 @@ def show_main(session:dict,item_list:list):
                     session['show_heart'] = False
                     session['show_detail'] = False
                     change_center_info(session, temp_center , 14 )
-                    session["show_item_list"] = copy.deepcopy(session["item_list"])
+                    # 찜 동기화를 위해 deepcopy 비활성화 
+                    # session["show_item_list"] = copy.deepcopy(session["item_list"])
+                    session["show_item_list"] = (session["item_list"])
                     st.experimental_rerun()
                     # session["show_detail"] = False
                     # session["show_item_list"] = item_list
@@ -155,6 +168,7 @@ def show_main(session:dict,item_list:list):
                 session["show_item_list"] = list(filter(lambda item:  int(clicked_info[0]) == item['house_id'], item_list) )
                 # session["show_item_list"] = list(filter(lambda item: item['location'] == clicked, item_list))
                 change_center_info(session, list(map(float,clicked_info[1:]) ), 18)
+                st.experimental_rerun()
 
             if( "" != clicked and "zzim"==clicked_info[0]):
                 zzim_status, house_id = clicked_info[1:]
@@ -171,6 +185,7 @@ def show_main(session:dict,item_list:list):
                 }
                 url = ''.join([BACKEND_ADDRESS, DOMAIN_INFO['zzim'], DOMAIN_INFO['items'], DOMAIN_INFO['register']])
                 res = requests.post(url,data=json.dumps(user_info) )
+                st.experimental_rerun()
 
                 # params = {'param1': 'value1', 'param2': 'value'}
                 # url = ''.join([BACKEND_ADDRESS, DOMAIN_INFO['zzim'], DOMAIN_INFO['house']])
