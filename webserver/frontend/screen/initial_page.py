@@ -25,7 +25,7 @@ from screen.components import header
 def show_login(session:dict):
     # print(os.getcwd())
     # print("check" , os.spath.isfile("/opt/ml/3rdproject/final_team_repo/webserver/frontend/config/user_sample.yaml") )
-    st.image("./image/hobbang_banner.png",width = 600)
+    st.image("./image/hobbang_banner_outline.png",width = 600)
     #폼 부분
     with st.form("login_page"):
         user_name = st.text_input('User name')
@@ -41,24 +41,24 @@ def show_login(session:dict):
                 users_login = {'name' : str(user_name),
                                 'pw' : str(password_login)}
 
-            x = requests.post(url, data=json.dumps(users_login))
-            check = x.json()
+                x = requests.post(url, data=json.dumps(users_login))
+                check = x.json()
 
-            session['cur_user_info']['user_id'] = check['user_id']
-            session['cur_user_info']['user_gu'] = check['user_gu']
+                session['cur_user_info']['user_id'] = check['user_id']
+                session['cur_user_info']['user_gu'] = check['user_gu']
 
-            if check["user_gu"] == None and check['msg'] == "로그인에 성공했습니다.":
-                session['page_counter'] = 2 #Infra Page
-                st.experimental_rerun()
+                if check["user_gu"] == None and check['msg'] == "로그인에 성공했습니다.":
+                    session['page_counter'] = 2 #Infra Page
+                    st.experimental_rerun()
 
                 elif check["user_gu"] != '' and check['msg'] == "로그인에 성공했습니다.":
                     session['page_counter'] = 3 #Map Page
                     st.experimental_rerun()
 
                 elif check['msg'] ==  '아이디 혹은 비밀번호가 일치하지 않습니다.':
-                    st.error('아이디 혹은 비밀번호가 일치하지 않습니다.')
-            except:
-                st.error('아이디 혹은 비밀번호를 입력해주세요.')
+                    st.error(f'아이디 혹은 비밀번호가 일치하지 않습니다.')
+            except Exception as e:
+                st.error(f'아이디 혹은 비밀번호를 입력해주세요.',)
 
     # name, authentication_status, username = authenticator.login('Login', 'main')
 
@@ -100,38 +100,53 @@ def show_login(session:dict):
 
 
 def show_signup(session:dict):
-    def disable():  
-        st.session_state["disabled"] = True
+
+    def validation_submit_user_info(user_info:dict):
+
+        if( ( '' == user_info['name'] ) or
+            ( '' == user_info['pw'] ) or
+            ( True == ( user_info['sex'] not in ['남자','여자'] ) ) or
+            (  user_info['age'] < 10 and user_info['age'] > 100 ) ) : 
+            
+            return False         
+
+        return True 
 
     st.title("회원가입")
-    info = {'credentials': {'usernames' : {}}}
+    submit_user_info = {
+        "name":"",
+        "pw":"",
+        "sex":"",
+        "age":0,
+    }
+
+    age_list = [ age for age in range(2006, 1920,-1)]
 
 # 1. 이름 입력
     with st.form("same_check"):
-        username = st.text_input('닉네임을 입력하세요!')
+        submit_user_info['name'] = st.text_input('닉네임을 입력하세요!')
+        
         #submitted = st.form_submit_button("중복확인")
 
         #if username != '' :
             #if 중복 닉네임
-        info['credentials']['usernames'][username] = {'age' : {}}
-        info['credentials']['usernames'][username] = {'sex' : {}}
-        info['credentials']['usernames'][username] = {'locate' : {}}
-        info['credentials']['usernames'][username] = {'password' : {}}
+       
+        submit_user_info['age'] = st.selectbox('나이를 입력하세요!', age_list)
+        # age = st.text_input('나이를 입력하세요!')
+        # if age != '' :
+        #     submit_user_info['age'] = int(age)
 
-        age = st.text_input('나이를 입력하세요!')
-        if age != '' :
-            info['credentials']['usernames'][username]['age'] = age
-
-        sex = st.selectbox('성별을 고르시오', ('남자', '여자'))
+        submit_user_info['sex'] = st.selectbox('성별을 고르시오', ('남자', '여자'))
         #sex = st.text_input('성별을 입력하세요!     ex) 남자, 여자')
-        if sex != '' :
-            info['credentials']['usernames'][username]['sex'] = sex
 
-        password = st.text_input('비밀번호를 입력하세요!', type = 'password')
-        if password != '' :
+        submit_user_info['pw'] = st.text_input('비밀번호를 입력하세요!', type = 'password')
+
+        if submit_user_info['pw'] != '' :
             #hashed_passwords = stauth.Hasher([password]).generate()
             #hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
-            hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+            hashed_password = bcrypt.hashpw(submit_user_info['pw'].encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+            submit_user_info['pw'] = hashed_password
+
             #st.subheader(hashed_passwords)
             #info['credentials']['usernames'][username]['password'] = hashed_passwords[0]
 
@@ -167,30 +182,30 @@ def show_signup(session:dict):
 
         submit = st.form_submit_button("제출하기")
         if submit:
-            try:
-                url  = ''.join([BACKEND_ADDRESS,DOMAIN_INFO['users'],DOMAIN_INFO['name'],"/",str(username)])
-                checkName = {'name' : str(username)}
-                x = requests.get(url, data=json.dumps(checkName))
-                check = x.json()
+            if False == validation_submit_user_info(submit_user_info) : 
+                st.error("정보가 올바르지 않습니다. 모든 정보를 확인해주세요.")
+            # url  = ''.join([BACKEND_ADDRESS,DOMAIN_INFO['users'],DOMAIN_INFO['name'],"/",str(username)])
+            else : 
+                url  = ''.join([BACKEND_ADDRESS,DOMAIN_INFO['users'],DOMAIN_INFO['name'], '/',submit_user_info['name']])
+                name_check_res = requests.get(url)
+                name_check_val = name_check_res.json()
 
-                if check['res'] == "중복된 이름이 있습니다":
+                if name_check_val['res'] == "중복된 이름이 있습니다":
                     st.error('중복된 이름이 있습니다. 닉네임을 확인해주세요.')
 
-                elif check['res'] == "사용할 수 있는 이름입니다":
+                elif name_check_val['res'] == "사용할 수 있는 이름입니다":
                     url  = ''.join([BACKEND_ADDRESS,DOMAIN_INFO['users'],DOMAIN_INFO['join']])
-                    USERS_INFO = {'name' : str(username),
-                                  'pw' : str(hashed_password),
-                                  'user_sex' : int(0) if sex == '남자' else int(1),
-                                  'user_age' : int(age),
-                                  'user_type' : str('Y')}
-                    
-                    x = requests.post(url, data=json.dumps(USERS_INFO))
-                    session['cur_user_info']['user_id'] = x['user_id'] 
-                    
+                    # USERS_INFO = {'name' : str(username),
+                    #                 'pw' : str(hashed_password),
+                    #                 'user_sex' : int(0) if sex == '남자' else int(1),
+                    #                 'user_age' : int(age),
+                    #                 'user_type' : str('Y')}
+                    submit_user_info['user_type'] = 'Y'
+                    join_check_res = requests.post(url, data=json.dumps(submit_user_info))
+                    join_check_val = join_check_res.json()
+                    session['cur_user_info']['user_id'] = join_check_val['user_id'] 
                     session['page_counter'] = 2
                     st.experimental_rerun()
-            except:
-                st.error('모든 항목을 입력해주세요.')
 
 
             #x = requests.post(url,data=json.dumps(user))
@@ -211,6 +226,7 @@ def show_infra(session:dict, selected_gu:str="",user_type:int=0):
 
         st.title('원하는 인프라를 선택하세요 (3개 이상) ')
 
+        print(INFRA_INFO)
         num_of_infra = len(INFRA_INFO)
         quotient  = num_of_infra // 2 
         remainder = num_of_infra % 2 
