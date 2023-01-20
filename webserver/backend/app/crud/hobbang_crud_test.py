@@ -208,6 +208,9 @@ def create_user(db: Session, user: schemas.UserCreate):
 def check_user_name(name, db: Session):
     return db.query(UsersInfo).filter_by(name = name).count()
 
+def check_user_infra(user_id, db: Session):
+    return db.query(UsersInfra).filter_by(user_id = user_id).count()
+
 def get_users(db: Session):
     return db.query(UsersInfo).all()
 
@@ -265,6 +268,33 @@ def create_user_infra(user: schemas.UserSelect, db: Session):
     #     db.commit()
     #     db.refresh(db_user_infra)
     # return db_user_infra
+    db.execute(s)
+    db.commit()
+    return 1
+
+def update_user_infra(user: schemas.UserSelect, db: Session):
+    
+    infra_list = defaultdict(int)
+    
+    for inf_type in user.infra: 
+        infra_list[inf_type]+=1
+    s = f"""
+    DELETE FROM hobbang_test.USERS_INFRA
+    WHERE user_id = {user.user_id}
+    """
+    db.execute(s)
+    db.commit()
+    
+    s = f"""
+    INSERT INTO hobbang_test.USERS_INFRA(user_id, infra_type, infra_yn, register_date, update_date)
+	    VALUES ({user.user_id}, '01', IF({infra_list["01"]}=0, "N", "Y"), now(), now())
+                ,({user.user_id}, '02', IF({infra_list["02"]}=0, "N", "Y"), now(), now())
+                ,({user.user_id}, '03', IF({infra_list["03"]}=0, "N", "Y"), now(), now())
+                ,({user.user_id}, '04', IF({infra_list["04"]}=0, "N", "Y"), now(), now())
+                ,({user.user_id}, '05', IF({infra_list["05"]}=0, "N", "Y"), now(), now())
+                ,({user.user_id}, '06', IF({infra_list["06"]}=0, "N", "Y"), now(), now())
+                ,({user.user_id}, '07', IF({infra_list["07"]}=0, "N", "Y"), now(), now())
+    """
     db.execute(s)
     db.commit()
     return 1
