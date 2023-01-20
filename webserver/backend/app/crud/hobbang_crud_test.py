@@ -226,7 +226,7 @@ def create_user_infra(user: schemas.UserSelect, db: Session):
         infra_list[inf_type]+=1
     
     s = f"""
-    INSERT INTO hobbang_test.USERS_INFRA(user_id, infra_type, infra_yn, register_date, update_date)
+    INSERT INTO USERS_INFRA(user_id, infra_type, infra_yn, register_date, update_date)
 	    VALUES ({user.user_id}, '01', IF({infra_list["01"]}=0, "N", "Y"), now(), now())
                 ,({user.user_id}, '02', IF({infra_list["02"]}=0, "N", "Y"), now(), now())
                 ,({user.user_id}, '03', IF({infra_list["03"]}=0, "N", "Y"), now(), now())
