@@ -73,8 +73,13 @@ def selectInfra(UserSelect: schemas.UserSelect, db: Session = Depends(get_db)):
     user_gu = UserSelect.user_gu
     user_type = UserSelect.user_type
     
+    res = hobbang_crud_test.check_user_infra(user_id, db)
+    
     # 1) selected_infra 정보 저장
-    res_infra = hobbang_crud_test.create_user_infra(UserSelect, db)
+    if res == 0 :
+        res_infra = hobbang_crud_test.create_user_infra(UserSelect, db)
+    else:
+        res_infra = hobbang_crud_test.update_user_infra(UserSelect, db)
     # 2) user_gu 저장
     res_gu = hobbang_crud_test.update_user_gu(UserSelect, db)
     # return {
