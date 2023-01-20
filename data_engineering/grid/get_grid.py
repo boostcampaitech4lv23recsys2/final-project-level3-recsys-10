@@ -61,10 +61,15 @@ def make_infra_columns(grid_df: pd.DataFrame, infra_df: pd.DataFrame, infra_name
             tmp = haversine((row_g['main_lat'],row_g['main_long']),(row_t['위도'],row_t['경도']))
             if tmp < radius: 
                 cnt+=1
-                min_dist = min(min_dist, tmp)
-                infra_long = row_t['경도']
-                infra_lat = row_t['위도']
-                infra_id = row_t['infra_id']
+                if min_dist > tmp:
+                    min_dist = tmp
+                    # infra_long = row_t['경도']
+                    # infra_lat = row_t['위도']
+                    infra_id = row_t['infra_id']                    
+                # min_dist = min(min_dist, tmp)
+                # infra_long = row_t['경도']
+                # infra_lat = row_t['위도']
+                # infra_id = row_t['infra_id']
         grid_df.loc[index_g,infra_name + '_id']=infra_id
         grid_df.loc[index_g,infra_name + '_lat']=infra_lat
         grid_df.loc[index_g,infra_name + '_long']=infra_long
