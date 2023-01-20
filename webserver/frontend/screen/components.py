@@ -18,9 +18,9 @@ def make_marker(items:list, start_idx:int, end_idx:int, m, marker_color:str="red
         related_item_dict = item['related_infra']
         x,y = item["lat"],item["lng"]
 
-        popup_str = ""
+        popup_str = "<p>우리 집 주변에는</p>"
         for k in related_item_dict.keys():
-            popup_str += f' <p> {INFRA_INFO_DICT[k]["emoji"]} 가장 가까운 {INFRA_INFO_DICT[k]["ko"]} : {round(related_item_dict[k]["distance"] * 1000)}m </p>'
+            popup_str += f' <p> {INFRA_INFO_DICT[k]["emoji"]} {INFRA_INFO_DICT[k]["ko"]} : {round(related_item_dict[k]["cnt"] )} 개</p>'
 
         popup = folium.Popup(popup_str, min_width=200, max_width=200)
 
@@ -85,8 +85,7 @@ def header(session:dict, selected_gu:str=""):
     option = st.selectbox(
         label = "구",
         options = GU_INFO,
-        label_visibility=st.session_state.visibility,
-        disabled=st.session_state.disabled,
+        # session=session.session,
         index = selected_idx
     )
 

@@ -44,15 +44,15 @@ def show_login(session:dict):
                 x = requests.post(url, data=json.dumps(users_login))
                 check = x.json()
 
-                session['cur_user_info']['user_id'] = check['user_id']
-                session['cur_user_info']['user_gu'] = check['user_gu']
+                session.cur_user_info['user_id'] = check['user_id']
+                session.cur_user_info['user_gu'] = check['user_gu']
 
                 if check["user_gu"] == None and check['msg'] == "로그인에 성공했습니다.":
-                    session['page_counter'] = 2 #Infra Page
+                    session.page_counter = 2 #Infra Page
                     st.experimental_rerun()
 
                 elif check["user_gu"] != '' and check['msg'] == "로그인에 성공했습니다.":
-                    session['page_counter'] = 3 #Map Page
+                    session.page_counter = 3 #Map Page
                     st.experimental_rerun()
 
                 elif check['msg'] ==  '아이디 혹은 비밀번호가 일치하지 않습니다.':
@@ -63,7 +63,7 @@ def show_login(session:dict):
     # name, authentication_status, username = authenticator.login('Login', 'main')
 
     # if True == authentication_status:
-    #     session['page_counter'] = 3
+    #     session.page_counter = 3
     #     st.experimental_rerun()
 
     #     # return 3 # 지도 화면으로 전환
@@ -72,11 +72,11 @@ def show_login(session:dict):
     #     st.error('아이디 혹은 비밀번호가 틀렸습니다.')
 
     col1, col2 = st.columns(2)
-    # print(session['page_counter'])
+    # print(session.page_counter)
 
     with col1:
         if st.button("회원가입"):
-            session['page_counter'] = 1
+            session.page_counter = 1
             st.experimental_rerun()
             # return 1 # 회원가입
 
@@ -91,10 +91,9 @@ def show_login(session:dict):
             
             x = requests.post(url, data=json.dumps(USERS_INFO))
             check = x.json()
-            print(check)
-            session['cur_user_info']['user_id'] = check['user_id'] 
+            session.cur_user_info['user_id'] = check['user_id'] 
 
-            session['page_counter'] = 2
+            session.page_counter = 2
             st.experimental_rerun()
             # return 2 # infra 선택 화면으로 전환 
 
@@ -106,7 +105,7 @@ def show_signup(session:dict):
         if( ( '' == user_info['name'] ) or
             ( '' == user_info['pw'] ) or
             ( True == ( user_info['sex'] not in ['남자','여자'] ) ) or
-            (  user_info['age'] < 10 and user_info['age'] > 100 ) ) : 
+            (  user_info['age'] < 1920 and user_info['age'] > 2006 ) ) : 
             
             return False         
 
@@ -131,7 +130,7 @@ def show_signup(session:dict):
         #if username != '' :
             #if 중복 닉네임
        
-        submit_user_info['age'] = st.selectbox('나이를 입력하세요!', age_list)
+        submit_user_info['age'] = int(st.selectbox('출생연도를 선택하세요!', age_list))
         # age = st.text_input('나이를 입력하세요!')
         # if age != '' :
         #     submit_user_info['age'] = int(age)
@@ -203,8 +202,8 @@ def show_signup(session:dict):
                     submit_user_info['user_type'] = 'Y'
                     join_check_res = requests.post(url, data=json.dumps(submit_user_info))
                     join_check_val = join_check_res.json()
-                    session['cur_user_info']['user_id'] = join_check_val['user_id'] 
-                    session['page_counter'] = 2
+                    session.cur_user_info['user_id'] = join_check_val['user_id'] 
+                    session.page_counter = 2
                     st.experimental_rerun()
 
 
@@ -366,19 +365,20 @@ def show_infra(session:dict, selected_gu:str="",user_type:int=0):
                         value_str = f'0{idx}' if  ( ( idx // 10 ) == 0 ) else f'{idx}' 
                         selected_infra_list.append(value_str)
                 
-                # session['ex_user_info'] = session['cur_user_info']
-                session['cur_user_info']['user_gu'] = locate
+                # session['ex_user_info'] = session.cur_user_info
+                session.cur_user_info['user_gu'] = locate
+                session.item_list = []
 
                 infra_user_info = {
-                "user_id" : st.session_state['cur_user_info']['user_id'],
-                "user_gu" : st.session_state['cur_user_info']['user_gu'],
+                "user_id" :session.cur_user_info['user_id'],
+                "user_gu" :session.cur_user_info['user_gu'],
                 "infra": selected_infra_list
                 }
 
                 url = ''.join([BACKEND_ADDRESS, DOMAIN_INFO['users'], DOMAIN_INFO['infra']])
                 res = requests.post(url,data=json.dumps(infra_user_info) )
 
-                session['page_counter'] = 3
+                session.page_counter = 3
                 st.experimental_rerun()
             else:
                 st.error('3개 이상 선택하시오')

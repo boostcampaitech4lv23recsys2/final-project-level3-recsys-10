@@ -25,6 +25,7 @@ from screen.main_page import show_main
 from utils import get_example_data
 from config.config import BACKEND_ADDRESS, DOMAIN_INFO, GU_INFO_CENTER,STATE_KEYS_VALS
 
+from  SessionState import get
 import requests
 import json
 
@@ -38,38 +39,39 @@ import json
 # 지도도 같이 보여주는게 좋을 것 같다. 
 # left 는 그대로 두고, marker 뿌리고 오른쪽은 찜 목록으로 대체 
 
-def set_state_key(STATE_KEYS_VALS):
+
+def set_state_key(STATE_KEYS_VALS,session_state):
     for k, v in STATE_KEYS_VALS:
-        if k not in st.session_state:
-            st.session_state[k] = v
+        if k not in session_state:
+            session_state[k] = v
 
 
 # 초기 설정
-# if 'is_login' not in st.session_state:
-#     st.session_state['is_login'] = False
+# if 'is_login' not in session_state:
+#     session_state['is_login'] = False
 
-# if 'ex_loaction' not in st.session_state:
-#     st.session_state['ex_loaction'] = None
+# if 'ex_loaction' not in session_state:
+#     session_state['ex_loaction'] = None
 
-# if 'rand_list' not in st.session_state:
-#     st.session_state['rand_list'] = None
+# if 'rand_list' not in session_state:
+#     session_state['rand_list'] = None
 
 # Store the initial value of widgets in session state
-# if "visibility" not in st.session_state:
-#     st.session_state.visibility = "collapsed"
-#     st.session_state.disabled = False
+# if "visibility" not in session_state:
+#     session_state.visibility = "collapsed"
+#     session_state.disabled = False
 
-# if 'sidebar_state' not in st.session_state:
-#     st.session_state.sidebar_state = 'collapsed'
+# if 'sidebar_state' not in session_state:
+#     session_state.sidebar_state = 'collapsed'
 
-# if 'show_detail' not in st.session_state:
-#     st.session_state.show_detail = False
+# if 'show_detail' not in session_state:
+#     session_state.show_detail = False
 
-# if 'show_heart' not in st.session_state:
-#     st.session_state.show_heart = False
+# if 'show_heart' not in session_state:
+#     session_state.show_heart = False
 
-# if 'show_item_list' not in st.session_state:
-#     st.session_state.show_item_list = None
+# if 'show_item_list' not in session_state:
+#     session_state.show_item_list = None
     
 
 #count = 0 => 로그인
@@ -77,9 +79,31 @@ def set_state_key(STATE_KEYS_VALS):
 #      = 2 => 둘러보기(인프라 선택)
 #      = 3 => 지도
 
-# if 'page_counter' not in st.session_state:
-#     st.session_state['page_counter'] = 0
+# if 'page_counter' not in session_state:
+#     session_state.page_counter = 0
 
+session_state = get(
+        is_login=False,
+        ex_loaction=None,
+        rand_list=None,
+        visibility='collapsed',
+        disabled=False,
+        sidebar_state='collapsed', 
+        show_detail=False,
+        show_heart=False,
+        show_item_list=None,
+        page_counter=0,
+        cur_user_info={
+            "user_id":None, 
+            "user_gu":"",
+        },
+        ex_user_info={
+            "user_id":None, 
+            "user_gu":"",
+        },
+        center={ 'coord' : [37.4920372,127.0567124] , 'level':15},
+        item_list=[],
+        map_bounds={})
 
 st.set_page_config( initial_sidebar_state = "expanded",
                     page_icon="./image/hobbang_favicon_outline.png",
@@ -92,48 +116,51 @@ st.set_page_config( initial_sidebar_state = "expanded",
 # x = requests.get(url,params=params)
 # print(x)
 # 로그인
-set_state_key(STATE_KEYS_VALS)
 
-if ( 0 == st.session_state['page_counter']):
-    # st.session_state['page_counter']  값이 1 ( 회원가입 ) 또는 2 ( 인프라 ) 로 변경됨 
-    set_state_key(STATE_KEYS_VALS)
-    show_login(st.session_state)
+# set_state_key(STATE_KEYS_VALS,session_state)
+
+if ( 0 == session_state.page_counter):
+    # session_state.page_counter  값이 1 ( 회원가입 ) 또는 2 ( 인프라 ) 로 변경됨 
+    # for key in session_state.keys():
+    #     del session_state[key]
+    # set_state_key(STATE_KEYS_VALS)
+    show_login(session_state)
 
 # 회원가입
-elif ( 1 == st.session_state['page_counter']):
-    # st.session_state['page_counter']  값이 2 ( 인프라 ) 로 변경됨 
-    show_signup(st.session_state)
+elif ( 1 == session_state.page_counter):
+    # session_state.page_counter  값이 2 ( 인프라 ) 로 변경됨 
+    show_signup(session_state)
 
 # 인프라
-elif( 2 == st.session_state['page_counter'] ):
-    show_infra(st.session_state)
+elif( 2 == session_state.page_counter ):
+    show_infra(session_state)
 
 # 지도
-elif( 3 == st.session_state['page_counter'] ):
-    example_item_list = get_example_data()
+elif( 3 == session_state.page_counter ):
+    # example_item_list = get_example_data()
 
-    if(  False == st.session_state['show_heart']):
-        selected_gu = header(st.session_state, st.session_state['cur_user_info']['user_gu'])
-        cache_gu = st.session_state['cur_user_info']['user_gu']
-        st.session_state['cur_user_info']['user_gu'] = selected_gu
+    if(  False == session_state.show_heart):
+        selected_gu = header(session_state, session_state.cur_user_info['user_gu'])
+        cache_gu = session_state.cur_user_info['user_gu']
+        session_state.cur_user_info['user_gu'] = selected_gu
 
         # Rerendering issue 방지 
         # TODO 매물이 하나도 없는 경우 오류
         if( ( ( "" != selected_gu ) and (selected_gu != cache_gu) ) or 
-            ( 0 == len(st.session_state['item_list']) ) ):
-            # ( st.session_state['ex_user_info']['selected_gu']
-            # != st.session_state['cur_user_info']['selected_gu'])):
+            ( 0 == len(session_state.item_list) ) ):
+            # ( session_state['ex_user_info']['selected_gu']
+            # != session_state.cur_user_info['selected_gu'])):
             # Done FT201
             # Done Data loader 선택한 지역구의 매물 정보 가져오기 
             user_info = {
-                "user_id" : st.session_state['cur_user_info']['user_id'],
-                "user_gu" : st.session_state['cur_user_info']['user_gu'],
+                "user_id" : session_state.cur_user_info['user_id'],
+                "user_gu" : session_state.cur_user_info['user_gu'],
                 "house_ranking":{}
             }
-            st.session_state['center']['coord'] = [GU_INFO_CENTER[selected_gu]["lat"],GU_INFO_CENTER[selected_gu]["lng"]]
+            session_state.center['coord'] = [GU_INFO_CENTER[selected_gu]["lat"],GU_INFO_CENTER[selected_gu]["lng"]]
             url = ''.join([BACKEND_ADDRESS, DOMAIN_INFO['map'], DOMAIN_INFO['items']])
             res = requests.post(url,data=json.dumps(user_info) )
-            st.session_state['item_list'] = [*res.json()['houses'].values()]
-            st.session_state["show_item_list"] = st.session_state['item_list'] 
+            session_state.item_list= [*res.json()['houses'].values()]
+            session_state.show_item_list= session_state.item_list
 
-    show_main(st.session_state, st.session_state['show_item_list'])
+    show_main(session_state, session_state.show_item_list)
