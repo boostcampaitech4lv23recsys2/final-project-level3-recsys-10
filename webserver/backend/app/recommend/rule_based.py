@@ -42,11 +42,11 @@ def inference_latlng(user_id, min_lat, max_lat, min_lng, max_lng, db: Session):
         FROM (SELECT MAX(house_id) as house_id, MAX(grid_id) as grid_id
                                 FROM HOUSE_INFO2
                         WHERE sold_yn = 'N'
-                                AND ST_CONTAINS(ST_POLYFROMTEXT('POLYGON(({min_lat} {min_lng}
-                                                        , {min_lat} {max_lng}
-                                                        , {max_lat} {max_lng}
-                                                        , {max_lat} {min_lng}
-                                                        , {min_lat} {min_lng}))')
+                                AND ST_CONTAINS(ST_POLYFROMTEXT('POLYGON(({min_lng} {min_lat}
+                                                        , {min_lng} {max_lat}
+                                                        , {max_lng} {max_lat}
+                                                        , {max_lng} {min_lat}
+                                                        , {min_lng} {min_lat}))')
                                                 , latlng)
                         GROUP BY latlng ) H,
                 GRID_SCORE G
