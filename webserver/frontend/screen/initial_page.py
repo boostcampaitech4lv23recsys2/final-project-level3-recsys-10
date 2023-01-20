@@ -91,9 +91,9 @@ def show_login(session:dict):
             
             x = requests.post(url, data=json.dumps(USERS_INFO))
             check = x.json()
+            print(check)
             session['cur_user_info']['user_id'] = check['user_id'] 
 
-            print(session['cur_user_info'])
             session['page_counter'] = 2
             st.experimental_rerun()
             # return 2 # infra 선택 화면으로 전환 
@@ -223,10 +223,8 @@ def show_infra(session:dict, selected_gu:str="",user_type:int=0):
         locat = GU_INFO
         st.title('희망 거주 지역을 선택하세요 ')
         locate = header(session,selected_gu)
-
         st.title('원하는 인프라를 선택하세요 (3개 이상) ')
 
-        print(INFRA_INFO)
         num_of_infra = len(INFRA_INFO)
         quotient  = num_of_infra // 2 
         remainder = num_of_infra % 2 

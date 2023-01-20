@@ -42,10 +42,10 @@ def my_map(session:dict,items:list):
     # markers = plugins.MarkerCluster(transformed_coord_list )
     # markers.add_to(m) 
     with st.spinner() : 
-        do = ( len(items) < 3 )  
-        make_marker(items,0,20,m,'red',do)
-        make_marker(items,20,80,m,'lightblue',do)
+        do = ( len(items) == 1 )  
         make_marker(items,80,100,m,'lightgray',do)
+        make_marker(items,20,80,m,'lightblue',do)
+        make_marker(items,0,20,m,'red',do)
 
         # for item in items[:40]:
         #     x,y = item["lat"],item["lng"]
@@ -99,19 +99,23 @@ def get_list_component( item:dict, clickevent=None):
     item["information"]["price_deposit"] = "문의" if item["information"]["price_deposit"] == None else item["information"]["price_deposit"] 
     item["information"]["price_sales"]   = "문의" if item["information"]["price_sales"] == None else item["information"]["price_sales"] 
     cur_item_info = item["information"]
-    
+    zzim_icon = "&#128516;" if( "N" == item["zzim"]) else "&#128525;"
+    rank_info = ""  if (0 == item["ranking"]) else f'Rank{item["ranking"]}'
+
     return f'<div><a href="#" id="{item["house_id"]}_{item["lat"]}_{item["lng"]}">\
         <div style="display:inline-block;vertical-align:top;">\
             <img alt="" draggable="false" src="{cur_item_info["image_thumbnail"]}?w=400&amp;h=300&amp;q=70&amp;a=1" class="css-9pa8cd"  align="top">\
         </div>\
+        <div>\
             <div style="display:inline-block;">\
                 <a href="#" id="zzim_{item["zzim"]}_{item["house_id"]}">\
-                    <i id="heart_{item["zzim"]}" class="fa fa-heart"></i>\
+                    <div id="heart_{item["zzim"]}">{zzim_icon}</div>\
                 </a>\
-                <div style="display:inline-block; font-size:50px;"> {item["ranking"]} </div>\
-                <div style="font-weight:bold;"> { cur_item_info["price_deposit"] } / { cur_item_info["price_sales"] }　{cur_item_info["address"]} </div>\
-                <br>\
             </div >\
+                <div style="display:inline-block; font-size:50px;"> {rank_info} </div>\
+            </div>\
+                <div style="font-weight:bold;"> { cur_item_info["price_deposit"] } / { cur_item_info["price_monthly_rent"] }　{cur_item_info["address"]} </div>\
+                <br>\
             <div> {cur_item_info["title"]} </div>\
         </a></div>\
         <hr/>'
@@ -122,7 +126,9 @@ def get_detail_component( item:dict,clickevent=None ):
     item["information"]["price_deposit"] = "문의" if item["information"]["price_deposit"] == None else item["information"]["price_deposit"] 
     item["information"]["price_sales"]   = "문의" if item["information"]["price_sales"] == None else item["information"]["price_sales"] 
     cur_item_info = item["information"]
-
+    zzim_icon = "&#128516;" if( "N" == item["zzim"]) else "&#128525;"
+    rank_info = ""  if (0 == item["ranking"]) else f'Rank{item["ranking"]}'
+    
     return f'<div>\
         <div style="display:inline-block;vertical-align:top;">\
             <img alt="" draggable="false" src="{cur_item_info["image_thumbnail"]}?w=400&amp;h=300&amp;q=70&amp;a=1" class="css-9pa8cd"  align="top">\
@@ -130,13 +136,13 @@ def get_detail_component( item:dict,clickevent=None ):
         <div >\
             <div style="display:inline-block;">\
                 <a href="#" id="zzim_{item["zzim"]}_{item["house_id"]}">\
-                    <i id="heart_{item["zzim"]}" class="fa fa-heart"></i>\
+                    <div id="heart_{item["zzim"]}">{zzim_icon}</div>\
                 </a>\
             </div>\
-            <div style="display:inline-block; font-size:50px;"> {item["ranking"]} </div>\
+            <div style="display:inline-block; font-size:50px;"> Rank {item["ranking"]} </div>\
         </div>\
         <br>\
-        <div style="font-weight:bold;"> { cur_item_info["price_deposit"] } / { cur_item_info["price_sales"] }　{cur_item_info["address"]} </div>\
+        <div style="font-weight:bold;"> { cur_item_info["price_deposit"] } / { cur_item_info["price_monthly_rent"] }　{cur_item_info["address"]} </div>\
         <br>\
         <div> {cur_item_info["description"]}</div>\
         <hr/>'
