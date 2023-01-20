@@ -30,7 +30,6 @@ def createUser(user: schemas.UserCreate, db: Session = Depends(get_db)):
 #         raise HTTPException(status_code=400, detail="Error 발생!")
 #     return crud.create_user(db=db, user=user)
 
-
 # 닉네임 중복확인 시 요청되는 api
 @router.get("/name/{name}") # Route Path
 def checkName(name, db: Session = Depends(get_db)):
@@ -46,7 +45,7 @@ def checkName(name, db: Session = Depends(get_db)):
 
 
 # 로그인 시 요청되는 api
-@router.post("/login/") # Route Path
+@router.post("/login") # Route Path
 def loginUser(user: schemas.UserBase, db: Session = Depends(get_db)):
     res = hobbang_crud_test.login_user(user, db)  # get_infra(db): INFRA 테이블 조회(임시)
     if res:
@@ -57,12 +56,10 @@ def loginUser(user: schemas.UserBase, db: Session = Depends(get_db)):
                 "user_gu": res.user_gu,
             }
     return {
-        "msg": "아이디 혹은 비밀번호가 일치하지 않습니다.",
+        "msg": '아이디 혹은 비밀번호가 일치하지 않습니다.',
         "user_id": "",
         "user_gu": "",
     }
-
-
 
 
 # 비회원/회원이 인프라 선택시 요청되는 api

@@ -1,0 +1,37 @@
+
+div {
+  font-family: 'NanumSquareNeo';
+}
+
+a:link { color: red; text-decoration: none;}
+a:visited { color: black; text-decoration: none;}
+a:hover { color: black; text-decoration: none;}
+
+.h_container{
+  background-color: #cac7c7;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.1);
+  display: inline-block;
+  width:35px;
+  height:35px;
+  text-align:center;
+  line-height:45px;
+
+}
+#heart_Y{
+  font-size: 50px;
+  color:red;
+}
+
+#heart_N{
+  font-size: 50px;
+  color:black;
+}
+
+#heart_N:hover{
+  color:red;
+}
+
+#heart_Y:hover{
+  color:black;
+}

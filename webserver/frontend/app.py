@@ -23,9 +23,12 @@ from screen.components import header
 from screen.initial_page import show_login, show_signup,show_infra
 from screen.main_page import show_main
 from utils import get_example_data
+from config.config import BACKEND_ADDRESS, DOMAIN_INFO, GU_INFO_CENTER,STATE_KEYS_VALS
 
 import requests
-COORD_MULT = 1000000000
+import json
+
+# COORD_MULT = 1000000000 미사용 : lng, lat 실수값 그대로 사용
 
 # if session 없으면 로그인 화면 보여준다. 
 
@@ -35,32 +38,38 @@ COORD_MULT = 1000000000
 # 지도도 같이 보여주는게 좋을 것 같다. 
 # left 는 그대로 두고, marker 뿌리고 오른쪽은 찜 목록으로 대체 
 
+def set_state_key(STATE_KEYS_VALS):
+    for k, v in STATE_KEYS_VALS:
+        if k not in st.session_state:
+            st.session_state[k] = v
+
+
 # 초기 설정
-if 'is_login' not in st.session_state:
-    st.session_state['is_login'] = False
+# if 'is_login' not in st.session_state:
+#     st.session_state['is_login'] = False
 
-if 'ex_loaction' not in st.session_state:
-    st.session_state['ex_loaction'] = None
+# if 'ex_loaction' not in st.session_state:
+#     st.session_state['ex_loaction'] = None
 
-if 'rand_list' not in st.session_state:
-    st.session_state['rand_list'] = None
+# if 'rand_list' not in st.session_state:
+#     st.session_state['rand_list'] = None
 
 # Store the initial value of widgets in session state
-if "visibility" not in st.session_state:
-    st.session_state.visibility = "collapsed"
-    st.session_state.disabled = False
+# if "visibility" not in st.session_state:
+#     st.session_state.visibility = "collapsed"
+#     st.session_state.disabled = False
 
-if 'sidebar_state' not in st.session_state:
-    st.session_state.sidebar_state = 'collapsed'
+# if 'sidebar_state' not in st.session_state:
+#     st.session_state.sidebar_state = 'collapsed'
 
-if 'show_detail' not in st.session_state:
-    st.session_state.show_detail = False
+# if 'show_detail' not in st.session_state:
+#     st.session_state.show_detail = False
 
-if 'show_heart' not in st.session_state:
-    st.session_state.show_heart = False
+# if 'show_heart' not in st.session_state:
+#     st.session_state.show_heart = False
 
-if 'show_item_list' not in st.session_state:
-    st.session_state.show_item_list = None
+# if 'show_item_list' not in st.session_state:
+#     st.session_state.show_item_list = None
     
 
 #count = 0 => 로그인
@@ -68,11 +77,14 @@ if 'show_item_list' not in st.session_state:
 #      = 2 => 둘러보기(인프라 선택)
 #      = 3 => 지도
 
-if 'page_counter' not in st.session_state:
-    st.session_state['page_counter'] = 0
+# if 'page_counter' not in st.session_state:
+#     st.session_state['page_counter'] = 0
 
 
-st.set_page_config(layout="wide")
+st.set_page_config( initial_sidebar_state = "expanded",
+                    page_icon="./image/hobbang_favicon_outline.png",
+                    layout="wide", 
+                    page_title="당신이 선호하는 방, 호빵")
 
 # params  = {'userid': 3, 'location': '수영구'}
 # url = 'http://27.96.130.120:30002/'
@@ -80,8 +92,11 @@ st.set_page_config(layout="wide")
 # x = requests.get(url,params=params)
 # print(x)
 # 로그인
+set_state_key(STATE_KEYS_VALS)
+
 if ( 0 == st.session_state['page_counter']):
     # st.session_state['page_counter']  값이 1 ( 회원가입 ) 또는 2 ( 인프라 ) 로 변경됨 
+    set_state_key(STATE_KEYS_VALS)
     show_login(st.session_state)
 
 # 회원가입
@@ -98,7 +113,27 @@ elif( 3 == st.session_state['page_counter'] ):
     example_item_list = get_example_data()
 
     if(  False == st.session_state['show_heart']):
-        # TODO Data loader 선택한 지역구의 매물 정보 가져오기 
-        header(st.session_state)
-    show_main(st.session_state,example_item_list)
-    pass 
+        selected_gu = header(st.session_state, st.session_state['cur_user_info']['user_gu'])
+        cache_gu = st.session_state['cur_user_info']['user_gu']
+        st.session_state['cur_user_info']['user_gu'] = selected_gu
+
+        # Rerendering issue 방지 
+        # TODO 매물이 하나도 없는 경우 오류
+        if( ( ( "" != selected_gu ) and (selected_gu != cache_gu) ) or 
+            ( 0 == len(st.session_state['item_list']) ) ):
+            # ( st.session_state['ex_user_info']['selected_gu']
+            # != st.session_state['cur_user_info']['selected_gu'])):
+            # Done FT201
+            # Done Data loader 선택한 지역구의 매물 정보 가져오기 
+            user_info = {
+                "user_id" : st.session_state['cur_user_info']['user_id'],
+                "user_gu" : st.session_state['cur_user_info']['user_gu'],
+                "house_ranking":{}
+            }
+            st.session_state['center']['coord'] = [GU_INFO_CENTER[selected_gu]["lat"],GU_INFO_CENTER[selected_gu]["lng"]]
+            url = ''.join([BACKEND_ADDRESS, DOMAIN_INFO['map'], DOMAIN_INFO['items']])
+            res = requests.post(url,data=json.dumps(user_info) )
+            st.session_state['item_list'] = [*res.json()['houses'].values()]
+            st.session_state["show_item_list"] = st.session_state['item_list'] 
+
+    show_main(st.session_state, st.session_state['show_item_list'])
