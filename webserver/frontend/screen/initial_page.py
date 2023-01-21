@@ -106,8 +106,8 @@ def show_signup(session:dict):
 
         if( ( '' == user_info['name'] ) or
             ( '' == user_info['pw'] ) or
-            ( True == ( user_info['sex'] not in ['남자','여자'] ) ) or
-            (  user_info['age'] < 1920 and user_info['age'] > 2006 ) ) : 
+            ( True == ( user_info['user_sex'] not in ['남자','여자'] ) ) or
+            (  user_info['user_age'] < 1920 and user_info['user_age'] > 2006 ) ) : 
             
             return False         
 
@@ -117,8 +117,9 @@ def show_signup(session:dict):
     submit_user_info = {
         "name":"",
         "pw":"",
-        "sex":"",
-        "age":0,
+        "user_sex":0,
+        "user_age":0,
+        "user_type": 'Y',
     }
 
     age_list = [ age for age in range(2006, 1920,-1)]
@@ -132,12 +133,12 @@ def show_signup(session:dict):
         #if username != '' :
             #if 중복 닉네임
        
-        submit_user_info['age'] = int(st.selectbox('출생연도를 선택하세요!', age_list))
+        submit_user_info['user_age'] = int(st.selectbox('출생연도를 선택하세요!', age_list))
         # age = st.text_input('나이를 입력하세요!')
         # if age != '' :
         #     submit_user_info['age'] = int(age)
 
-        submit_user_info['sex'] = st.selectbox('성별을 고르시오', ('남자', '여자'))
+        submit_user_info['user_sex'] = st.selectbox('성별을 고르시오', ('남자', '여자'))
         #sex = st.text_input('성별을 입력하세요!     ex) 남자, 여자')
 
         submit_user_info['pw'] = st.text_input('비밀번호를 입력하세요!', type = 'password')
@@ -201,13 +202,13 @@ def show_signup(session:dict):
                     #                 'user_sex' : int(0) if sex == '남자' else int(1),
                     #                 'user_age' : int(age),
                     #                 'user_type' : str('Y')}
+                    submit_user_info['user_sex'] =  0 if submit_user_info['user_sex'] == '남자' else 1
                     submit_user_info['user_type'] = 'Y'
                     join_check_res = requests.post(url, data=json.dumps(submit_user_info))
                     join_check_val = join_check_res.json()
                     session.cur_user_info['user_id'] = join_check_val['user_id'] 
                     session.page_counter = 2
                     st.experimental_rerun()
-
 
             #x = requests.post(url,data=json.dumps(user))
             # if username in yaml_data['credentials']['usernames']:
