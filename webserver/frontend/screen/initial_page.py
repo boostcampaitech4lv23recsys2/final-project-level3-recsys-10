@@ -81,20 +81,21 @@ def show_login(session:dict):
             # return 1 # 회원가입
 
     with col2:
-        if st.button("둘러보기"):
-            url  = ''.join([BACKEND_ADDRESS,DOMAIN_INFO['users'],DOMAIN_INFO['join']])
-            USERS_INFO = {'name' : str(datetime.now().timestamp()),
-                          'pw' : None,
-                          'user_sex' : None,
-                          'user_age' : None,
-                          'user_type' : str('N')}
+        pass
+        # if st.button("둘러보기"):
+        #     url  = ''.join([BACKEND_ADDRESS,DOMAIN_INFO['users'],DOMAIN_INFO['join']])
+        #     USERS_INFO = {'name' : str(datetime.now().timestamp()),
+        #                   'pw' : None,
+        #                   'user_sex' : None,
+        #                   'user_age' : None,
+        #                   'user_type' : str('N')}
             
-            x = requests.post(url, data=json.dumps(USERS_INFO))
-            check = x.json()
-            session.cur_user_info['user_id'] = check['user_id'] 
+        #     x = requests.post(url, data=json.dumps(USERS_INFO))
+        #     check = x.json()
+        #     session.cur_user_info['user_id'] = check['user_id'] 
 
-            session.page_counter = 2
-            st.experimental_rerun()
+        #     session.page_counter = 2
+        #     st.experimental_rerun()
             # return 2 # infra 선택 화면으로 전환 
 
 

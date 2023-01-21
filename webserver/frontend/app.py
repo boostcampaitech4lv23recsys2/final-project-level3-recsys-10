@@ -110,6 +110,14 @@ st.set_page_config( initial_sidebar_state = "expanded",
                     layout="wide", 
                     page_title="당신이 선호하는 방, 호빵")
 
+
+st.markdown(f'''
+    <style>
+        section[data-testid="stSidebar"] .css-ng1t4o {{width: 22rem;}}
+        section[data-testid="stSidebar"] .css-1d391kg {{width: 22rem;}}
+    </style>
+''',unsafe_allow_html=True)
+
 # params  = {'userid': 3, 'location': '수영구'}
 # url = 'http://27.96.130.120:30002/'
 #     # json.dumps(user)
