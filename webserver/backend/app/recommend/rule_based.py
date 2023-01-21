@@ -16,14 +16,15 @@ import os
 def inference_gu(user_id, user_gu, db: Session):
     s = f"""
         SELECT H.house_id, 
-                RANK() over (ORDER BY (SUM(G.infra_dist_score) + SUM(G.infra_cnt_score)) DESC, H.house_id) as ranking
-        FROM (SELECT MAX(house_id) as house_id, MAX(grid_id) as grid_id
-                        FROM HOUSE_INFO2
-                WHERE sold_yn = 'N'
-                        AND local2 = "{user_gu}"
-                GROUP BY latlng ) H,
+                RANK() over (ORDER BY (SUM(G.infra_dist_score) + SUM(G.infra_cnt_score)) DESC
+                                , H.price_deposit
+                                , H.price_monthly_rent
+                                , H.house_id) as ranking
+        FROM HOUSE_INFO2 H,
                 GRID_SCORE G
         WHERE H.grid_id = G.grid_id
+                AND H.sold_yn = 'N'
+                AND local2 = "{user_gu}"
                 AND G.INFRA_TYPE IN (SELECT U.infra_type
                                 FROM USERS_INFRA U
                                 where U.user_id = {user_id}
@@ -38,19 +39,20 @@ def inference_gu(user_id, user_gu, db: Session):
 def inference_latlng(user_id, min_lat, max_lat, min_lng, max_lng, db: Session):
     s = f"""
         SELECT H.house_id,
-                RANK() over (ORDER BY (SUM(G.infra_dist_score) + SUM(G.infra_cnt_score)) DESC, H.house_id) as ranking
-        FROM (SELECT MAX(house_id) as house_id, MAX(grid_id) as grid_id
-                                FROM HOUSE_INFO2
-                        WHERE sold_yn = 'N'
-                                AND ST_CONTAINS(ST_POLYFROMTEXT('POLYGON(({min_lng} {min_lat}
+                RANK() over (ORDER BY (SUM(G.infra_dist_score) + SUM(G.infra_cnt_score)) DESC
+                                , H.price_deposit
+                                , H.price_monthly_rent
+                                , H.house_id) as ranking
+        FROM HOUSE_INFO2 H,
+                GRID_SCORE G
+        WHERE H.grid_id = G.grid_id
+                AND H.sold_yn = 'N'
+                AND ST_CONTAINS(ST_POLYFROMTEXT('POLYGON(({min_lng} {min_lat}
                                                         , {min_lng} {max_lat}
                                                         , {max_lng} {max_lat}
                                                         , {max_lng} {min_lat}
                                                         , {min_lng} {min_lat}))')
-                                                , latlng)
-                        GROUP BY latlng ) H,
-                GRID_SCORE G
-        WHERE H.grid_id = G.grid_id
+                                                , H.latlng)
                 AND G.INFRA_TYPE IN (SELECT U.infra_type
                                 FROM USERS_INFRA U
                                 where U.user_id = {user_id}
