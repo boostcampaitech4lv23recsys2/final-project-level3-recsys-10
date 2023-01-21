@@ -43,6 +43,7 @@ def show_login(session:dict):
 
                 x = requests.post(url, data=json.dumps(users_login))
                 check = x.json()
+                print(check)
 
                 session.cur_user_info['user_id'] = check['user_id']
                 session.cur_user_info['user_gu'] = check['user_gu']
@@ -58,7 +59,7 @@ def show_login(session:dict):
                 elif check['msg'] ==  '아이디 혹은 비밀번호가 일치하지 않습니다.':
                     st.error(f'아이디 혹은 비밀번호가 일치하지 않습니다.')
             except Exception as e:
-                st.error(f'아이디 혹은 비밀번호를 입력해주세요.',)
+                st.error(f'아이디 혹은 비밀번호를 입력해주세요.')
 
     # name, authentication_status, username = authenticator.login('Login', 'main')
 

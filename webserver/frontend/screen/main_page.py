@@ -35,13 +35,8 @@ def show_main(session:dict,item_list:list):
     for k in INFRA_INFO_DICT.keys():
         infra_str += f'{INFRA_INFO_DICT[k]["emoji"]} {INFRA_INFO_DICT[k]["ko"]}'
 
-    # st.markdown(f'<h1 style="color:red;font-size:24px;">{"왼쪽 사이드 바에 선호하는 인프라 정보로 순위를 매긴 집 정보를 드려요!"}</h1>\
-    #             1. <span style="background-color: rgba(242,179,188,0.5)"><strong>　사이드 바의 매물　</strong></span>을 클릭하면 지도에서 해당 위치로 이동하고, <span style="background-color: rgba(242,179,188,0.5)"><strong>　가장 가까운 인프라　</strong></span>정보를 볼 수 있어요.<br><br>\
-    #             2. <span style="background-color: lightblue"><strong>　마음에 든다면 왼쪽의 😄 웃는 얼굴을 클릭해보세요 ! 😍 하트 눈으로 바뀔 거예요.　</strong></span><br><br>\
-    #             <p>3. <span style="background-color: rgba(242,179,188,0.5)"><strong>　관심 목록　</strong></span>을 클릭하면 <span style="background-color: rgba(242,179,188,0.5)"><strong>　😍.zip　</strong></span> 을 보실 수 있답니다!\
-    #             <p>4. 지도를 이동한 후 <span style="background-color: rgba(242,179,188,0.5)"><strong>　"현재 위치에서 매물 보기" 　</strong></span> 를 누르면 현재 위치에 있는 부동산을 조회할 수 있어요.<br><br>\
-    #             <p>{infra_str}</p>', unsafe_allow_html=True)
-
+    st.markdown(f'<h1 style="color:red;font-size:24px;">{"(서울 서비스 오픈!) 왼쪽 사이드 바에 선호하는 인프라 정보로 순위를 매긴 집 정보를 드려요!"}</h1>\
+                <p>{infra_str}</p>', unsafe_allow_html=True)
 
     modal = Modal("도움말",key=1)
     open_modal = st.button("도움말")
@@ -53,20 +48,17 @@ def show_main(session:dict,item_list:list):
         with modal.container():
 
             html_string = '''
-            <h1 style="color:red;font-size:24px;">왼쪽 사이드 바에 선호하는 인프라 정보로 순위를 매긴 집 정보를 드려요!</h1>\
             1. <span style="background-color: rgba(242,179,188,0.5)"><strong>　사이드 바의 매물　</strong></span>을 클릭하면 지도에서 해당 위치로 이동하고, <span style="background-color: rgba(242,179,188,0.5)"><strong>　가장 가까운 인프라　</strong></span>정보를 볼 수 있어요.<br><br>\
-            2. <span style="background-color: lightblue"><strong>　마음에 든다면 왼쪽의 😄 웃는 얼굴을 클릭해보세요 ! 😍 하트 눈으로 바뀔 거예요.　</strong></span><br><br>
+            2. <span style="background-color: lightblue"><strong>　마음에 든다면 왼쪽의 😄 웃는 얼굴을 클릭해보세요 ! 😍 하트 눈으로 바뀔 거예요.　</strong></span><br><br>\
             '''
-
             components.html(html_string)
 
-            html_string = f'\
-                3. <span style="background-color: rgba(242,179,188,0.5)"><strong>　관심 목록　</strong></span>을 클릭하면 <span style="background-color: rgba(242,179,188,0.5)"><strong>　😍.zip　</strong></span> 을 보실 수 있답니다!<br><br>\
-                4. 지도를 이동한 후 <span style="background-color: rgba(242,179,188,0.5)"><strong>　"현재 위치에서 매물 보기" 　</strong></span> 를 누르면 현재 위치에 있는 부동산을 조회할 수 있어요.<br><br>\
-                {infra_str}\
-            '
+            html_string = '''
+            3. <span style="background-color: rgba(242,179,188,0.5)"><strong>　관심 목록　</strong></span>을 클릭하면 <span style="background-color: rgba(242,179,188,0.5)"><strong>　😍.zip　</strong></span> 을 보실 수 있답니다!<br><br>\
+            4. 지도를 이동한 후 <span style="background-color: rgba(242,179,188,0.5)"><strong>　"현재 위치에서 매물 보기" 　</strong></span> 를 누르면 현재 위치에 있는 부동산을 조회할 수 있어요.<br><br>\
+            '''
             components.html(html_string)
-
+  
 
     if( None == session.show_item_list):
         # 찜 동기화를 위해 deepcopy 비활성화 
@@ -257,7 +249,7 @@ def show_main(session:dict,item_list:list):
                 color:red;\
                 }\
                 </style>\
-            <div style="overflow-y: scroll; height:1500px; ">'
+            <div style="overflow-y: scroll; height:1000px; ">'
             
             # 실행 순서상 아래 str 만드는 for 문 바로 위에 있어야 함 
             str += " <h1>관심 목록 </h1>" if(True ==session.show_heart ) else ""
