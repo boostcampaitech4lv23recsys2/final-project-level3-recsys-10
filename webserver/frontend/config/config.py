@@ -197,6 +197,7 @@ setting = {
         ('center',{ 'coord' : [37.4920372,127.0567124] , 'level':15}),
         ('item_list',[]),
         ('page_counter',0),
+        ('map_bounds',{}),
         ]
 }
 

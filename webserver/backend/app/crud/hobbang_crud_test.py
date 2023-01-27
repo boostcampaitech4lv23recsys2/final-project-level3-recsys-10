@@ -177,7 +177,8 @@ def write_click_log(user: schemas.ClickLog, db: Session):
     db_click = LogClick(
                     user_id=user.user_id,
                     item_id=user.house_id,
-                    log_type=user.log_type
+                    log_type=user.log_type,
+                    log_date=datetime.now()
                 )
     db.add(db_click)
     db.commit()

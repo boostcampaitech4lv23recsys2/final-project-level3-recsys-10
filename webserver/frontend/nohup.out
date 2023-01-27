@@ -1,0 +1,1037 @@
+
+  You can now view your Streamlit app in your browser.
+
+  Network URL: http://172.17.0.2:30001
+  External URL: http://27.96.130.120:30001
+
+2023-01-20 13:37:01.438 Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/requests/models.py", line 971, in json
+    return complexjson.loads(self.text, **kwargs)
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/streamlit/script_runner.py", line 354, in _run_script
+    exec(code, module.__dict__)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/app.py", line 127, in <module>
+    show_login(session_state)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/screen/initial_page.py", line 93, in show_login
+    check = x.json()
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/requests/models.py", line 975, in json
+    raise RequestsJSONDecodeError(e.msg, e.doc, e.pos)
+requests.exceptions.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+2023-01-20 13:37:13.128 Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/requests/models.py", line 971, in json
+    return complexjson.loads(self.text, **kwargs)
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/streamlit/script_runner.py", line 354, in _run_script
+    exec(code, module.__dict__)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/app.py", line 127, in <module>
+    show_login(session_state)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/screen/initial_page.py", line 93, in show_login
+    check = x.json()
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/requests/models.py", line 975, in json
+    raise RequestsJSONDecodeError(e.msg, e.doc, e.pos)
+requests.exceptions.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+2023-01-20 13:37:13.473 Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/requests/models.py", line 971, in json
+    return complexjson.loads(self.text, **kwargs)
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/streamlit/script_runner.py", line 354, in _run_script
+    exec(code, module.__dict__)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/app.py", line 127, in <module>
+    show_login(session_state)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/screen/initial_page.py", line 93, in show_login
+    check = x.json()
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/requests/models.py", line 975, in json
+    raise RequestsJSONDecodeError(e.msg, e.doc, e.pos)
+requests.exceptions.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+2023-01-20 13:37:15.340 Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/requests/models.py", line 971, in json
+    return complexjson.loads(self.text, **kwargs)
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/streamlit/script_runner.py", line 354, in _run_script
+    exec(code, module.__dict__)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/app.py", line 127, in <module>
+    show_login(session_state)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/screen/initial_page.py", line 93, in show_login
+    check = x.json()
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/requests/models.py", line 975, in json
+    raise RequestsJSONDecodeError(e.msg, e.doc, e.pos)
+requests.exceptions.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+2023-01-20 13:37:22.274 Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/requests/models.py", line 971, in json
+    return complexjson.loads(self.text, **kwargs)
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/streamlit/script_runner.py", line 354, in _run_script
+    exec(code, module.__dict__)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/app.py", line 127, in <module>
+    show_login(session_state)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/screen/initial_page.py", line 93, in show_login
+    check = x.json()
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/requests/models.py", line 975, in json
+    raise RequestsJSONDecodeError(e.msg, e.doc, e.pos)
+requests.exceptions.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+2023-01-20 13:37:22.421 Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/requests/models.py", line 971, in json
+    return complexjson.loads(self.text, **kwargs)
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/streamlit/script_runner.py", line 354, in _run_script
+    exec(code, module.__dict__)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/app.py", line 127, in <module>
+    show_login(session_state)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/screen/initial_page.py", line 93, in show_login
+    check = x.json()
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/requests/models.py", line 975, in json
+    raise RequestsJSONDecodeError(e.msg, e.doc, e.pos)
+requests.exceptions.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+2023-01-20 13:37:34.344 Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/requests/models.py", line 971, in json
+    return complexjson.loads(self.text, **kwargs)
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/streamlit/script_runner.py", line 354, in _run_script
+    exec(code, module.__dict__)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/app.py", line 127, in <module>
+    show_login(session_state)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/screen/initial_page.py", line 93, in show_login
+    check = x.json()
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/requests/models.py", line 975, in json
+    raise RequestsJSONDecodeError(e.msg, e.doc, e.pos)
+requests.exceptions.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+2023-01-20 13:37:44.468 Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/requests/models.py", line 971, in json
+    return complexjson.loads(self.text, **kwargs)
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/streamlit/script_runner.py", line 354, in _run_script
+    exec(code, module.__dict__)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/app.py", line 132, in <module>
+    show_signup(session_state)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/screen/initial_page.py", line 190, in show_signup
+    name_check_val = name_check_res.json()
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/requests/models.py", line 975, in json
+    raise RequestsJSONDecodeError(e.msg, e.doc, e.pos)
+requests.exceptions.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+2023-01-20 13:37:58.578 Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/requests/models.py", line 971, in json
+    return complexjson.loads(self.text, **kwargs)
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/streamlit/script_runner.py", line 354, in _run_script
+    exec(code, module.__dict__)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/app.py", line 132, in <module>
+    show_signup(session_state)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/screen/initial_page.py", line 190, in show_signup
+    name_check_val = name_check_res.json()
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/requests/models.py", line 975, in json
+    raise RequestsJSONDecodeError(e.msg, e.doc, e.pos)
+requests.exceptions.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+
+  You can now view your Streamlit app in your browser.
+
+  Network URL: http://172.17.0.2:30001
+  External URL: http://27.96.130.120:30001
+
+
+  You can now view your Streamlit app in your browser.
+
+  Network URL: http://172.17.0.2:30001
+  External URL: http://27.96.130.120:30001
+
+2023-01-20 13:49:18.927 Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/requests/models.py", line 971, in json
+    return complexjson.loads(self.text, **kwargs)
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/streamlit/script_runner.py", line 354, in _run_script
+    exec(code, module.__dict__)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/app.py", line 127, in <module>
+    show_login(session_state)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/screen/initial_page.py", line 93, in show_login
+    check = x.json()
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/requests/models.py", line 975, in json
+    raise RequestsJSONDecodeError(e.msg, e.doc, e.pos)
+requests.exceptions.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+2023-01-20 14:13:02.021 Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/requests/models.py", line 971, in json
+    return complexjson.loads(self.text, **kwargs)
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/streamlit/script_runner.py", line 354, in _run_script
+    exec(code, module.__dict__)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/app.py", line 127, in <module>
+    show_login(session_state)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/screen/initial_page.py", line 93, in show_login
+    check = x.json()
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/requests/models.py", line 975, in json
+    raise RequestsJSONDecodeError(e.msg, e.doc, e.pos)
+requests.exceptions.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+2023-01-20 14:13:15.987 Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/requests/models.py", line 971, in json
+    return complexjson.loads(self.text, **kwargs)
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/streamlit/script_runner.py", line 354, in _run_script
+    exec(code, module.__dict__)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/app.py", line 127, in <module>
+    show_login(session_state)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/screen/initial_page.py", line 93, in show_login
+    check = x.json()
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/requests/models.py", line 975, in json
+    raise RequestsJSONDecodeError(e.msg, e.doc, e.pos)
+requests.exceptions.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+2023-01-20 14:13:22.819 Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/requests/models.py", line 971, in json
+    return complexjson.loads(self.text, **kwargs)
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/streamlit/script_runner.py", line 354, in _run_script
+    exec(code, module.__dict__)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/app.py", line 127, in <module>
+    show_login(session_state)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/screen/initial_page.py", line 93, in show_login
+    check = x.json()
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/requests/models.py", line 975, in json
+    raise RequestsJSONDecodeError(e.msg, e.doc, e.pos)
+requests.exceptions.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+2023-01-20 14:17:30.647 Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/requests/models.py", line 971, in json
+    return complexjson.loads(self.text, **kwargs)
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/streamlit/script_runner.py", line 354, in _run_script
+    exec(code, module.__dict__)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/app.py", line 163, in <module>
+    session_state.item_list= [*res.json()['houses'].values()]
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/requests/models.py", line 975, in json
+    raise RequestsJSONDecodeError(e.msg, e.doc, e.pos)
+requests.exceptions.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+2023-01-20 14:17:35.370 Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/requests/models.py", line 971, in json
+    return complexjson.loads(self.text, **kwargs)
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/streamlit/script_runner.py", line 354, in _run_script
+    exec(code, module.__dict__)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/app.py", line 163, in <module>
+    session_state.item_list= [*res.json()['houses'].values()]
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/requests/models.py", line 975, in json
+    raise RequestsJSONDecodeError(e.msg, e.doc, e.pos)
+requests.exceptions.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+2023-01-20 14:17:40.506 Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/requests/models.py", line 971, in json
+    return complexjson.loads(self.text, **kwargs)
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/streamlit/script_runner.py", line 354, in _run_script
+    exec(code, module.__dict__)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/app.py", line 163, in <module>
+    session_state.item_list= [*res.json()['houses'].values()]
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/requests/models.py", line 975, in json
+    raise RequestsJSONDecodeError(e.msg, e.doc, e.pos)
+requests.exceptions.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+2023-01-20 14:17:44.361 Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/requests/models.py", line 971, in json
+    return complexjson.loads(self.text, **kwargs)
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/streamlit/script_runner.py", line 354, in _run_script
+    exec(code, module.__dict__)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/app.py", line 163, in <module>
+    session_state.item_list= [*res.json()['houses'].values()]
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/requests/models.py", line 975, in json
+    raise RequestsJSONDecodeError(e.msg, e.doc, e.pos)
+requests.exceptions.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+2023-01-20 14:19:16.410 Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/requests/models.py", line 971, in json
+    return complexjson.loads(self.text, **kwargs)
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/streamlit/script_runner.py", line 354, in _run_script
+    exec(code, module.__dict__)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/app.py", line 163, in <module>
+    session_state.item_list= [*res.json()['houses'].values()]
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/requests/models.py", line 975, in json
+    raise RequestsJSONDecodeError(e.msg, e.doc, e.pos)
+requests.exceptions.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+2023-01-20 14:19:23.506 Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/requests/models.py", line 971, in json
+    return complexjson.loads(self.text, **kwargs)
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/streamlit/script_runner.py", line 354, in _run_script
+    exec(code, module.__dict__)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/app.py", line 163, in <module>
+    session_state.item_list= [*res.json()['houses'].values()]
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/requests/models.py", line 975, in json
+    raise RequestsJSONDecodeError(e.msg, e.doc, e.pos)
+requests.exceptions.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+2023-01-20 14:19:24.455 Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/requests/models.py", line 971, in json
+    return complexjson.loads(self.text, **kwargs)
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/streamlit/script_runner.py", line 354, in _run_script
+    exec(code, module.__dict__)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/app.py", line 163, in <module>
+    session_state.item_list= [*res.json()['houses'].values()]
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/requests/models.py", line 975, in json
+    raise RequestsJSONDecodeError(e.msg, e.doc, e.pos)
+requests.exceptions.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+2023-01-20 14:19:35.361 Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/requests/models.py", line 971, in json
+    return complexjson.loads(self.text, **kwargs)
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/streamlit/script_runner.py", line 354, in _run_script
+    exec(code, module.__dict__)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/app.py", line 163, in <module>
+    session_state.item_list= [*res.json()['houses'].values()]
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/requests/models.py", line 975, in json
+    raise RequestsJSONDecodeError(e.msg, e.doc, e.pos)
+requests.exceptions.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+2023-01-20 14:19:45.343 Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/requests/models.py", line 971, in json
+    return complexjson.loads(self.text, **kwargs)
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/streamlit/script_runner.py", line 354, in _run_script
+    exec(code, module.__dict__)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/app.py", line 163, in <module>
+    session_state.item_list= [*res.json()['houses'].values()]
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/requests/models.py", line 975, in json
+    raise RequestsJSONDecodeError(e.msg, e.doc, e.pos)
+requests.exceptions.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+2023-01-21 00:25:50.096 Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/requests/models.py", line 971, in json
+    return complexjson.loads(self.text, **kwargs)
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/streamlit/script_runner.py", line 354, in _run_script
+    exec(code, module.__dict__)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/app.py", line 127, in <module>
+    show_login(session_state)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/screen/initial_page.py", line 93, in show_login
+    check = x.json()
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/requests/models.py", line 975, in json
+    raise RequestsJSONDecodeError(e.msg, e.doc, e.pos)
+requests.exceptions.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+2023-01-21 04:47:30.686 Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/streamlit/script_runner.py", line 354, in _run_script
+    exec(code, module.__dict__)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/app.py", line 22, in <module>
+    from screen.components import header
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/screen/components.py", line 36
+    [related_item_dict[k]["lat"],related_item_dict[k]["lng"]],icon=folium.Icon(icon = f'{INFRA_INFO_DICT[k]["icon"]}', color = 'orange',prefix='fa',tooltip=f'{INFRA_INFO_DICT[k]['ko']}')
+                                                                                                                                                                                   ^
+SyntaxError: f-string: unmatched '['
+
+2023-01-21 04:48:07.290 Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/streamlit/script_runner.py", line 354, in _run_script
+    exec(code, module.__dict__)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/app.py", line 22, in <module>
+    from screen.components import header
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/screen/components.py", line 36
+    [related_item_dict[k]["lat"],related_item_dict[k]["lng"]],icon=folium.Icon(icon = f'{INFRA_INFO_DICT[k]["icon"]}', color = 'orange',prefix='fa,tooltip=f'{INFRA_INFO_DICT[k]["ko"]}')
+                                                                                                                                                             ^
+SyntaxError: invalid syntax
+
+2023-01-21 04:48:20.938 Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/streamlit/script_runner.py", line 354, in _run_script
+    exec(code, module.__dict__)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/app.py", line 22, in <module>
+    from screen.components import header
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/screen/components.py", line 36
+    [related_item_dict[k]["lat"],related_item_dict[k]["lng"]],icon=folium.Icon(icon = f'{INFRA_INFO_DICT[k]["icon"]}', color = 'orange',prefix='fa,tooltip=f'{INFRA_INFO_DICT[k]["ko"]}'
+                                                                                                                                                             ^
+SyntaxError: invalid syntax
+
+2023-01-21 04:48:28.099 Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/streamlit/script_runner.py", line 354, in _run_script
+    exec(code, module.__dict__)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/app.py", line 22, in <module>
+    from screen.components import header
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/screen/components.py", line 40
+    def my_map(session:dict,items:list):
+    ^
+SyntaxError: invalid syntax
+
+&#127857; 16m &#128717; 89m &#127849; 16m &#128138; 28m 
+&#127857; 16m &#128717; 89m &#127849; 16m &#128138; 28m 
+&#127857; 16m &#128717; 89m &#127849; 16m &#128138; 28m 
+&#127857; 16m &#128717; 89m &#127849; 16m &#128138; 28m 
+&#127857; 16m &#128717; 89m &#127849; 16m &#128138; 28m 
+&#128650; 163m &#127857; 12m &#128717; 127m &#127849; 12m &#128138; 49m 
+&#128650; 163m &#127857; 12m &#128717; 127m &#127849; 12m &#128138; 49m 
+&#128650; 134m &#127857; 22m &#128717; 205m &#127849; 22m &#128138; 22m 
+&#128650; 134m &#127857; 22m &#128717; 205m &#127849; 22m &#128138; 22m 
+&#127857; 23m &#128717; 148m &#127849; 23m &#128138; 44m 
+&#127857; 23m &#128717; 148m &#127849; 23m &#128138; 44m 
+&#127857; 23m &#128717; 148m &#127849; 23m &#128138; 44m 
+&#127857; 23m &#128717; 148m &#127849; 23m &#128138; 44m 
+&#127857; 23m &#128717; 148m &#127849; 23m &#128138; 44m 
+&#127857; 34m &#128717; 103m &#127849; 28m &#128138; 30m 
+&#127857; 34m &#128717; 103m &#127849; 28m &#128138; 30m 
+&#127857; 34m &#128717; 103m &#127849; 28m &#128138; 30m 
+&#127857; 34m &#128717; 103m &#127849; 28m &#128138; 30m 
+&#128650; 86m &#127857; 16m &#128717; 52m &#127849; 54m &#128138; 53m 
+&#128650; 146m &#127857; 42m &#128717; 181m &#127849; 42m &#128138; 43m 
+&#128650; 146m &#127857; 42m &#128717; 181m &#127849; 42m &#128138; 43m 
+&#128650; 174m &#127857; 9m &#128717; 245m &#127849; 30m &#128138; 31m 
+&#128650; 157m &#127857; 26m &#128717; 212m &#127849; 34m &#128138; 44m 
+&#128650; 157m &#127857; 26m &#128717; 212m &#127849; 34m &#128138; 44m 
+&#128650; 197m &#127857; 39m &#128717; 144m &#127849; 39m &#128138; 96m 
+&#128650; 197m &#127857; 39m &#128717; 144m &#127849; 39m &#128138; 96m 
+&#128650; 212m &#127857; 22m &#128717; 213m &#127849; 23m &#128138; 79m 
+&#127857; 45m &#128717; 139m &#127849; 44m &#128138; 43m 
+&#127857; 45m &#128717; 139m &#127849; 44m &#128138; 43m 
+&#127857; 45m &#128717; 139m &#127849; 44m &#128138; 43m 
+&#127857; 45m &#128717; 139m &#127849; 44m &#128138; 43m 
+&#127857; 45m &#128717; 139m &#127849; 44m &#128138; 43m 
+&#128650; 181m &#127857; 41m &#128717; 166m &#127849; 42m &#128138; 76m 
+&#128650; 181m &#127857; 41m &#128717; 166m &#127849; 42m &#128138; 76m 
+&#128650; 181m &#127857; 41m &#128717; 166m &#127849; 42m &#128138; 76m 
+&#128650; 150m &#127857; 36m &#128717; 125m &#127849; 30m &#128138; 31m 
+&#128650; 199m &#127857; 23m &#128717; 256m &#127849; 23m &#128138; 44m 
+&#128650; 199m &#127857; 23m &#128717; 256m &#127849; 23m &#128138; 44m 
+&#128650; 199m &#127857; 23m &#128717; 256m &#127849; 23m &#128138; 44m 
+&#128650; 199m &#127857; 23m &#128717; 256m &#127849; 23m &#128138; 44m 
+&#128650; 223m &#127857; 37m &#128717; 193m &#127849; 38m &#128138; 88m 
+&#128650; 223m &#127857; 37m &#128717; 193m &#127849; 38m &#128138; 88m 
+&#128650; 223m &#127857; 37m &#128717; 193m &#127849; 38m &#128138; 88m 
+&#128650; 223m &#127857; 37m &#128717; 193m &#127849; 38m &#128138; 88m 
+&#128650; 146m &#127857; 55m &#128717; 127m &#127849; 23m &#128138; 46m &#127916; 988m 
+&#128650; 146m &#127857; 55m &#128717; 127m &#127849; 23m &#128138; 46m &#127916; 988m 
+&#128650; 146m &#127857; 55m &#128717; 127m &#127849; 23m &#128138; 46m &#127916; 988m 
+&#128650; 106m &#127857; 37m &#128717; 58m &#127849; 70m &#128138; 71m 
+&#128650; 124m &#127857; 49m &#128717; 102m &#127849; 43m &#128138; 34m 
+&#127857; 57m &#128717; 137m &#127849; 51m &#128138; 52m 
+&#127857; 57m &#128717; 137m &#127849; 51m &#128138; 52m 
+&#127857; 57m &#128717; 137m &#127849; 51m &#128138; 52m 
+&#127857; 57m &#128717; 137m &#127849; 51m &#128138; 52m 
+&#128650; 233m &#127857; 43m &#128717; 104m &#127849; 43m &#128138; 97m 
+&#128650; 233m &#127857; 43m &#128717; 104m &#127849; 43m &#128138; 97m 
+&#128650; 233m &#127857; 43m &#128717; 104m &#127849; 43m &#128138; 97m 
+&#128650; 61m &#127857; 18m &#128717; 241m &#127849; 18m &#128138; 112m &#127916; 407m 
+&#128650; 85m &#127857; 24m &#128717; 240m &#127849; 51m &#128138; 33m &#127916; 524m 
+&#128650; 206m &#127857; 47m &#128717; 78m &#127849; 47m &#128138; 87m 
+&#128650; 57m &#127857; 40m &#128717; 185m &#127849; 40m &#128138; 84m &#127916; 414m 
+&#128650; 108m &#127857; 50m &#128717; 175m &#127849; 32m &#128138; 30m 
+&#128650; 108m &#127857; 50m &#128717; 175m &#127849; 32m &#128138; 30m 
+&#128650; 156m &#127857; 24m &#128717; 24m &#127849; 24m &#128138; 127m 
+&#128650; 156m &#127857; 24m &#128717; 24m &#127849; 24m &#128138; 127m 
+&#128650; 156m &#127857; 24m &#128717; 24m &#127849; 24m &#128138; 127m 
+&#128650; 156m &#127857; 24m &#128717; 24m &#127849; 24m &#128138; 127m 
+&#128650; 121m &#127857; 41m &#128717; 254m &#127849; 33m &#128138; 39m 
+&#128650; 121m &#127857; 41m &#128717; 254m &#127849; 33m &#128138; 39m 
+&#128650; 121m &#127857; 41m &#128717; 254m &#127849; 33m &#128138; 39m 
+&#128650; 197m &#127857; 34m &#128717; 300m &#127849; 34m &#128138; 39m 
+&#128650; 197m &#127857; 34m &#128717; 300m &#127849; 34m &#128138; 39m 
+&#128650; 197m &#127857; 34m &#128717; 300m &#127849; 34m &#128138; 39m 
+&#128650; 197m &#127857; 34m &#128717; 300m &#127849; 34m &#128138; 39m 
+&#128650; 197m &#127857; 34m &#128717; 300m &#127849; 34m &#128138; 39m 
+&#128650; 139m &#127857; 71m &#128717; 105m &#127849; 38m &#128138; 58m &#127916; 985m 
+&#128650; 63m &#127857; 37m &#128717; 288m &#127849; 18m &#128138; 24m &#127916; 414m 
+&#128650; 86m &#127857; 31m &#128717; 253m &#127849; 31m &#128138; 106m &#127916; 384m 
+&#128650; 86m &#127857; 31m &#128717; 253m &#127849; 31m &#128138; 106m &#127916; 384m 
+&#128650; 269m &#127857; 32m &#128717; 205m &#127849; 32m &#128138; 125m 
+&#128650; 269m &#127857; 32m &#128717; 205m &#127849; 32m &#128138; 125m 
+&#127857; 16m &#128717; 89m &#127849; 16m &#128138; 28m 
+&#127857; 16m &#128717; 89m &#127849; 16m &#128138; 28m 
+&#127857; 16m &#128717; 89m &#127849; 16m &#128138; 28m 
+&#127857; 16m &#128717; 89m &#127849; 16m &#128138; 28m 
+&#127857; 16m &#128717; 89m &#127849; 16m &#128138; 28m 
+&#128650; 163m &#127857; 12m &#128717; 127m &#127849; 12m &#128138; 49m 
+&#128650; 163m &#127857; 12m &#128717; 127m &#127849; 12m &#128138; 49m 
+&#128650; 134m &#127857; 22m &#128717; 205m &#127849; 22m &#128138; 22m 
+&#128650; 134m &#127857; 22m &#128717; 205m &#127849; 22m &#128138; 22m 
+&#127857; 23m &#128717; 148m &#127849; 23m &#128138; 44m 
+&#127857; 23m &#128717; 148m &#127849; 23m &#128138; 44m 
+&#127857; 23m &#128717; 148m &#127849; 23m &#128138; 44m 
+&#127857; 23m &#128717; 148m &#127849; 23m &#128138; 44m 
+&#127857; 23m &#128717; 148m &#127849; 23m &#128138; 44m 
+&#127857; 34m &#128717; 103m &#127849; 28m &#128138; 30m 
+&#127857; 34m &#128717; 103m &#127849; 28m &#128138; 30m 
+&#127857; 34m &#128717; 103m &#127849; 28m &#128138; 30m 
+&#127857; 34m &#128717; 103m &#127849; 28m &#128138; 30m 
+&#128650; 86m &#127857; 16m &#128717; 52m &#127849; 54m &#128138; 53m 
+&#128650; 146m &#127857; 42m &#128717; 181m &#127849; 42m &#128138; 43m 
+&#128650; 146m &#127857; 42m &#128717; 181m &#127849; 42m &#128138; 43m 
+&#128650; 174m &#127857; 9m &#128717; 245m &#127849; 30m &#128138; 31m 
+&#128650; 157m &#127857; 26m &#128717; 212m &#127849; 34m &#128138; 44m 
+&#128650; 157m &#127857; 26m &#128717; 212m &#127849; 34m &#128138; 44m 
+&#128650; 197m &#127857; 39m &#128717; 144m &#127849; 39m &#128138; 96m 
+&#128650; 197m &#127857; 39m &#128717; 144m &#127849; 39m &#128138; 96m 
+&#128650; 212m &#127857; 22m &#128717; 213m &#127849; 23m &#128138; 79m 
+&#127857; 45m &#128717; 139m &#127849; 44m &#128138; 43m 
+&#127857; 45m &#128717; 139m &#127849; 44m &#128138; 43m 
+&#127857; 45m &#128717; 139m &#127849; 44m &#128138; 43m 
+&#127857; 45m &#128717; 139m &#127849; 44m &#128138; 43m 
+&#127857; 45m &#128717; 139m &#127849; 44m &#128138; 43m 
+&#128650; 181m &#127857; 41m &#128717; 166m &#127849; 42m &#128138; 76m 
+&#128650; 181m &#127857; 41m &#128717; 166m &#127849; 42m &#128138; 76m 
+&#128650; 181m &#127857; 41m &#128717; 166m &#127849; 42m &#128138; 76m 
+&#128650; 150m &#127857; 36m &#128717; 125m &#127849; 30m &#128138; 31m 
+&#128650; 199m &#127857; 23m &#128717; 256m &#127849; 23m &#128138; 44m 
+&#128650; 199m &#127857; 23m &#128717; 256m &#127849; 23m &#128138; 44m 
+&#128650; 199m &#127857; 23m &#128717; 256m &#127849; 23m &#128138; 44m 
+&#128650; 199m &#127857; 23m &#128717; 256m &#127849; 23m &#128138; 44m 
+&#128650; 223m &#127857; 37m &#128717; 193m &#127849; 38m &#128138; 88m 
+&#128650; 223m &#127857; 37m &#128717; 193m &#127849; 38m &#128138; 88m 
+&#128650; 223m &#127857; 37m &#128717; 193m &#127849; 38m &#128138; 88m 
+&#128650; 223m &#127857; 37m &#128717; 193m &#127849; 38m &#128138; 88m 
+&#128650; 146m &#127857; 55m &#128717; 127m &#127849; 23m &#128138; 46m &#127916; 988m 
+&#128650; 146m &#127857; 55m &#128717; 127m &#127849; 23m &#128138; 46m &#127916; 988m 
+&#128650; 146m &#127857; 55m &#128717; 127m &#127849; 23m &#128138; 46m &#127916; 988m 
+&#128650; 106m &#127857; 37m &#128717; 58m &#127849; 70m &#128138; 71m 
+&#128650; 124m &#127857; 49m &#128717; 102m &#127849; 43m &#128138; 34m 
+&#127857; 57m &#128717; 137m &#127849; 51m &#128138; 52m 
+&#127857; 57m &#128717; 137m &#127849; 51m &#128138; 52m 
+&#127857; 57m &#128717; 137m &#127849; 51m &#128138; 52m 
+&#127857; 57m &#128717; 137m &#127849; 51m &#128138; 52m 
+&#128650; 233m &#127857; 43m &#128717; 104m &#127849; 43m &#128138; 97m 
+&#128650; 233m &#127857; 43m &#128717; 104m &#127849; 43m &#128138; 97m 
+&#128650; 233m &#127857; 43m &#128717; 104m &#127849; 43m &#128138; 97m 
+&#128650; 61m &#127857; 18m &#128717; 241m &#127849; 18m &#128138; 112m &#127916; 407m 
+&#128650; 85m &#127857; 24m &#128717; 240m &#127849; 51m &#128138; 33m &#127916; 524m 
+&#128650; 206m &#127857; 47m &#128717; 78m &#127849; 47m &#128138; 87m 
+&#128650; 57m &#127857; 40m &#128717; 185m &#127849; 40m &#128138; 84m &#127916; 414m 
+&#128650; 108m &#127857; 50m &#128717; 175m &#127849; 32m &#128138; 30m 
+&#128650; 108m &#127857; 50m &#128717; 175m &#127849; 32m &#128138; 30m 
+&#128650; 156m &#127857; 24m &#128717; 24m &#127849; 24m &#128138; 127m 
+&#128650; 156m &#127857; 24m &#128717; 24m &#127849; 24m &#128138; 127m 
+&#128650; 156m &#127857; 24m &#128717; 24m &#127849; 24m &#128138; 127m 
+&#128650; 156m &#127857; 24m &#128717; 24m &#127849; 24m &#128138; 127m 
+&#128650; 121m &#127857; 41m &#128717; 254m &#127849; 33m &#128138; 39m 
+&#128650; 121m &#127857; 41m &#128717; 254m &#127849; 33m &#128138; 39m 
+&#128650; 121m &#127857; 41m &#128717; 254m &#127849; 33m &#128138; 39m 
+&#128650; 197m &#127857; 34m &#128717; 300m &#127849; 34m &#128138; 39m 
+&#128650; 197m &#127857; 34m &#128717; 300m &#127849; 34m &#128138; 39m 
+&#128650; 197m &#127857; 34m &#128717; 300m &#127849; 34m &#128138; 39m 
+&#128650; 197m &#127857; 34m &#128717; 300m &#127849; 34m &#128138; 39m 
+&#128650; 197m &#127857; 34m &#128717; 300m &#127849; 34m &#128138; 39m 
+&#128650; 139m &#127857; 71m &#128717; 105m &#127849; 38m &#128138; 58m &#127916; 985m 
+&#128650; 63m &#127857; 37m &#128717; 288m &#127849; 18m &#128138; 24m &#127916; 414m 
+&#128650; 86m &#127857; 31m &#128717; 253m &#127849; 31m &#128138; 106m &#127916; 384m 
+&#128650; 86m &#127857; 31m &#128717; 253m &#127849; 31m &#128138; 106m &#127916; 384m 
+&#128650; 269m &#127857; 32m &#128717; 205m &#127849; 32m &#128138; 125m 
+&#128650; 269m &#127857; 32m &#128717; 205m &#127849; 32m &#128138; 125m 
+&#127857; 16m &#128717; 89m &#127849; 16m &#128138; 28m 
+&#127857; 16m &#128717; 89m &#127849; 16m &#128138; 28m 
+&#127857; 16m &#128717; 89m &#127849; 16m &#128138; 28m 
+&#127857; 16m &#128717; 89m &#127849; 16m &#128138; 28m 
+&#127857; 16m &#128717; 89m &#127849; 16m &#128138; 28m 
+&#128650; 163m &#127857; 12m &#128717; 127m &#127849; 12m &#128138; 49m 
+&#128650; 163m &#127857; 12m &#128717; 127m &#127849; 12m &#128138; 49m 
+&#128650; 134m &#127857; 22m &#128717; 205m &#127849; 22m &#128138; 22m 
+&#128650; 134m &#127857; 22m &#128717; 205m &#127849; 22m &#128138; 22m 
+&#127857; 23m &#128717; 148m &#127849; 23m &#128138; 44m 
+&#127857; 23m &#128717; 148m &#127849; 23m &#128138; 44m 
+&#127857; 23m &#128717; 148m &#127849; 23m &#128138; 44m 
+&#127857; 23m &#128717; 148m &#127849; 23m &#128138; 44m 
+&#127857; 23m &#128717; 148m &#127849; 23m &#128138; 44m 
+&#127857; 34m &#128717; 103m &#127849; 28m &#128138; 30m 
+&#127857; 34m &#128717; 103m &#127849; 28m &#128138; 30m 
+&#127857; 34m &#128717; 103m &#127849; 28m &#128138; 30m 
+&#127857; 34m &#128717; 103m &#127849; 28m &#128138; 30m 
+&#128650; 86m &#127857; 16m &#128717; 52m &#127849; 54m &#128138; 53m 
+&#128650; 146m &#127857; 42m &#128717; 181m &#127849; 42m &#128138; 43m 
+&#128650; 146m &#127857; 42m &#128717; 181m &#127849; 42m &#128138; 43m 
+&#128650; 174m &#127857; 9m &#128717; 245m &#127849; 30m &#128138; 31m 
+&#128650; 157m &#127857; 26m &#128717; 212m &#127849; 34m &#128138; 44m 
+&#128650; 157m &#127857; 26m &#128717; 212m &#127849; 34m &#128138; 44m 
+&#128650; 197m &#127857; 39m &#128717; 144m &#127849; 39m &#128138; 96m 
+&#128650; 197m &#127857; 39m &#128717; 144m &#127849; 39m &#128138; 96m 
+&#128650; 212m &#127857; 22m &#128717; 213m &#127849; 23m &#128138; 79m 
+&#127857; 45m &#128717; 139m &#127849; 44m &#128138; 43m 
+&#127857; 45m &#128717; 139m &#127849; 44m &#128138; 43m 
+&#127857; 45m &#128717; 139m &#127849; 44m &#128138; 43m 
+&#127857; 45m &#128717; 139m &#127849; 44m &#128138; 43m 
+&#127857; 45m &#128717; 139m &#127849; 44m &#128138; 43m 
+&#128650; 181m &#127857; 41m &#128717; 166m &#127849; 42m &#128138; 76m 
+&#128650; 181m &#127857; 41m &#128717; 166m &#127849; 42m &#128138; 76m 
+&#128650; 181m &#127857; 41m &#128717; 166m &#127849; 42m &#128138; 76m 
+&#128650; 150m &#127857; 36m &#128717; 125m &#127849; 30m &#128138; 31m 
+&#128650; 199m &#127857; 23m &#128717; 256m &#127849; 23m &#128138; 44m 
+&#128650; 199m &#127857; 23m &#128717; 256m &#127849; 23m &#128138; 44m 
+&#128650; 199m &#127857; 23m &#128717; 256m &#127849; 23m &#128138; 44m 
+&#128650; 199m &#127857; 23m &#128717; 256m &#127849; 23m &#128138; 44m 
+&#128650; 223m &#127857; 37m &#128717; 193m &#127849; 38m &#128138; 88m 
+&#128650; 223m &#127857; 37m &#128717; 193m &#127849; 38m &#128138; 88m 
+&#128650; 223m &#127857; 37m &#128717; 193m &#127849; 38m &#128138; 88m 
+&#128650; 223m &#127857; 37m &#128717; 193m &#127849; 38m &#128138; 88m 
+&#128650; 146m &#127857; 55m &#128717; 127m &#127849; 23m &#128138; 46m &#127916; 988m 
+&#128650; 146m &#127857; 55m &#128717; 127m &#127849; 23m &#128138; 46m &#127916; 988m 
+&#128650; 146m &#127857; 55m &#128717; 127m &#127849; 23m &#128138; 46m &#127916; 988m 
+&#128650; 106m &#127857; 37m &#128717; 58m &#127849; 70m &#128138; 71m 
+&#128650; 124m &#127857; 49m &#128717; 102m &#127849; 43m &#128138; 34m 
+&#127857; 57m &#128717; 137m &#127849; 51m &#128138; 52m 
+&#127857; 57m &#128717; 137m &#127849; 51m &#128138; 52m 
+&#127857; 57m &#128717; 137m &#127849; 51m &#128138; 52m 
+&#127857; 57m &#128717; 137m &#127849; 51m &#128138; 52m 
+&#128650; 233m &#127857; 43m &#128717; 104m &#127849; 43m &#128138; 97m 
+&#128650; 233m &#127857; 43m &#128717; 104m &#127849; 43m &#128138; 97m 
+&#128650; 233m &#127857; 43m &#128717; 104m &#127849; 43m &#128138; 97m 
+&#128650; 61m &#127857; 18m &#128717; 241m &#127849; 18m &#128138; 112m &#127916; 407m 
+&#128650; 85m &#127857; 24m &#128717; 240m &#127849; 51m &#128138; 33m &#127916; 524m 
+&#128650; 206m &#127857; 47m &#128717; 78m &#127849; 47m &#128138; 87m 
+&#128650; 57m &#127857; 40m &#128717; 185m &#127849; 40m &#128138; 84m &#127916; 414m 
+&#128650; 108m &#127857; 50m &#128717; 175m &#127849; 32m &#128138; 30m 
+&#128650; 108m &#127857; 50m &#128717; 175m &#127849; 32m &#128138; 30m 
+&#128650; 156m &#127857; 24m &#128717; 24m &#127849; 24m &#128138; 127m 
+&#128650; 156m &#127857; 24m &#128717; 24m &#127849; 24m &#128138; 127m 
+&#128650; 156m &#127857; 24m &#128717; 24m &#127849; 24m &#128138; 127m 
+&#128650; 156m &#127857; 24m &#128717; 24m &#127849; 24m &#128138; 127m 
+&#128650; 121m &#127857; 41m &#128717; 254m &#127849; 33m &#128138; 39m 
+&#128650; 121m &#127857; 41m &#128717; 254m &#127849; 33m &#128138; 39m 
+&#128650; 121m &#127857; 41m &#128717; 254m &#127849; 33m &#128138; 39m 
+&#128650; 197m &#127857; 34m &#128717; 300m &#127849; 34m &#128138; 39m 
+&#128650; 197m &#127857; 34m &#128717; 300m &#127849; 34m &#128138; 39m 
+&#128650; 197m &#127857; 34m &#128717; 300m &#127849; 34m &#128138; 39m 
+&#128650; 197m &#127857; 34m &#128717; 300m &#127849; 34m &#128138; 39m 
+2023-01-21 05:09:28.658 Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/streamlit/script_runner.py", line 354, in _run_script
+    exec(code, module.__dict__)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/app.py", line 166, in <module>
+    show_main(session_state, session_state.show_item_list)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/screen/main_page.py", line 189, in show_main
+    for k in related_item_dict.keys():
+NameError: name 'related_item_dict' is not defined
+
+2023-01-21 05:09:59.723 Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/streamlit/script_runner.py", line 354, in _run_script
+    exec(code, module.__dict__)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/app.py", line 166, in <module>
+    show_main(session_state, session_state.show_item_list)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/screen/main_page.py", line 189, in show_main
+    for k in related_item_dict.keys():
+NameError: name 'related_item_dict' is not defined
+
+2023-01-21 05:10:43.799 Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/streamlit/script_runner.py", line 354, in _run_script
+    exec(code, module.__dict__)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/app.py", line 166, in <module>
+    show_main(session_state, session_state.show_item_list)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/screen/main_page.py", line 189, in show_main
+    for k in related_item_dict.keys():
+NameError: name 'related_item_dict' is not defined
+
+2023-01-21 05:10:46.012 Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/streamlit/script_runner.py", line 354, in _run_script
+    exec(code, module.__dict__)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/app.py", line 166, in <module>
+    show_main(session_state, session_state.show_item_list)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/screen/main_page.py", line 189, in show_main
+    for k in related_item_dict.keys():
+NameError: name 'related_item_dict' is not defined
+
+2023-01-21 05:10:46.333 Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/streamlit/script_runner.py", line 354, in _run_script
+    exec(code, module.__dict__)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/app.py", line 166, in <module>
+    show_main(session_state, session_state.show_item_list)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/screen/main_page.py", line 189, in show_main
+    for k in related_item_dict.keys():
+NameError: name 'related_item_dict' is not defined
+
+2023-01-21 05:10:49.832 Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/streamlit/script_runner.py", line 354, in _run_script
+    exec(code, module.__dict__)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/app.py", line 166, in <module>
+    show_main(session_state, session_state.show_item_list)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/screen/main_page.py", line 189, in show_main
+    for k in related_item_dict.keys():
+NameError: name 'related_item_dict' is not defined
+
+2023-01-21 05:10:50.580 Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/streamlit/script_runner.py", line 354, in _run_script
+    exec(code, module.__dict__)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/app.py", line 166, in <module>
+    show_main(session_state, session_state.show_item_list)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/screen/main_page.py", line 189, in show_main
+    for k in related_item_dict.keys():
+NameError: name 'related_item_dict' is not defined
+
+2023-01-21 05:10:52.475 Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/streamlit/script_runner.py", line 354, in _run_script
+    exec(code, module.__dict__)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/app.py", line 166, in <module>
+    show_main(session_state, session_state.show_item_list)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/screen/main_page.py", line 189, in show_main
+    for k in related_item_dict.keys():
+NameError: name 'related_item_dict' is not defined
+
+2023-01-21 05:11:00.566 Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/streamlit/script_runner.py", line 354, in _run_script
+    exec(code, module.__dict__)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/app.py", line 166, in <module>
+    show_main(session_state, session_state.show_item_list)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/screen/main_page.py", line 189, in show_main
+    for k in INFRA_INFO_DICT.keys():
+NameError: name 'INFRA_INFO_DICT' is not defined
+
+2023-01-21 05:13:00.653 Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/streamlit/script_runner.py", line 354, in _run_script
+    exec(code, module.__dict__)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/app.py", line 24, in <module>
+    from screen.main_page import show_main
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/screen/main_page.py", line 33
+    for k in INFRA_INFO_DICT.keys():
+IndentationError: unexpected indent
+
+2023-01-21 05:20:13.973 Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/streamlit/script_runner.py", line 354, in _run_script
+    exec(code, module.__dict__)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/app.py", line 166, in <module>
+    show_main(session_state, session_state.show_item_list)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/screen/main_page.py", line 36, in show_main
+    modal = Modal("Demo Modal")
+TypeError: __init__() missing 1 required positional argument: 'key'
+
+2023-01-21 05:20:14.638 Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/streamlit/script_runner.py", line 354, in _run_script
+    exec(code, module.__dict__)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/app.py", line 166, in <module>
+    show_main(session_state, session_state.show_item_list)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/screen/main_page.py", line 36, in show_main
+    modal = Modal("Demo Modal")
+TypeError: __init__() missing 1 required positional argument: 'key'
+
+2023-01-21 05:22:41.997 Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/streamlit/script_runner.py", line 354, in _run_script
+    exec(code, module.__dict__)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/app.py", line 24, in <module>
+    from screen.main_page import show_main
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/screen/main_page.py", line 38
+    st.markdown(f'<h1 style="color:red;font-size:24px;">{"왼쪽 사이드 바에 선호하는 인프라 정보로 순위를 매긴 집 정보를 드려요!"}</h1>\
+                                                                                                          ^
+IndentationError: unindent does not match any outer indentation level
+
+2023-01-21 05:32:22.213 Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/requests/models.py", line 971, in json
+    return complexjson.loads(self.text, **kwargs)
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/json/decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/streamlit/script_runner.py", line 354, in _run_script
+    exec(code, module.__dict__)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/app.py", line 166, in <module>
+    show_main(session_state, session_state.show_item_list)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/screen/main_page.py", line 118, in show_main
+    temp_center = [GU_INFO_CENTER["강남구"]["lat"],GU_INFO_CENTER["강남구"]["lng"]]
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/requests/models.py", line 975, in json
+    raise RequestsJSONDecodeError(e.msg, e.doc, e.pos)
+requests.exceptions.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+2023-01-21 05:33:20.712 Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/streamlit/script_runner.py", line 354, in _run_script
+    exec(code, module.__dict__)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/app.py", line 24, in <module>
+    from screen.main_page import show_main
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/screen/main_page.py", line 65
+    {infra_str}
+               ^
+SyntaxError: EOL while scanning string literal
+
+2023-01-21 05:41:10.948 Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/streamlit/script_runner.py", line 354, in _run_script
+    exec(code, module.__dict__)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/app.py", line 166, in <module>
+    show_main(session_state, session_state.show_item_list)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/screen/main_page.py", line 48, in show_main
+    st.session_state[f'{self.key}-opened'] = True
+NameError: name 'self' is not defined
+
+2023-01-21 05:41:21.019 Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/streamlit/script_runner.py", line 354, in _run_script
+    exec(code, module.__dict__)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/app.py", line 166, in <module>
+    show_main(session_state, session_state.show_item_list)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/screen/main_page.py", line 48, in show_main
+    st.session_state[f'{도움말}-opened'] = True
+NameError: name '도움말' is not defined
+
+2023-01-21 05:45:47.788 Discarding ScriptRequest.RERUN request after shutdown
+2023-01-21 05:45:50.845 Discarding ScriptRequest.RERUN request after shutdown
+2023-01-21 05:48:30.936 Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/streamlit/script_runner.py", line 354, in _run_script
+    exec(code, module.__dict__)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/app.py", line 24, in <module>
+    from screen.main_page import show_main
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/screen/main_page.py", line 65
+    2. <span style="background-color: lightblue"><strong>　마음에 든다면 왼쪽의 😄 웃는 얼굴을 클릭해보세요 ! 😍 하트 눈으로 바뀔 거예요.　</strong></span></div>
+                                                         　                                              　                      ^
+SyntaxError: EOL while scanning string literal
+
+2023-01-21 05:48:43.503 Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/streamlit/script_runner.py", line 354, in _run_script
+    exec(code, module.__dict__)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/app.py", line 24, in <module>
+    from screen.main_page import show_main
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/screen/main_page.py", line 63
+    2. <span style="background-color: lightblue"><strong>　마음에 든다면 왼쪽의 😄 웃는 얼굴을 클릭해보세요 ! 😍 하트 눈으로 바뀔 거예요.　</strong></span>
+                                                         　                                              　                ^
+SyntaxError: EOL while scanning string literal
+
+2023-01-21 05:48:51.863 Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/streamlit/script_runner.py", line 354, in _run_script
+    exec(code, module.__dict__)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/app.py", line 24, in <module>
+    from screen.main_page import show_main
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/screen/main_page.py", line 63
+    2. <span style="background-color: lightblue"><strong>　마음에 든다면 왼쪽의 😄 웃는 얼굴을 클릭해보세요 ! 😍 하트 눈으로 바뀔 거예요.　</strong></span>
+                                                         　                                              　                ^
+SyntaxError: EOL while scanning string literal
+
+2023-01-21 05:49:33.973 Traceback (most recent call last):
+  File "/opt/conda/envs/streamlit-prac/lib/python3.9/site-packages/streamlit/script_runner.py", line 354, in _run_script
+    exec(code, module.__dict__)
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/app.py", line 24, in <module>
+    from screen.main_page import show_main
+  File "/opt/ml/3rdproject/final_team_repo/webserver/frontend/screen/main_page.py", line 62
+    1. <span style="background-color: rgba(242,179,188,0.5)"><strong>　사이드 바의 매물　</strong></span>을 클릭하면 지도에서 해당 위치로 이동하고, <span style="background-color: rgba(242,179,188,0.5)"><strong>　가장 가까운 인프라　</strong></span>정보를 볼 수 있어요.<br><br>
+                                                                     　         　                                                                                                       　          　                                    ^
+SyntaxError: EOL while scanning string literal
+
