@@ -5,9 +5,14 @@ import Map from "./Pages/Map/Map";
 import Login from "./Pages/Login";
 import Main from "./Pages/Main/Main";
 import InputBox from "./Components/InputBox";
+import Card from "./Components/Card";
 
 function App() {
-  return <Main gu={"용산구"} />;
+  return (
+    <div>
+      <Main gu={"용산구"} />
+    </div>
+  );
 }
 
 export default App;

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { FC } from "react";
 import Map from "../Map/Map";
+import Recommend from "../Recommend";
 
 type userInfo = {
   gu: string;
@@ -74,7 +75,7 @@ const Main: FC<userInfo> = ({ gu }) => {
   //   if (Object.keys(houseInfo).length === 0) return <></>;
   return (
     <>
-      <input
+      {/* <input
         style={{
           top: "2.2vw",
           left: "40.2vw",
@@ -82,7 +83,7 @@ const Main: FC<userInfo> = ({ gu }) => {
           position: "absolute",
           border: "none",
         }}
-      ></input>
+      ></input> */}
       <Map houses={houseInfo} />
     </>
   );
