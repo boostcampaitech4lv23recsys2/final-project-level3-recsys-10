@@ -64,7 +64,7 @@ def get_model(model_name):
     """
     model_submodule = [
         "general_recommender",
-        # "context_aware_recommender",
+        "context_aware_recommender",
         # "sequential_recommender",
         # "knowledge_aware_recommender",
         # "exlib_recommender",
