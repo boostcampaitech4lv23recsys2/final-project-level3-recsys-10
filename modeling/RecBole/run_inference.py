@@ -33,8 +33,8 @@ if __name__ == '__main__':
     args, _ = parser.parse_known_args()
     
     # load model, dataset
-    # config, model, dataset, train_data, valid_data, test_data = load_data_and_model(args.model_path, pretrain=True)
-    config, model, dataset, test_data = inference_load_data_and_model(args.model_path, pretrain=True)
+    config, model, dataset, train_data, valid_data, test_data = load_data_and_model(args.model_path, pretrain=True)
+    # config, model, dataset, test_data = inference_load_data_and_model(args.model_path, pretrain=True)
     
     # setting device
     device = config.final_config_dict['device']
@@ -90,13 +90,15 @@ if __name__ == '__main__':
             print(c+1)
             # print(matrix_)
             print(len(matrix_))
-            # print(rating_pred)
+            print(rating_pred)
             print(len(rating_pred))
+            print(batch_user_index)
+            print(len(batch_user_index))
             # print('=====================================')
 
             # top 10
-            ind = np.argpartition(rating_pred, -len(rating_pred))
-            # ind = np.argpartition(rating_pred, -len(rating_pred))#[-10:]
+            # ind = np.argpartition(rating_pred, -len(rating_pred))
+            ind = np.argpartition(rating_pred, -10)#[-10:]
             arr_ind = rating_pred[ind]
 
             # sort
@@ -141,7 +143,7 @@ if __name__ == '__main__':
         # print(pred_list)
         print(len(pred_list))
         # print('user')
-        # print(user_list)
+        print(len(user_list))
         print('==========')
         for user in user_list:
             pred = pred_list[cnt:cnt+10]
