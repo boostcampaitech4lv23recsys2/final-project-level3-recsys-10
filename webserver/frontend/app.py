@@ -92,6 +92,7 @@ session_state = get(
         show_detail=False,
         show_heart=False,
         show_item_list=None,
+        show_item_filter = None,
         page_counter=0,
         cur_user_info={
             "user_id":None, 

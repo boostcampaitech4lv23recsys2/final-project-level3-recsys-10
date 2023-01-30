@@ -38,6 +38,17 @@ def show_main(session:dict,item_list:list):
     st.markdown(f'<h1 style="color:red;font-size:24px;">{"(서울 서비스 오픈!) 왼쪽 사이드 바에 선호하는 인프라 정보로 순위를 매긴 집 정보를 드려요!"}</h1>\
                 <p>{infra_str}</p>', unsafe_allow_html=True)
 
+    #maxPricedItem = max(item_list, key = lambda x:x['information']['price_deposit'])
+    #maxPricedItem = max(list(filter(lambda x : session.item_list[x]['information']['price_deposit'], range(len(session.item_list)))))
+    #minPricedItem = min(item_list, key=lambda x:x['information']['price_deposit'])
+    #print('---------------------')
+    # print(maxPricedItem)
+    #print(minPricedItem)
+    # print('---------------------')
+
+    bo = st.slider('보증금', 0,30000,15000)
+    month = st.slider('월세', 0,1000,500)
+
     modal = Modal("도움말",key=1)
     open_modal = st.button("도움말")
 
@@ -64,6 +75,7 @@ def show_main(session:dict,item_list:list):
         # 찜 동기화를 위해 deepcopy 비활성화 
         # session.show_item_list = copy.deepcopy(session.item_list)
         session.show_item_list = (session.item_list)
+
 
     button_col1, button_col2, button_col3, button_col4 =st.columns(4)
     
@@ -136,10 +148,23 @@ def show_main(session:dict,item_list:list):
             session.page_counter = 0
             st.experimental_rerun()
 
+    session.show_item_filter = []
+
     # 관심 목록은 detail 한 것을 보여준다. ( 기능 제거 )
     # session.show_detail= True if ( True == session.show_heart ) else session.show_detail 
     with st.spinner():
-        map_data = my_map(session, session.show_item_list)
+        bang = list(filter(lambda x : session.show_item_list[x]['information']['price_deposit'] <= bo and 
+                    session.show_item_list[x]['information']['price_monthly_rent'] <= month, range(len(session.show_item_list))))
+        for i in bang:
+            session.show_item_filter.append(session.show_item_list[i])
+        #session.show_item_filter.append(i for i in bang)
+
+        # for i in range(len(session.show_item_list)):
+        #     if (session.show_item_list[i]['information']['price_deposit'] <= bo and 
+        #         session.show_item_list[i]['information']['price_monthly_rent'] <= month):
+        #         print(i)
+        #         session.show_item_filter.append(session.show_item_list[i])
+        map_data = my_map(session, session.show_item_filter)#session.show_item_list)
         session.map_bounds = map_data["bounds"]
             # 클릭된 좌표가 이전 것과 같지 않고, 클릭된 것이 있을 때 
             # detail 한 정보를 보여준다. 
@@ -151,7 +176,7 @@ def show_main(session:dict,item_list:list):
                 # session.show_item_list = list(filter(lambda item: item['location'] == compare_location, item_list))
                 temp_item_list = list(filter(lambda item: (map_data["last_object_clicked"]['lat'] == item['lat'])\
                                             and (map_data["last_object_clicked"]['lng'] == item['lng']) , item_list))
-                
+
                 if( 0 != len(temp_item_list)):
                     # DONE FT401
                     # DONE Marker 내 매물 클릭 
@@ -253,12 +278,14 @@ def show_main(session:dict,item_list:list):
             <div style="overflow-y: scroll; height:1000px; ">\
             <h1 style="color:red">PC에서 확인해 주세요</h1>\
             <h1>인프라 정보쩜 주세요</h1>'
+
+        
             
             # 실행 순서상 아래 str 만드는 for 문 바로 위에 있어야 함 
             str += " <h1>관심 목록 </h1>" if(True ==session.show_heart ) else ""
             make_html = get_detail_component if( True == session.show_detail) else get_list_component
 
-            for item in session.show_item_list: 
+            for item in session.show_item_filter:#session.show_item_list: 
                 str+= make_html(item)
             str+= "</div>"
             clicked = click_detector(str)
