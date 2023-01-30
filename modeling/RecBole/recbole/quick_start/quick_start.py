@@ -24,8 +24,10 @@ from recbole.config import Config
 from recbole.data import (
     create_dataset,
     data_preparation,
+    inference_data_preparation,
     save_split_dataloaders,
     load_split_dataloaders,
+    # inference_load_split_dataloaders,
 )
 from recbole.data.transform import construct_transform
 from recbole.utils import (
@@ -200,3 +202,42 @@ def load_data_and_model(model_file, pretrain=False):
     model.load_other_parameter(checkpoint.get("other_parameter"))
 
     return config, model, dataset, train_data, valid_data, test_data
+
+
+def inference_load_data_and_model(model_file, pretrain=False):
+    r"""Load filtered dataset, split dataloaders and saved model.
+
+    Args:
+        model_file (str): The path of saved model file.
+
+    Returns:
+        tuple:
+            - config (Config): An instance object of Config, which record parameter information in :attr:`model_file`.
+            - model (AbstractRecommender): The model load from :attr:`model_file`.
+            - dataset (Dataset): The filtered dataset.
+            - train_data (AbstractDataLoader): The dataloader for training.
+            - valid_data (AbstractDataLoader): The dataloader for validation.
+            - test_data (AbstractDataLoader): The dataloader for testing.
+    """
+    import torch
+
+    checkpoint = torch.load(model_file)
+    config = checkpoint["config"]
+    # modify config
+    config["eval_args"]["split"] = {'RS':[0.0,0.0,1.0]}
+
+    init_seed(config["seed"], config["reproducibility"])
+    init_logger(config)
+    logger = getLogger()
+    logger.info(config)
+
+    dataset = create_dataset(config)
+    logger.info(dataset)
+    test_data = inference_data_preparation(config, dataset)
+
+    init_seed(config["seed"], config["reproducibility"])
+    model = get_model(config["model"])(config, test_data._dataset, pretrain).to(config["device"])
+    model.load_state_dict(checkpoint["state_dict"])
+    model.load_other_parameter(checkpoint.get("other_parameter"))
+
+    return config, model, dataset, test_data
