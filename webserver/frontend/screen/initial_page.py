@@ -19,9 +19,6 @@ from screen.components import header
 #      = 2 => 둘러보기(인프라 선택)
 #      = 3 => 지도
 
-# id = drop
-# pw = 1234
-
 def show_login(session:dict):
     st.image("./image/hobbang_banner_outline.png",width = 600)
     #폼 부분
@@ -62,7 +59,6 @@ def show_login(session:dict):
         if st.button("회원가입"):
             session.page_counter = 1
             st.experimental_rerun()
-            # return 1 # 회원가입
 
     with col2:
         pass
@@ -126,7 +122,7 @@ def show_signup(session:dict):
         if submit:
             if False == validation_submit_user_info(submit_user_info) : 
                 st.error("정보가 올바르지 않습니다. 모든 정보를 확인해주세요.")
-            # url  = ''.join([BACKEND_ADDRESS,DOMAIN_INFO['users'],DOMAIN_INFO['name'],"/",str(username)])
+        
             else : 
                 url  = ''.join([BACKEND_ADDRESS,DOMAIN_INFO['users'],DOMAIN_INFO['name'], '/',submit_user_info['name']])
                 name_check_res = requests.get(url)
@@ -137,11 +133,6 @@ def show_signup(session:dict):
 
                 elif name_check_val['res'] == "사용할 수 있는 이름입니다":
                     url  = ''.join([BACKEND_ADDRESS,DOMAIN_INFO['users'],DOMAIN_INFO['join']])
-                    # USERS_INFO = {'name' : str(username),
-                    #                 'pw' : str(hashed_password),
-                    #                 'user_sex' : int(0) if sex == '남자' else int(1),
-                    #                 'user_age' : int(age),
-                    #                 'user_type' : str('Y')}
                     submit_user_info['user_sex'] =  0 if submit_user_info['user_sex'] == '남자' else 1
                     submit_user_info['user_type'] = 'Y'
                     join_check_res = requests.post(url, data=json.dumps(submit_user_info))
@@ -190,102 +181,6 @@ def show_infra(session:dict, selected_gu:str="",user_type:int=0):
                 else:
                     select_list[int_item_key] = False
         
-        # for idx, col in enumerate(lower_col_list) : 
-        #     idx += len(upper_col_list)
-        #     with col :
-        #         item_name = INFRA_INFO[idx]['ko']
-        #         item_key = INFRA_INFO[idx]['code']
-        #         st.header(item_name)
-        #         st.image(f'./image/{item_name}.jpeg')
-                
-        #         if st.checkbox(f'{item_name}' , key = f'{item_key}'):
-        #             check_cnt += 1 
-        #             select_list[idx] = True
-        #         else:
-        #             select_list[idx] = False
-
-        # col1, col2, col3, col4 = st.columns(4) 
-        # col5, col6, col7,col8 = st.columns(4)
-        # check_cnt = 0
-
-        # with col1:
-        #     st.header("편의점")
-        #     st.image("./image/편의점.jpeg")
-        #     if st.checkbox("편의점" , key = 1):
-        #         con_store = 1
-        #         check_cnt += 1
-        #         print(check_cnt)
-        #     else:
-        #         print("편의점")
-        #         con_store = 0
-                
-        # with col2:
-        #     st.header("약국")
-        #     st.image("./image/약국.jpeg")
-        #     if st.checkbox("약국" , key = 2):
-        #         phar = 1
-        #         check_cnt += 1
-        #         print(check_cnt)
-        #     else:
-        #         phar = 0
-
-        # with col3:
-        #     st.header("카페")
-        #     st.image("./image/카페.jpeg")
-        #     if st.checkbox("카페" , key = 3):
-        #         cafe = 1
-        #         check_cnt += 1
-        #         print(check_cnt)
-        #     else:
-        #         cafe = 0
-
-        # with col4:
-        #     st.header("병원")
-        #     st.image("./image/병원.jpeg")
-        #     if st.checkbox("병원" , key = 4):
-        #         hospital = 1
-        #         check_cnt += 1
-        #     else:
-        #         hospital = 0
-
-        # with col5:
-        #     st.header("공원")
-        #     st.image("./image/공원.jpeg")
-        #     if st.checkbox("공원" , key = 5):
-        #         park = 1
-        #         check_cnt += 1
-        #     else:
-        #         park = 0
-
-        # with col6:
-        #     st.header("대형마트")
-        #     st.image("./image/대형마트.jpeg")
-        #     if st.checkbox("대형마트" , key = 6):
-        #         mart = 1
-        #         check_cnt += 1
-        #     else:
-        #         mart = 0
-
-        # with col7:
-        #     st.header("영화관")
-        #     st.image("./image/영화관.jpeg")
-        #     if st.checkbox("영화관" , key = 7):
-        #         theater = 1
-        #         check_cnt += 1
-        #     else:
-        #         theater = 0
-
-        # with col8:
-        #     st.header("지하철")
-        #     st.image("./image/지하철.jpeg")
-        #     if st.checkbox("지하철" , key = 8):
-        #         subway = 1
-        #         check_cnt += 1
-        #     else:
-        #         subway = 0
-
-
-
         submit = st.form_submit_button("제출하기")
         if submit:
             if locate == '원하는 구를 선택하세요.':
@@ -314,12 +209,5 @@ def show_infra(session:dict, selected_gu:str="",user_type:int=0):
             else:
                 st.error('희망 인프라를 3개 이상 선택하시오')
         
-        # url = 'http://27.96.130.120:30002/infra'
-        # infra = {
-        #     "user_id" : 6,
-        #     "select_infra":7
-        # }
-        # x = requests.post(url,data=json.dumps(infra))
-        # print(x)
 
         

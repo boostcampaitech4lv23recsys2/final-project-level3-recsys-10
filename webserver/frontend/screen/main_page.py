@@ -65,7 +65,7 @@ def show_main(session:dict,item_list:list):
         # session.show_item_list = copy.deepcopy(session.item_list)
         session.show_item_list = (session.item_list)
 
-    button_col1, button_col2,  button_col4 =st.columns(3)
+    button_col1, button_col2, button_col3, button_col4 =st.columns(4)
     
     with button_col1:
         if( st.button('관심 목록 보기')):
@@ -82,7 +82,7 @@ def show_main(session:dict,item_list:list):
             session.show_heart = True
     
     with button_col2:
-        if( st.button('현재 위치에서 매물 보기')):
+        if( st.button('현재 화면에서 매물 보기')):
             temp_center = []
             
             if( False == bool(session.map_bounds)):
@@ -124,10 +124,10 @@ def show_main(session:dict,item_list:list):
             session.show_heart = False
             session.show_detail= False
 
-    # with button_col3:
-    #     if( st.button('인프라 변경')):
-    #         session.page_counter = 2
-    #         st.experimental_rerun()
+    with button_col3:
+        if( st.button('인프라 변경')):
+            session.page_counter = 2
+            st.experimental_rerun()
 
     with button_col4:
         if ( st.button('로그아웃')):
@@ -201,6 +201,7 @@ def show_main(session:dict,item_list:list):
                     "user_gu" : session.cur_user_info['user_gu'],
                     "house_ranking":{}
                     }
+                    # 관심  목록 정보를 다시 받아온다.
                     url = ''.join([BACKEND_ADDRESS, DOMAIN_INFO['zzim'], DOMAIN_INFO['items']])
                     res = requests.post(url,data=json.dumps(user_info) )
                     session.show_item_list= [*res.json()['houses'].values()]
@@ -249,7 +250,9 @@ def show_main(session:dict,item_list:list):
                 color:red;\
                 }\
                 </style>\
-            <div style="overflow-y: scroll; height:1000px; ">'
+            <div style="overflow-y: scroll; height:1000px; ">\
+            <h1 style="color:red">PC에서 확인해 주세요</h1>\
+            <h1>인프라 정보쩜 주세요</h1>'
             
             # 실행 순서상 아래 str 만드는 for 문 바로 위에 있어야 함 
             str += " <h1>관심 목록 </h1>" if(True ==session.show_heart ) else ""

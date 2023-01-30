@@ -103,6 +103,15 @@ def get_list_component( item:dict, clickevent=None):
     zzim_icon = "&#128516;" if( "N" == item["zzim"]) else "&#128525;"
     rank_info = ""  if (0 == item["ranking"]) else f'Rank{item["ranking"]}'
     related_item_dict = item['related_infra']
+    price_str = "전세" if  0 == cur_item_info["price_monthly_rent"] else "월세"
+    
+    test_devide = cur_item_info["price_deposit"] % 10000
+    test_quant = cur_item_info["price_deposit"] // 10000
+    deposit_str = f'{test_devide}'if  0 == test_quant else f'{test_quant}억'
+    deposit_str = f'{deposit_str} {test_devide}' if ( 0 != test_quant and 0 != test_devide) else f'{deposit_str} ' 
+    
+    price_str = f'{price_str} {deposit_str}'
+    price_str += ''if  0 == cur_item_info["price_monthly_rent"] else f'/{ cur_item_info["price_monthly_rent"] }'
 
     infra_str = ""
     for k in related_item_dict.keys():
@@ -120,6 +129,7 @@ def get_list_component( item:dict, clickevent=None):
             </div >\
                 <div style="display:inline-block; font-size:50px;"> {rank_info} </div>\
             </div>\
+                <div style="font-weight:bold;"> { price_str} </div>\
                 <div style="font-weight:bold;"> { cur_item_info["price_deposit"] } / { cur_item_info["price_monthly_rent"] }　{cur_item_info["address"]} </div>\
                 <br>\
             <div> {infra_str} </div>\
@@ -135,6 +145,16 @@ def get_detail_component( item:dict,clickevent=None ):
     zzim_icon = "&#128516;" if( "N" == item["zzim"]) else "&#128525;"
     rank_info = ""  if (0 == item["ranking"]) else f'Rank{item["ranking"]}'
 
+    price_str = "전세" if  0 == cur_item_info["price_monthly_rent"] else "월세"
+    
+    test_devide = cur_item_info["price_deposit"] % 10000
+    test_quant = cur_item_info["price_deposit"] // 10000
+    deposit_str = f'{test_devide}'if  0 == test_quant else f'{test_quant}억'
+    deposit_str = f'{deposit_str} {test_devide}' if ( 0 != test_quant and 0 != test_devide) else f'{deposit_str} ' 
+    
+    price_str = f'{price_str} {deposit_str}'
+    price_str += '' if  0 == cur_item_info["price_monthly_rent"] else f'/{ cur_item_info["price_monthly_rent"] }'
+
     return f'<div>\
         <div style="display:inline-block;vertical-align:top;">\
             <img alt="" draggable="false" src="{cur_item_info["image_thumbnail"]}?w=400&amp;h=300&amp;q=70&amp;a=1" class="css-9pa8cd"  align="top">\
@@ -148,6 +168,7 @@ def get_detail_component( item:dict,clickevent=None ):
             <div style="display:inline-block; font-size:50px;"> {rank_info} </div>\
         </div>\
         <br>\
+        <div style="font-weight:bold;"> { price_str} </div>\
         <div style="font-weight:bold;"> { cur_item_info["price_deposit"] } / { cur_item_info["price_monthly_rent"] }　{cur_item_info["address"]} </div>\
         <br>\
         <div> {cur_item_info["description"]}</div>\
