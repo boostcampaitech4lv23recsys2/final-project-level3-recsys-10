@@ -185,33 +185,33 @@ def show_signup(session:dict):
 
         submit = st.form_submit_button("제출하기")
         if submit:
-            # # session.page_counter = 2
-            # # st.experimental_rerun()
-            if False == validation_submit_user_info(submit_user_info) : 
-                st.error("정보가 올바르지 않습니다. 모든 정보를 확인해주세요.")
-            # url  = ''.join([BACKEND_ADDRESS,DOMAIN_INFO['users'],DOMAIN_INFO['name'],"/",str(username)])
-            else : 
-                url  = ''.join([BACKEND_ADDRESS,DOMAIN_INFO['users'],DOMAIN_INFO['name'], '/',submit_user_info['name']])
-                name_check_res = requests.get(url)
-                name_check_val = name_check_res.json()
+            session.page_counter = 2
+            st.experimental_rerun()
+            # if False == validation_submit_user_info(submit_user_info) : 
+            #     st.error("정보가 올바르지 않습니다. 모든 정보를 확인해주세요.")
+            # # url  = ''.join([BACKEND_ADDRESS,DOMAIN_INFO['users'],DOMAIN_INFO['name'],"/",str(username)])
+            # else : 
+            #     url  = ''.join([BACKEND_ADDRESS,DOMAIN_INFO['users'],DOMAIN_INFO['name'], '/',submit_user_info['name']])
+            #     name_check_res = requests.get(url)
+            #     name_check_val = name_check_res.json()
 
-                if name_check_val['res'] == "중복된 이름이 있습니다":
-                    st.error('중복된 이름이 있습니다. 닉네임을 확인해주세요.')
+            #     if name_check_val['res'] == "중복된 이름이 있습니다":
+            #         st.error('중복된 이름이 있습니다. 닉네임을 확인해주세요.')
 
-                elif name_check_val['res'] == "사용할 수 있는 이름입니다":
-                    url  = ''.join([BACKEND_ADDRESS,DOMAIN_INFO['users'],DOMAIN_INFO['join']])
-                    # USERS_INFO = {'name' : str(username),
-                    #                 'pw' : str(hashed_password),
-                    #                 'user_sex' : int(0) if sex == '남자' else int(1),
-                    #                 'user_age' : int(age),
-                    #                 'user_type' : str('Y')}
-                    submit_user_info['user_sex'] =  0 if submit_user_info['user_sex'] == '남자' else 1
-                    submit_user_info['user_type'] = 'Y'
-                    join_check_res = requests.post(url, data=json.dumps(submit_user_info))
-                    join_check_val = join_check_res.json()
-                    session.cur_user_info['user_id'] = join_check_val['user_id'] 
-                    session.page_counter = 2
-                    st.experimental_rerun()
+            #     elif name_check_val['res'] == "사용할 수 있는 이름입니다":
+            #         url  = ''.join([BACKEND_ADDRESS,DOMAIN_INFO['users'],DOMAIN_INFO['join']])
+            #         # USERS_INFO = {'name' : str(username),
+            #         #                 'pw' : str(hashed_password),
+            #         #                 'user_sex' : int(0) if sex == '남자' else int(1),
+            #         #                 'user_age' : int(age),
+            #         #                 'user_type' : str('Y')}
+            #         submit_user_info['user_sex'] =  0 if submit_user_info['user_sex'] == '남자' else 1
+            #         submit_user_info['user_type'] = 'Y'
+            #         join_check_res = requests.post(url, data=json.dumps(submit_user_info))
+            #         join_check_val = join_check_res.json()
+            #         session.cur_user_info['user_id'] = join_check_val['user_id'] 
+            #         session.page_counter = 2
+            #         st.experimental_rerun()
 
             #x = requests.post(url,data=json.dumps(user))
             # if username in yaml_data['credentials']['usernames']:
@@ -370,32 +370,29 @@ def show_infra(session:dict, selected_gu:str="",user_type:int=0):
                 selected_infra_list = []
                 #print('select_list : ', select_list)
                 for idx, is_select in enumerate(select_list):
-                    # print('idx : ', idx)
-                    # print('is_select : ', is_select )
-                    idx += 1
+
                     if ( True == is_select ):
                         value_str = f'0{idx}' if  ( ( idx // 10 ) == 0 ) else f'{idx}'
                         #print('value_str : ',value_str) 
                         selected_infra_list.append(value_str)
+                    idx += 1
                     
 
                     #print('-----------------------')
                 # session['ex_user_info'] = session.cur_user_info
                 session.cur_user_info['user_gu'] = locate
                 session.item_list = []
-                # print(session.cur_user_info['user_gu'])
-                # print(selected_infra_list)
-                # infra_user_info = {
-                # "user_id" :session.cur_user_info['user_id'],
-                # "user_gu" :session.cur_user_info['user_gu'],
-                # "infra": selected_infra_list
-                # }
+                infra_user_info = {
+                "user_id" :session.cur_user_info['user_id'],
+                "user_gu" :session.cur_user_info['user_gu'],
+                "infra": selected_infra_list
+                }
  
-                # url = ''.join([BACKEND_ADDRESS, DOMAIN_INFO['users'], DOMAIN_INFO['infra']])
-                # res = requests.post(url,data=json.dumps(infra_user_info) )
+                url = ''.join([BACKEND_ADDRESS, DOMAIN_INFO['users'], DOMAIN_INFO['infra']])
+                res = requests.post(url,data=json.dumps(infra_user_info) )
 
-                # session.page_counter = 3
-                # st.experimental_rerun()
+                session.page_counter = 3
+                st.experimental_rerun()
             else:
                 st.error('희망 인프라를 3개 이상 선택하시오')
         
