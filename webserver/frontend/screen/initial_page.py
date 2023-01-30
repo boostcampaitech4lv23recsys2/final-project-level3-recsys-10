@@ -23,16 +23,11 @@ from screen.components import header
 # pw = 1234
 
 def show_login(session:dict):
-    # print(os.getcwd())
-    # print("check" , os.spath.isfile("/opt/ml/3rdproject/final_team_repo/webserver/frontend/config/user_sample.yaml") )
     st.image("./image/hobbang_banner_outline.png",width = 600)
     #폼 부분
     with st.form("login_page"):
         user_name = st.text_input('User name')
         password_login = st.text_input('Password', type = 'password')
-        #password_login = password_login.
-        #hashed_password = bcrypt.hashpw(password_login.encode('utf-8'), bcrypt.gensalt())
-        #hashed_password = bcrypt.hashpw(password_login.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
         submit = st.form_submit_button("Login")
         if submit:
             try:
@@ -61,19 +56,7 @@ def show_login(session:dict):
             except Exception as e:
                 st.error(f'아이디 혹은 비밀번호를 입력해주세요.')
 
-    # name, authentication_status, username = authenticator.login('Login', 'main')
-
-    # if True == authentication_status:
-    #     session.page_counter = 3
-    #     st.experimental_rerun()
-
-    #     # return 3 # 지도 화면으로 전환
-
-    # elif False == authentication_status :
-    #     st.error('아이디 혹은 비밀번호가 틀렸습니다.')
-
     col1, col2 = st.columns(2)
-    # print(session.page_counter)
 
     with col1:
         if st.button("회원가입"):
@@ -122,65 +105,22 @@ def show_signup(session:dict):
         "user_type": 'Y',
     }
 
-    age_list = [ age for age in range(2006, 1920,-1)]
+    age_list = [age for age in range(2006, 1920,-1)]
+    #age_list.insert(0,'나이를 선택하세요.')
 
 # 1. 이름 입력
     with st.form("same_check"):
         submit_user_info['name'] = st.text_input('닉네임을 입력하세요!')
         
-        #submitted = st.form_submit_button("중복확인")
-
-        #if username != '' :
-            #if 중복 닉네임
-       
-        submit_user_info['user_age'] = int(st.selectbox('출생연도를 선택하세요!', age_list))
-        # age = st.text_input('나이를 입력하세요!')
-        # if age != '' :
-        #     submit_user_info['age'] = int(age)
+        submit_user_info['user_age'] = int(st.selectbox('출생연도를 선택하세요!',age_list))
 
         submit_user_info['user_sex'] = st.selectbox('성별을 고르시오', ('남자', '여자'))
-        #sex = st.text_input('성별을 입력하세요!     ex) 남자, 여자')
 
         submit_user_info['pw'] = st.text_input('비밀번호를 입력하세요!', type = 'password')
 
         if submit_user_info['pw'] != '' :
-            #hashed_passwords = stauth.Hasher([password]).generate()
-            #hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
             hashed_password = bcrypt.hashpw(submit_user_info['pw'].encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
             submit_user_info['pw'] = hashed_password
-
-            #st.subheader(hashed_passwords)
-            #info['credentials']['usernames'][username]['password'] = hashed_passwords[0]
-
-
-        # url  = ''.join([BACKEND_ADDRESS,DOMAIN_INFO['signup']])
-        # user = { 
-            
-        # }
-        # requests.post(url, data=json.dumps(user))
-
-        # if st.button('제출하기'):
-        #     # TODO url,port config file 로 빼기
-
-        #     # url = 'http://27.96.130.120:30002/login'
-        #     # user = {
-        #     #     "name" : "yujin",
-        #     #     "age" : 29,
-        #     #     "location":"수영구",
-        #     #     "passwd": 1214
-        #     # }
-        #     # x = requests.post(url,data=json.dumps(user))
-        #     # print(x)
-
-        # for key, value in info['credentials']['usernames'].items():
-        #     if key in yaml_data['credentials']['usernames']:
-        #         yaml_data['credentials']['usernames'][key].extend(value)
-        #         yaml_data['credentials']['usernames'][key] = list(set(yaml_data['credentials']['usernames'][key]))
-        #     else:
-        #         yaml_data['credentials']['usernames'][key] = value
-
-        # with open('./config/user_sample.yaml', 'w') as f:
-        #     yaml.safe_dump(yaml_data, f)
 
         submit = st.form_submit_button("제출하기")
         if submit:
@@ -209,13 +149,6 @@ def show_signup(session:dict):
                     session.cur_user_info['user_id'] = join_check_val['user_id'] 
                     session.page_counter = 2
                     st.experimental_rerun()
-
-            #x = requests.post(url,data=json.dumps(user))
-            # if username in yaml_data['credentials']['usernames']:
-            #     st.error('사용중인 닉네임 입니다.')
-            # else:
-                #print(str(hashed_passwords[0]))
-
 
 """
 {'subway':'01','cs':'02','mart':'03','park':'04','cafe':'05','phar':'06','theater':'07'}
@@ -351,40 +284,35 @@ def show_infra(session:dict, selected_gu:str="",user_type:int=0):
         #     else:
         #         subway = 0
 
+
+
         submit = st.form_submit_button("제출하기")
         if submit:
-            if check_cnt >=3:
-                # url = ''.join([BACKEND_ADDRESS,DOMAIN_INFO['signup'],DOMAIN_INFO['']])
-                #USERS_INFRA -> 어떻게 보낼지 확인하기 
-                # USERS_INFRA = {'uesr_id' : ,
-                #                'gu' : gu
-                #                 'infra_type' : ,
-                #                 'infra_yn' : }
+            if locate == '원하는 구를 선택하세요.':
+                st.error('구를 선택하세요.')
+            elif check_cnt >=3:
                 selected_infra_list = []
-
                 for idx, is_select in enumerate(select_list):
-                    idx += 1 
                     if ( True == is_select ):
-                        value_str = f'0{idx}' if  ( ( idx // 10 ) == 0 ) else f'{idx}' 
+                        value_str = f'0{idx}' if  ( ( idx // 10 ) == 0 ) else f'{idx}'
                         selected_infra_list.append(value_str)
-                
+                    idx += 1
+                    
                 # session['ex_user_info'] = session.cur_user_info
                 session.cur_user_info['user_gu'] = locate
                 session.item_list = []
-
                 infra_user_info = {
                 "user_id" :session.cur_user_info['user_id'],
                 "user_gu" :session.cur_user_info['user_gu'],
                 "infra": selected_infra_list
                 }
-
                 url = ''.join([BACKEND_ADDRESS, DOMAIN_INFO['users'], DOMAIN_INFO['infra']])
                 res = requests.post(url,data=json.dumps(infra_user_info) )
 
                 session.page_counter = 3
                 st.experimental_rerun()
             else:
-                st.error('3개 이상 선택하시오')
+                st.error('희망 인프라를 3개 이상 선택하시오')
         
         # url = 'http://27.96.130.120:30002/infra'
         # infra = {
@@ -395,19 +323,3 @@ def show_infra(session:dict, selected_gu:str="",user_type:int=0):
         # print(x)
 
         
-    # '''
-    # 로그인
-    # id, pw(hashing) -> request   -> 인프라 정보가 없다 -> 회원 인프라 선택 페이지  
-    #                     -> 아이디 비밀번호가 틀리다 -> fail
-    #                     -> 인프라 정보, 아이디, 비밀번호 다 ok -> Map 페이지
-
-    # 회원가입
-    # id, pw(hashing), age, sex -> request -> 아이디 중복 -> st.error('중복된 닉네임 입니다.')
-    #                             -> 빈칸 -> st.error('xx을 입력하지 않으셨습니다.')
-    #                             -> 정상 -> Infra Page
-
-    # 인프라 선택
-    # 회원 인프라 선택 -> request : id, pw(hashing), age, sex, gu, infra
-    # 비회원 인프라 선택 -> request : id(timestamp?), gu, infra
-    
-    # '''
