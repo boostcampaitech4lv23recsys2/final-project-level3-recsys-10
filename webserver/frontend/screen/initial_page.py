@@ -86,7 +86,8 @@ def show_signup(session:dict):
         if( ( '' == user_info['name'] ) or
             ( '' == user_info['pw'] ) or
             ( True == ( user_info['user_sex'] not in ['남자','여자'] ) ) or
-            (  user_info['user_age'] < 1920 and user_info['user_age'] > 2006 ) ) : 
+            ( user_info['user_age']) == '나이를 선택하세요.' or
+            ( int(user_info['user_age']) < 1920 and int(user_info['user_age']) > 2006 )) :
             
             return False         
 
@@ -102,13 +103,13 @@ def show_signup(session:dict):
     }
 
     age_list = [age for age in range(2006, 1920,-1)]
-    #age_list.insert(0,'나이를 선택하세요.')
+    age_list.insert(0,'나이를 선택하세요.')
 
 # 1. 이름 입력
     with st.form("same_check"):
         submit_user_info['name'] = st.text_input('닉네임을 입력하세요!')
         
-        submit_user_info['user_age'] = int(st.selectbox('출생연도를 선택하세요!',age_list))
+        submit_user_info['user_age'] = st.selectbox('출생연도를 선택하세요!',age_list)
 
         submit_user_info['user_sex'] = st.selectbox('성별을 고르시오', ('남자', '여자'))
 
@@ -133,6 +134,7 @@ def show_signup(session:dict):
 
                 elif name_check_val['res'] == "사용할 수 있는 이름입니다":
                     url  = ''.join([BACKEND_ADDRESS,DOMAIN_INFO['users'],DOMAIN_INFO['join']])
+                    submit_user_info['user_age'] = int(submit_user_info['user_age'])
                     submit_user_info['user_sex'] =  0 if submit_user_info['user_sex'] == '남자' else 1
                     submit_user_info['user_type'] = 'Y'
                     join_check_res = requests.post(url, data=json.dumps(submit_user_info))

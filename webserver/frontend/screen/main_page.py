@@ -46,8 +46,8 @@ def show_main(session:dict,item_list:list):
     #print(minPricedItem)
     # print('---------------------')
 
-    bo = st.slider('보증금', 0,30000,15000)
-    month = st.slider('월세', 0,1000,500)
+    bo = st.slider('보증금', 0,30000,30000)
+    month = st.slider('월세', 0,1000,1000)
 
     modal = Modal("도움말",key=1)
     open_modal = st.button("도움말")
