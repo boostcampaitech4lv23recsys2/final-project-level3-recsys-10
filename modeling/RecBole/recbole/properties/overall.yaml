@@ -40,7 +40,7 @@ transform: ~                    # (str) The transform operation for batch data p
 
 # Evaluation Settings
 eval_args:                      # (dict) 4 keys: group_by, order, split, and mode
-  split: {'RS':[0.8,0.1,0.1]}   # (dict) The splitting strategy ranging in ['RS','LS'].
+  split: {'RS':[0.9,0.05,0.05]}   # (dict) The splitting strategy ranging in ['RS','LS'].
   group_by: user                # (str) The grouping strategy ranging in ['user', 'none'].
   order: RO                     # (str) The ordering strategy ranging in ['RO', 'TO'].
   mode: full                    # (str) The evaluation mode ranging in ['full','unixxx','popxxx','labeled'].
@@ -49,5 +49,5 @@ metrics: ["Recall","MRR","NDCG","Hit","Precision"]  # (list or str) Evaluation m
 topk: [10]                      # (list or int or None) The value of k for topk evaluation metrics.
 valid_metric: MRR@10            # (str) The evaluation metric for early stopping. 
 valid_metric_bigger: True       # (bool) Whether to take a bigger valid metric value as a better result.
-eval_batch_size: 64           # (int) The evaluation batch size.
+eval_batch_size: 128           # (int) The evaluation batch size.
 metric_decimal_place: 4         # (int) The decimal place of metric scores.
