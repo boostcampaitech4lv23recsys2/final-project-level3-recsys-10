@@ -75,15 +75,19 @@ const Main: FC<userInfo> = ({ gu }) => {
   //   if (Object.keys(houseInfo).length === 0) return <></>;
   return (
     <>
-      {/* <input
+      <button
         style={{
           top: "2.2vw",
           left: "40.2vw",
           zIndex: "2",
           position: "absolute",
-          border: "none",
         }}
-      ></input> */}
+        type="button"
+        className="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+      >
+        현재 화면에서 매물보기
+      </button>
+
       <Map houses={houseInfo} />
     </>
   );
