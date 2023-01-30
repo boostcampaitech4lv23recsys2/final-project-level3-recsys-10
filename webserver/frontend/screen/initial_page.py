@@ -122,7 +122,8 @@ def show_signup(session:dict):
         "user_type": 'Y',
     }
 
-    age_list = [ age for age in range(2006, 1920,-1)]
+    age_list = [age for age in range(2006, 1920,-1)]
+    #age_list.insert(0,'나이를 선택하세요.')
 
 # 1. 이름 입력
     with st.form("same_check"):
@@ -133,7 +134,7 @@ def show_signup(session:dict):
         #if username != '' :
             #if 중복 닉네임
        
-        submit_user_info['user_age'] = int(st.selectbox('출생연도를 선택하세요!', age_list))
+        submit_user_info['user_age'] = int(st.selectbox('출생연도를 선택하세요!',age_list))
         # age = st.text_input('나이를 입력하세요!')
         # if age != '' :
         #     submit_user_info['age'] = int(age)
@@ -184,6 +185,8 @@ def show_signup(session:dict):
 
         submit = st.form_submit_button("제출하기")
         if submit:
+            # # session.page_counter = 2
+            # # st.experimental_rerun()
             if False == validation_submit_user_info(submit_user_info) : 
                 st.error("정보가 올바르지 않습니다. 모든 정보를 확인해주세요.")
             # url  = ''.join([BACKEND_ADDRESS,DOMAIN_INFO['users'],DOMAIN_INFO['name'],"/",str(username)])
@@ -351,9 +354,13 @@ def show_infra(session:dict, selected_gu:str="",user_type:int=0):
         #     else:
         #         subway = 0
 
+
+
         submit = st.form_submit_button("제출하기")
         if submit:
-            if check_cnt >=3:
+            if locate == '원하는 구를 선택하세요.':
+                st.error('구를 선택하세요.')
+            elif check_cnt >=3:
                 # url = ''.join([BACKEND_ADDRESS,DOMAIN_INFO['signup'],DOMAIN_INFO['']])
                 #USERS_INFRA -> 어떻게 보낼지 확인하기 
                 # USERS_INFRA = {'uesr_id' : ,
@@ -361,30 +368,36 @@ def show_infra(session:dict, selected_gu:str="",user_type:int=0):
                 #                 'infra_type' : ,
                 #                 'infra_yn' : }
                 selected_infra_list = []
-
+                #print('select_list : ', select_list)
                 for idx, is_select in enumerate(select_list):
-                    idx += 1 
+                    # print('idx : ', idx)
+                    # print('is_select : ', is_select )
+                    idx += 1
                     if ( True == is_select ):
-                        value_str = f'0{idx}' if  ( ( idx // 10 ) == 0 ) else f'{idx}' 
+                        value_str = f'0{idx}' if  ( ( idx // 10 ) == 0 ) else f'{idx}'
+                        #print('value_str : ',value_str) 
                         selected_infra_list.append(value_str)
-                
+                    
+
+                    #print('-----------------------')
                 # session['ex_user_info'] = session.cur_user_info
                 session.cur_user_info['user_gu'] = locate
                 session.item_list = []
+                # print(session.cur_user_info['user_gu'])
+                # print(selected_infra_list)
+                # infra_user_info = {
+                # "user_id" :session.cur_user_info['user_id'],
+                # "user_gu" :session.cur_user_info['user_gu'],
+                # "infra": selected_infra_list
+                # }
+ 
+                # url = ''.join([BACKEND_ADDRESS, DOMAIN_INFO['users'], DOMAIN_INFO['infra']])
+                # res = requests.post(url,data=json.dumps(infra_user_info) )
 
-                infra_user_info = {
-                "user_id" :session.cur_user_info['user_id'],
-                "user_gu" :session.cur_user_info['user_gu'],
-                "infra": selected_infra_list
-                }
-
-                url = ''.join([BACKEND_ADDRESS, DOMAIN_INFO['users'], DOMAIN_INFO['infra']])
-                res = requests.post(url,data=json.dumps(infra_user_info) )
-
-                session.page_counter = 3
-                st.experimental_rerun()
+                # session.page_counter = 3
+                # st.experimental_rerun()
             else:
-                st.error('3개 이상 선택하시오')
+                st.error('희망 인프라를 3개 이상 선택하시오')
         
         # url = 'http://27.96.130.120:30002/infra'
         # infra = {
