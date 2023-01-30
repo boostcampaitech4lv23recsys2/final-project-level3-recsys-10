@@ -50,15 +50,20 @@ def loginUser(user: schemas.UserBase, db: Session = Depends(get_db)):
     res = hobbang_crud_test.login_user(user, db)  # get_infra(db): INFRA 테이블 조회(임시)
     if res:
         if bcrypt.checkpw(user.pw.encode('utf-8'), res.pw.encode('utf-8')):
+            # 1. user_id 로 USERS_INFRA.infra_type(infra_yn='Y')
+            infra = hobbang_crud_test.get_infra_by_user_id(res.user_id, db)
+            infra_list = [i.infra_type for i in infra]
             return {
                 "msg": "로그인에 성공했습니다.",
                 "user_id": res.user_id,
                 "user_gu": res.user_gu,
+                "infra_list": infra_list
             }
     return {
         "msg": '아이디 혹은 비밀번호가 일치하지 않습니다.',
         "user_id": "",
         "user_gu": "",
+        "infra_list":[]
     }
 
 
