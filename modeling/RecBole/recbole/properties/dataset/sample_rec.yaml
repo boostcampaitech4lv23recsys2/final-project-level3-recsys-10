@@ -8,14 +8,20 @@ ITEM_ID_FIELD: house_id          # (str) Field name of item ID feature.
 RATING_FIELD: interest            # (str) Field name of rating feature.
 TIME_FIELD: timestamp           # (str) Field name of timestamp feature.
 seq_len: ~                      # (dict) Field name of sequence feature: maximum length of each sequence
-LABEL_FIELD: label              # (str) Expected field name of the generated labels for point-wise dataLoaders. 
+LABEL_FIELD: interest              # (str) Expected field name of the generated labels for point-wise dataLoaders. 
 threshold: ~                    # (dict) 0/1 labels will be generated according to the pairs.
 NEG_PREFIX: neg_                # (str) Negative sampling prefix for pair-wise dataLoaders.
 numerical_features: []          # (list) Float feature fields to be embedded
 
 # Selectively Loading
 load_col:                       # (dict) The suffix of atomic files: (list) field names to be loaded.
-    inter: [idx, user_id, house_id, register_date, update_date, zzim_yn, interest]
+    inter: [user_id, house_id, interest]
+    # item: [house_id, grid_id, price_deposit, price_monthly_rent]   # embedding
+    # item: [house_id, grid_id, sales_type, 전용면적_m2, 매매금액, 보증금액, 월세금액, manage_cost, jibunAddress, local1, local2, sold_yn, subway_dist_score, cs_dist_score, mart_dist_score]   # embedding
+    # item: [house_id, subway_dist_score, cs_dist_score, mart_dist_score]
+    # item: [house_id, subway_dist_score, cafe_dist_score, phar_dist_score]
+    item: [house_id, subway_dist_score, theater_dist_score, mart_dist_score]
+    user: [user_id, user_gu, user_age, user_sex, user_type]
 unload_col: ~                   # (dict) The suffix of atomic files: (list) field names NOT to be loaded.
 unused_col: ~                   # (dict) The suffix of atomic files: (list) field names which are loaded but not used.
 additional_feat_suffix: ~       # (list) Control loading additional atomic files.

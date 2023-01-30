@@ -16,6 +16,9 @@ from ast import arg
 import time
 
 from recbole.quick_start import load_data_and_model
+from recbole.utils import (
+    get_model,
+)
 
 if __name__ == '__main__':
     # start = time.time()
@@ -34,7 +37,7 @@ if __name__ == '__main__':
     
     # user, item id -> token array
     user_id2token = dataset.field2id_token['user_id']
-    item_id2token = dataset.field2id_token['item_id']
+    item_id2token = dataset.field2id_token['house_id']
     
     # user-item sparse matrix
     matrix = dataset.inter_matrix(form='csr')
@@ -45,13 +48,13 @@ if __name__ == '__main__':
     start = time.time()
     model.eval()
     for data in test_data:
-        interaction = data[0].to(device)
-        score = model.full_sort_predict(interaction)
+        if str(get_model(config['model'])).split('.')[2] == 'general_recommender':
+            interaction = data[0].to(device)
+            score = model.full_sort_predict(interaction)
 
-        rating_pred = score.cpu().data.numpy().copy()       # 82441
-        batch_user_index = interaction['user_id'].cpu().numpy()
+            rating_pred = score.cpu().data.numpy().copy()       # 82441
+            batch_user_index = interaction['user_id'].cpu().numpy()
 
-        if config['model'] == 'SLIMElastic':
             matrix_ = list(matrix[batch_user_index].toarray() > 0)[0]
             rating_pred[matrix_] = 0
 
@@ -64,6 +67,19 @@ if __name__ == '__main__':
             batch_pred_list = ind[arr_ind_argsort]
 
         else:
+            print(str(get_model(config['model'])).split('.')[2])
+
+            interaction = data[0].to(device)
+            score = model.predict(interaction)
+            print('============================')
+            print(score)
+            print(len(score))
+            
+            print('============================')
+
+            rating_pred = score.cpu().data.numpy().copy()       # 82441
+            batch_user_index = interaction['user_id'].cpu().numpy()
+
             rating_pred[matrix[batch_user_index].toarray() > 0] = 0
             
             # top 10
@@ -85,7 +101,7 @@ if __name__ == '__main__':
             user_list = np.append(user_list, batch_user_index, axis=0)
 
     result = []
-    if config['model'] == 'SLIMElastic':
+    if str(get_model(config['model'])).split('.')[2] == 'general_recommender':
         cnt=0
         for user in user_list:
             pred = pred_list[cnt:cnt+10]
