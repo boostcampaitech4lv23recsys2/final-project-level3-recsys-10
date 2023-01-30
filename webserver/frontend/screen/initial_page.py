@@ -260,115 +260,14 @@ def show_infra(session:dict, selected_gu:str="",user_type:int=0):
                 else:
                     select_list[int_item_key] = False
         
-        # for idx, col in enumerate(lower_col_list) : 
-        #     idx += len(upper_col_list)
-        #     with col :
-        #         item_name = INFRA_INFO[idx]['ko']
-        #         item_key = INFRA_INFO[idx]['code']
-        #         st.header(item_name)
-        #         st.image(f'./image/{item_name}.jpeg')
-                
-        #         if st.checkbox(f'{item_name}' , key = f'{item_key}'):
-        #             check_cnt += 1 
-        #             select_list[idx] = True
-        #         else:
-        #             select_list[idx] = False
-
-        # col1, col2, col3, col4 = st.columns(4) 
-        # col5, col6, col7,col8 = st.columns(4)
-        # check_cnt = 0
-
-        # with col1:
-        #     st.header("편의점")
-        #     st.image("./image/편의점.jpeg")
-        #     if st.checkbox("편의점" , key = 1):
-        #         con_store = 1
-        #         check_cnt += 1
-        #         print(check_cnt)
-        #     else:
-        #         print("편의점")
-        #         con_store = 0
-                
-        # with col2:
-        #     st.header("약국")
-        #     st.image("./image/약국.jpeg")
-        #     if st.checkbox("약국" , key = 2):
-        #         phar = 1
-        #         check_cnt += 1
-        #         print(check_cnt)
-        #     else:
-        #         phar = 0
-
-        # with col3:
-        #     st.header("카페")
-        #     st.image("./image/카페.jpeg")
-        #     if st.checkbox("카페" , key = 3):
-        #         cafe = 1
-        #         check_cnt += 1
-        #         print(check_cnt)
-        #     else:
-        #         cafe = 0
-
-        # with col4:
-        #     st.header("병원")
-        #     st.image("./image/병원.jpeg")
-        #     if st.checkbox("병원" , key = 4):
-        #         hospital = 1
-        #         check_cnt += 1
-        #     else:
-        #         hospital = 0
-
-        # with col5:
-        #     st.header("공원")
-        #     st.image("./image/공원.jpeg")
-        #     if st.checkbox("공원" , key = 5):
-        #         park = 1
-        #         check_cnt += 1
-        #     else:
-        #         park = 0
-
-        # with col6:
-        #     st.header("대형마트")
-        #     st.image("./image/대형마트.jpeg")
-        #     if st.checkbox("대형마트" , key = 6):
-        #         mart = 1
-        #         check_cnt += 1
-        #     else:
-        #         mart = 0
-
-        # with col7:
-        #     st.header("영화관")
-        #     st.image("./image/영화관.jpeg")
-        #     if st.checkbox("영화관" , key = 7):
-        #         theater = 1
-        #         check_cnt += 1
-        #     else:
-        #         theater = 0
-
-        # with col8:
-        #     st.header("지하철")
-        #     st.image("./image/지하철.jpeg")
-        #     if st.checkbox("지하철" , key = 8):
-        #         subway = 1
-        #         check_cnt += 1
-        #     else:
-        #         subway = 0
-
-
-
         submit = st.form_submit_button("제출하기")
         if submit:
             if locate == '원하는 구를 선택하세요.':
                 st.error('구를 선택하세요.')
             elif check_cnt >=3:
-                # url = ''.join([BACKEND_ADDRESS,DOMAIN_INFO['signup'],DOMAIN_INFO['']])
-                #USERS_INFRA -> 어떻게 보낼지 확인하기 
-                # USERS_INFRA = {'uesr_id' : ,
-                #                'gu' : gu
-                #                 'infra_type' : ,
-                #                 'infra_yn' : }
+                
                 selected_infra_list = []
-                #print('select_list : ', select_list)
+
                 for idx, is_select in enumerate(select_list):
 
                     if ( True == is_select ):
@@ -376,10 +275,7 @@ def show_infra(session:dict, selected_gu:str="",user_type:int=0):
                         #print('value_str : ',value_str) 
                         selected_infra_list.append(value_str)
                     idx += 1
-                    
 
-                    #print('-----------------------')
-                # session['ex_user_info'] = session.cur_user_info
                 session.cur_user_info['user_gu'] = locate
                 session.item_list = []
                 infra_user_info = {
@@ -395,15 +291,6 @@ def show_infra(session:dict, selected_gu:str="",user_type:int=0):
                 st.experimental_rerun()
             else:
                 st.error('희망 인프라를 3개 이상 선택하시오')
-        
-        # url = 'http://27.96.130.120:30002/infra'
-        # infra = {
-        #     "user_id" : 6,
-        #     "select_infra":7
-        # }
-        # x = requests.post(url,data=json.dumps(infra))
-        # print(x)
-
         
     # '''
     # 로그인
