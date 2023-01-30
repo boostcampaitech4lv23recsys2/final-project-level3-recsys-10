@@ -6,6 +6,8 @@ import Login from "./Pages/Login";
 import Main from "./Pages/Main/Main";
 import InputBox from "./Components/InputBox";
 import Card from "./Components/Card";
+import SimpleListCard from "./Components/SimpleListCard";
+import DetailListCard from "./Components/DetailListCard";
 
 function App() {
   return (
