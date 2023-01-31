@@ -144,7 +144,7 @@ def show_signup(session:dict):
                     st.experimental_rerun()
 
 """
-{'subway':'01','cs':'02','mart':'03','park':'04','cafe':'05','phar':'06','theater':'07'}
+{'subway':'01','cs':'02','mart':'03','park':'04','cafe':'05','phar':'06','theater':'07', 'gym':'08'}
 """
 def show_infra(session:dict, selected_gu:str="",user_type:int=0):
     with st.form("show_infra_page"):
@@ -159,7 +159,7 @@ def show_infra(session:dict, selected_gu:str="",user_type:int=0):
         col_list = upper_col_list + lower_col_list
 
         check_cnt = 0 
-        select_list = [False] * ( num_of_infra + 1 ) 
+        select_list = [False] * ( num_of_infra + 2 ) 
 
         # make_colum_by_infra(upper_col_list,check_cnt,select_infra)
         # make_colum_by_infra(lower_col_list,check_cnt,select_infra, len(upper_col_list))
@@ -195,7 +195,6 @@ def show_infra(session:dict, selected_gu:str="",user_type:int=0):
                         value_str = f'0{idx}' if  ( ( idx // 10 ) == 0 ) else f'{idx}'
                         selected_infra_list.append(value_str)
                     idx += 1
-                    
                 # session['ex_user_info'] = session.cur_user_info
                 session.cur_user_info['user_gu'] = locate
                 session.item_list = []
@@ -207,8 +206,8 @@ def show_infra(session:dict, selected_gu:str="",user_type:int=0):
                 url = ''.join([BACKEND_ADDRESS, DOMAIN_INFO['users'], DOMAIN_INFO['infra']])
                 res = requests.post(url,data=json.dumps(infra_user_info) )
 
-                session.page_counter = 3
-                st.experimental_rerun()
+                # session.page_counter = 3
+                # st.experimental_rerun()
             else:
                 st.error('희망 인프라를 3개 이상 선택하시오')
         
