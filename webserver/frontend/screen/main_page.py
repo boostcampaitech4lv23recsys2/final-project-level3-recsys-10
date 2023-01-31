@@ -50,13 +50,14 @@ def show_main(session:dict,item_list:list):
     min_deposit = min(session.item_list, key=lambda x:x['information']['price_deposit'])['information']['price_deposit']
     max_rent = max(session.item_list, key=lambda x:x['information']['price_monthly_rent'])['information']['price_monthly_rent']
     min_rent = min(session.item_list, key=lambda x:x['information']['price_monthly_rent'])['information']['price_monthly_rent']
-
+ 
     # 보증금이 없는 매물만 있거나, 월세가 없는 매물만 있는 경우 오류 발생
     max_deposit =  max_deposit + 10 if max_deposit == min_deposit else max_deposit
     max_rent =  max_rent + 10 if max_rent == min_rent else max_rent
 
-    bo = st.slider('보증금(만원)', min_deposit,max_deposit,max_deposit)
-    month = st.slider('월세(만원)', min_rent,max_rent,max_rent)
+    min_bo,max_bo = st.slider('보증금(만원)', min_deposit,max_deposit,(min_deposit,max_deposit))
+    min_month,max_month = st.slider('월세(만원)', min_rent,max_rent,(min_rent,max_rent))
+
 
     modal = Modal("도움말",key=1)
     open_modal = st.button("도움말")
@@ -162,8 +163,9 @@ def show_main(session:dict,item_list:list):
     # 관심 목록은 detail 한 것을 보여준다. ( 기능 제거 )
     # session.show_detail= True if ( True == session.show_heart ) else session.show_detail 
     with st.spinner():
-        bang = list(filter(lambda x : session.show_item_list[x]['information']['price_deposit'] <= bo and 
-                    session.show_item_list[x]['information']['price_monthly_rent'] <= month, range(len(session.show_item_list))))
+        bang = list(filter(lambda x : min_bo <= session.show_item_list[x]['information']['price_deposit'] <= max_bo and 
+                    min_month <= session.show_item_list[x]['information']['price_monthly_rent'] <= max_month, 
+                    range(len(session.show_item_list))))
         for i in bang:
             session.show_item_filter.append(session.show_item_list[i])
         #session.show_item_filter.append(i for i in bang)
