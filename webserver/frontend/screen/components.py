@@ -85,7 +85,7 @@ def header(session:dict, selected_gu:str=""):
     selected_idx = ( GU_INFO.index(selected_gu) if "" != selected_gu else 0)
 
     option = st.selectbox(
-        label = "구",
+        label = " ",
         options = GU_INFO,
         # session=session.session,
         index = selected_idx

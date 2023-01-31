@@ -91,14 +91,14 @@ setting = {
             "icon":"shopping-cart",
             "emoji":"&#128717;",
         },
-        '04':{
-            "en":"park",
-            "ko":"공원",
-            "code":"04",
-            "img" : "",
-            "icon":"futbol-o",
-            "emoji":"&#128054;",
-        },
+        # '04':{
+        #     "en":"park",
+        #     "ko":"공원",
+        #     "code":"04",
+        #     "img" : "",
+        #     "icon":"futbol-o",
+        #     "emoji":"&#128054;",
+        # },
         '05':{
             "en":"cafe",
             "ko":"카페",
@@ -121,6 +121,14 @@ setting = {
             "code":"07",
             "img" : "",
             "icon":"film",
+            "emoji":"&#127916;",
+        },
+        '08':{
+            "en":"gym",
+            "ko":"헬스장",
+            "code":"08",
+            "img" : "",
+            "icon":"",
             "emoji":"&#127916;",
         },
     },
@@ -173,6 +181,13 @@ setting = {
             "code":"07",
             "img" : "",
             "icon":"film",
+        },
+        {
+            "en":"gym",
+            "ko":"헬스장",
+            "code":"08",
+            "img" : "",
+            "icon":"gym",
         }
     ],
     "state_key":[

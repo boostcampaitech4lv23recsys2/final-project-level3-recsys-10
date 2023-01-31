@@ -86,7 +86,8 @@ def show_signup(session:dict):
         if( ( '' == user_info['name'] ) or
             ( '' == user_info['pw'] ) or
             ( True == ( user_info['user_sex'] not in ['남자','여자'] ) ) or
-            (  user_info['user_age'] < 1920 and user_info['user_age'] > 2006 ) ) : 
+            ( user_info['user_age']) == '나이를 선택하세요.' or
+            ( int(user_info['user_age']) < 1920 and int(user_info['user_age']) > 2006 )) :
             
             return False         
 
@@ -102,13 +103,13 @@ def show_signup(session:dict):
     }
 
     age_list = [age for age in range(2006, 1920,-1)]
-    #age_list.insert(0,'나이를 선택하세요.')
+    age_list.insert(0,'나이를 선택하세요.')
 
 # 1. 이름 입력
     with st.form("same_check"):
         submit_user_info['name'] = st.text_input('닉네임을 입력하세요!')
         
-        submit_user_info['user_age'] = int(st.selectbox('출생연도를 선택하세요!',age_list))
+        submit_user_info['user_age'] = st.selectbox('출생연도를 선택하세요!',age_list)
 
         submit_user_info['user_sex'] = st.selectbox('성별을 고르시오', ('남자', '여자'))
 
@@ -133,6 +134,7 @@ def show_signup(session:dict):
 
                 elif name_check_val['res'] == "사용할 수 있는 이름입니다":
                     url  = ''.join([BACKEND_ADDRESS,DOMAIN_INFO['users'],DOMAIN_INFO['join']])
+                    submit_user_info['user_age'] = int(submit_user_info['user_age'])
                     submit_user_info['user_sex'] =  0 if submit_user_info['user_sex'] == '남자' else 1
                     submit_user_info['user_type'] = 'Y'
                     join_check_res = requests.post(url, data=json.dumps(submit_user_info))
@@ -142,13 +144,10 @@ def show_signup(session:dict):
                     st.experimental_rerun()
 
 """
-{'subway':'01','cs':'02','mart':'03','park':'04','cafe':'05','phar':'06','theater':'07'}
+{'subway':'01','cs':'02','mart':'03','park':'04','cafe':'05','phar':'06','theater':'07', 'gym':'08'}
 """
 def show_infra(session:dict, selected_gu:str="",user_type:int=0):
     with st.form("show_infra_page"):
-        locat = GU_INFO
-        st.title('희망 거주 지역을 선택하세요 ')
-        locate = header(session,selected_gu)
         st.title('원하는 인프라를 선택하세요 (3개 이상) ')
 
         num_of_infra = len(INFRA_INFO)
@@ -160,12 +159,12 @@ def show_infra(session:dict, selected_gu:str="",user_type:int=0):
         col_list = upper_col_list + lower_col_list
 
         check_cnt = 0 
-        select_list = [False] * ( num_of_infra + 1 ) 
+        select_list = [False] * ( num_of_infra + 2 ) 
 
         # make_colum_by_infra(upper_col_list,check_cnt,select_infra)
         # make_colum_by_infra(lower_col_list,check_cnt,select_infra, len(upper_col_list))
 
-        # TODO 함수화
+        # TODO 함수
         for idx, col in enumerate(col_list) : 
             with col :
                 item_name = INFRA_INFO[idx]['ko']
@@ -180,6 +179,10 @@ def show_infra(session:dict, selected_gu:str="",user_type:int=0):
                     select_list[int_item_key] = True
                 else:
                     select_list[int_item_key] = False
+
+        locat = GU_INFO
+        st.title('희망 거주 지역을 선택하세요 ')
+        locate = header(session,selected_gu)
         
         submit = st.form_submit_button("제출하기")
         if submit:
@@ -192,7 +195,6 @@ def show_infra(session:dict, selected_gu:str="",user_type:int=0):
                         value_str = f'0{idx}' if  ( ( idx // 10 ) == 0 ) else f'{idx}'
                         selected_infra_list.append(value_str)
                     idx += 1
-                    
                 # session['ex_user_info'] = session.cur_user_info
                 session.cur_user_info['user_gu'] = locate
                 session.item_list = []
