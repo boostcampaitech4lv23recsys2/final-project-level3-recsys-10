@@ -111,7 +111,7 @@ def show_main(session:dict,item_list:list):
                 print("현재 map bounds 가 반환되지 않았음 ㅠㅠ 구 중심으로 보여줄게 ")
                 temp_selected_gu = session.cur_user_info['user_gu']
                 temp_center = [GU_INFO_CENTER[temp_selected_gu]["lat"],GU_INFO_CENTER[temp_selected_gu]["lng"]]
-                change_center_info(session, temp_center , 14 )
+                change_center_info(session, temp_center , session.ex_zoom )
             
             else :
                 min_lng, min_lat = session.map_bounds['_southWest']['lng'],session.map_bounds['_southWest']['lat']
@@ -137,7 +137,7 @@ def show_main(session:dict,item_list:list):
                 else:    
                     session.item_list = [*res.json()['houses'].values()]
                     temp_center = [min_lat + ( max_lat - min_lat) / 2 ,min_lng + ( max_lng - min_lng) / 2]
-                    change_center_info(session, temp_center , 14 )
+                    change_center_info(session, temp_center , session.ex_zoom )
 
 
             session.show_item_list = (session.item_list)
@@ -202,6 +202,8 @@ def show_main(session:dict,item_list:list):
                     res = requests.post(url,data=json.dumps(params) )
                     
                     last_object_clicked_coord = [ map_data["last_object_clicked"]['lat'] ,map_data["last_object_clicked"]['lng']  ]
+                    # 이전 상태 저장 
+                    session.ex_show_item_list = session.show_item_list
                     session.show_item_list = temp_item_list
                     change_center_info(session, last_object_clicked_coord, 18)
 
@@ -224,7 +226,7 @@ def show_main(session:dict,item_list:list):
                     change_center_info(session, temp_center , 14 )
                     # 찜 동기화를 위해 deepcopy 비활성화 
                     # session.show_item_list = copy.deepcopy(session.item_list)
-                    session.show_item_list = (session.item_list)
+                    session.show_item_list = (session.ex_show_item_list)
                     # session.ex_loaction=  None
                     st.experimental_rerun()
                     # session.show_detail= False
@@ -288,8 +290,9 @@ def show_main(session:dict,item_list:list):
                 }\
                 </style>\
             <div style="overflow-y: scroll; height:1000px; ">\
-            <h1 style="color:red">PC에서 확인해 주세요</h1>\
-            <h1>인프라 정보쩜 주세요</h1>'
+            <h1 style="color:red">PC에서 확인해 주세요</h1>'
+
+            str += f'<h1>{session.cur_user_info["infra_list"]}</h1>'
 
         
             
@@ -316,6 +319,7 @@ def show_main(session:dict,item_list:list):
                 res = requests.post(url,data=json.dumps(params) )
                 
                 session.show_detail= True
+                session.ex_show_item_list = session.show_item_list
                 session.show_item_list = list(filter(lambda item:  int(clicked_info[0]) == item['house_id'], item_list) )
                 # session.show_item_list = list(filter(lambda item: item['location'] == clicked, item_list))
                 change_center_info(session, list(map(float,clicked_info[1:]) ), 18)

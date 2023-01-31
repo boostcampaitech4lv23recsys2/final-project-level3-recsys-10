@@ -97,15 +97,18 @@ session_state = get(
         cur_user_info={
             "user_id":None, 
             "user_gu":"",
+            "infra_list" :[],
         },
         ex_user_info={
             "user_id":None, 
             "user_gu":"",
+            "infra_list" :[],
         },
         center={ 'coord' : [37.4920372,127.0567124] , 'level':15},
         item_list=[],
         map_bounds={},
-        ex_zoom = 15,)
+        ex_zoom = 15,
+        ex_show_item_list = [],)
 
 st.set_page_config( initial_sidebar_state = "expanded",
                     page_icon="./image/hobbang_favicon_outline.png",
