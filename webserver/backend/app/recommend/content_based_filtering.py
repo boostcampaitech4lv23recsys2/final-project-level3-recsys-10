@@ -29,6 +29,7 @@ def inference_gu_CB(user_id, user_gu, latest_zzim, db: Session):
                     , CASE WHEN (SELECT COUNT(*) FROM USERS_INFRA WHERE user_id={user_id} AND infra_type = '05' AND infra_yn = 'Y') > 0 THEN G5.infra_dist_score ELSE 0 END as score_5
                     , CASE WHEN (SELECT COUNT(*) FROM USERS_INFRA WHERE user_id={user_id} AND infra_type = '06' AND infra_yn = 'Y') > 0 THEN G6.infra_dist_score ELSE 0 END as score_6
                     , CASE WHEN (SELECT COUNT(*) FROM USERS_INFRA WHERE user_id={user_id} AND infra_type = '07' AND infra_yn = 'Y') > 0 THEN G7.infra_dist_score ELSE 0 END as score_7
+                    , CASE WHEN (SELECT COUNT(*) FROM USERS_INFRA WHERE user_id={user_id} AND infra_type = '08' AND infra_yn = 'Y') > 0 THEN G8.infra_dist_score ELSE 0 END as score_8
             FROM HOUSE_INFO2 H
             LEFT JOIN GRID_SCORE G1
                     ON (H.grid_id = G1.grid_id
@@ -51,6 +52,9 @@ def inference_gu_CB(user_id, user_gu, latest_zzim, db: Session):
             LEFT JOIN GRID_SCORE G7
                     ON (H.grid_id = G7.grid_id
                         AND G7.infra_type = '07')
+            LEFT JOIN GRID_SCORE G8
+                    ON (H.grid_id = G8.grid_id
+                        AND G8.infra_type = '08')
             WHERE 1=1
                 AND((H.local2 = "{user_gu}"
                         AND H.sold_yn = 'N')
@@ -62,7 +66,7 @@ def inference_gu_CB(user_id, user_gu, latest_zzim, db: Session):
                             , columns=['house_id', 'grid_id', 'sales_type', 'service_type'
                                         , 'house_area', 'price_deposit', 'price_monthly_rent', 'manage_cost'
                                         , 'address', 'local2', 'floor_total', 'bathroom_cnt'
-                                        , 'score_1', 'score_2', 'score_3', 'score_4', 'score_5', 'score_6', 'score_7'])
+                                        , 'score_1', 'score_2', 'score_3', 'score_4', 'score_5', 'score_6', 'score_7', 'score_8'])
 
     h_info.set_index('house_id', inplace=True)
     # print(h_info)
@@ -92,6 +96,7 @@ def inference_latlng_CB(user_id, min_lat, max_lat, min_lng, max_lng, latest_zzim
                     , CASE WHEN (SELECT COUNT(*) FROM USERS_INFRA WHERE user_id={user_id} AND infra_type = '05' AND infra_yn = 'Y') > 0 THEN G5.infra_dist_score ELSE 0 END as score_5
                     , CASE WHEN (SELECT COUNT(*) FROM USERS_INFRA WHERE user_id={user_id} AND infra_type = '06' AND infra_yn = 'Y') > 0 THEN G6.infra_dist_score ELSE 0 END as score_6
                     , CASE WHEN (SELECT COUNT(*) FROM USERS_INFRA WHERE user_id={user_id} AND infra_type = '07' AND infra_yn = 'Y') > 0 THEN G7.infra_dist_score ELSE 0 END as score_7
+                    , CASE WHEN (SELECT COUNT(*) FROM USERS_INFRA WHERE user_id={user_id} AND infra_type = '08' AND infra_yn = 'Y') > 0 THEN G8.infra_dist_score ELSE 0 END as score_8
             FROM HOUSE_INFO2 H
             LEFT JOIN GRID_SCORE G1
                     ON (H.grid_id = G1.grid_id
@@ -114,6 +119,9 @@ def inference_latlng_CB(user_id, min_lat, max_lat, min_lng, max_lng, latest_zzim
             LEFT JOIN GRID_SCORE G7
                     ON (H.grid_id = G7.grid_id
                         AND G7.infra_type = '07')
+            LEFT JOIN GRID_SCORE G8
+                    ON (H.grid_id = G8.grid_id
+                        AND G8.infra_type = '08')
             WHERE 1=1
                 AND((ST_CONTAINS(ST_POLYFROMTEXT('POLYGON(({min_lng} {min_lat}
                                                         , {min_lng} {max_lat}
@@ -130,7 +138,7 @@ def inference_latlng_CB(user_id, min_lat, max_lat, min_lng, max_lng, latest_zzim
                             , columns=['house_id', 'grid_id', 'sales_type', 'service_type'
                                         , 'house_area', 'price_deposit', 'price_monthly_rent', 'manage_cost'
                                         , 'address', 'local2', 'floor_total', 'bathroom_cnt'
-                                        , 'score_1', 'score_2', 'score_3', 'score_4', 'score_5', 'score_6', 'score_7'])
+                                        , 'score_1', 'score_2', 'score_3', 'score_4', 'score_5', 'score_6', 'score_7', 'score_8'])
     h_info.set_index('house_id', inplace=True)
 
     h_info['local3'] = h_info['address'].apply(lambda x: x.split()[1]) # 동 추가

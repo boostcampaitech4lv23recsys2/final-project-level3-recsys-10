@@ -62,7 +62,7 @@ def getHouses(map: schemas.Items, db: Session = Depends(get_db)):
 @router.post("/items/zoom")
 def getHousesZoom(map: schemas.MapZoom, db: Session = Depends(get_db)):
     # 1. cold starter 확인(zzim 기록)
-    latest_zzim = hobbang_crud_test.get_latest_zzim(map.user_id, db)[0]
+    latest_zzim = hobbang_crud_test.get_latest_zzim(map.user_id, db)
     # print(latest_zzim)
     # infra = hobbang_crud_test.get_infra_by_user_id(map.user_id, db)
     # infra_list = [i.infra_type for i in infra]
