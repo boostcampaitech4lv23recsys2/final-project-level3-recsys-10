@@ -20,6 +20,9 @@ def get_infra_kind(db: Session):
 
 
 ######### map
+def get_latest_zzim(user_id, db: Session):
+    return db.query(UserZzim.house_id).filter_by(user_id=user_id, zzim_yn='Y').order_by(UserZzim.update_date.desc()).first()
+
 def get_houses_info(map: schemas.Items, db: Session):
     house_list = {f'{house}': {"ranking": map.house_ranking[house]} for house in map.house_ranking}
 
@@ -33,25 +36,26 @@ def get_houses_info(map: schemas.Items, db: Session):
         house_list[f"{r['house_id']}"]["information"] = r
 
     for house_id in house_list:
-        # 2) zzim
-        zzim = 'N'
-        if check_zzimYN(map.user_id, house_id, db) > 0:
-            zzim = 'Y'
+        if house_id:
+            # 2) zzim
+            zzim = 'N'
+            if check_zzimYN(map.user_id, house_id, db) > 0:
+                zzim = 'Y'
 
-        house_list[f"{house_id}"]["zzim"] = zzim
+            house_list[f"{house_id}"]["zzim"] = zzim
 
-        # 3) related_infra
-        grid_id = house_list[f"{house_id}"]['grid_id']
-        res = get_houses_infra(grid_id, db)
-        infra_dict = {}
-        for r in res:
-            infra_dict[r["infra_type"]] = {
-                "distance": r.infra_dist,
-                "lat": r.lat,
-                "lng" : r.lng,
-                "cnt": r.infra_cnt
-            }
-        house_list[f"{house_id}"]["related_infra"] = infra_dict
+            # 3) related_infra
+            grid_id = house_list[f"{house_id}"]['grid_id']
+            res = get_houses_infra(grid_id, db)
+            infra_dict = {}
+            for r in res:
+                infra_dict[r["infra_type"]] = {
+                    "distance": r.infra_dist,
+                    "lat": r.lat,
+                    "lng" : r.lng,
+                    "cnt": r.infra_cnt
+                }
+            house_list[f"{house_id}"]["related_infra"] = infra_dict
 
     
     return house_list

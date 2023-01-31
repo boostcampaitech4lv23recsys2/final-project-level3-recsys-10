@@ -21,8 +21,19 @@ def inference_gu(user_id, user_gu, db: Session):
                                 , H.price_monthly_rent
                                 , H.house_id) as ranking
         FROM HOUSE_INFO2 H,
+                (SELECT MIN(H1.house_id) as house_id
+		  FROM HOUSE_INFO2 H1
+		INNER JOIN
+			(SELECT address
+				, MIN(price_deposit) price_deposit 
+			  FROM HOUSE_INFO2
+			 GROUP BY address) H2
+		ON H1.address = H2.address
+		AND H1.price_deposit = H2.price_deposit 
+		GROUP BY H1.address) HD,
                 GRID_SCORE G
         WHERE H.grid_id = G.grid_id
+                AND H.house_id = HD.house_id
                 AND H.sold_yn = 'N'
                 AND local2 = "{user_gu}"
                 AND G.INFRA_TYPE IN (SELECT U.infra_type
@@ -44,8 +55,19 @@ def inference_latlng(user_id, min_lat, max_lat, min_lng, max_lng, db: Session):
                                 , H.price_monthly_rent
                                 , H.house_id) as ranking
         FROM HOUSE_INFO2 H,
+                (SELECT MIN(H1.house_id) as house_id
+		  FROM HOUSE_INFO2 H1
+		INNER JOIN
+			(SELECT address
+				, MIN(price_deposit) price_deposit 
+			  FROM HOUSE_INFO2
+			 GROUP BY address) H2
+		ON H1.address = H2.address
+		AND H1.price_deposit = H2.price_deposit 
+		GROUP BY H1.address) HD,
                 GRID_SCORE G
         WHERE H.grid_id = G.grid_id
+                AND H.house_id = HD.house_id
                 AND H.sold_yn = 'N'
                 AND ST_CONTAINS(ST_POLYFROMTEXT('POLYGON(({min_lng} {min_lat}
                                                         , {min_lng} {max_lat}
