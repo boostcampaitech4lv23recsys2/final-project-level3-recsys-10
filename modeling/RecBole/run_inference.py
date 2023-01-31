@@ -85,7 +85,7 @@ if __name__ == '__main__':
             rating_pred = score.cpu().data.numpy().copy()       # 총 개수 : interaction 수
             batch_user_index = interaction['user_id'].cpu().numpy()
 
-            matrix_ = list(matrix[batch_user_index].toarray() > 0)[0]
+            # matrix_ = list(matrix[batch_user_index].toarray() > 0)[0]
             # rating_pred[matrix_] = 0
             # print('=====================================')
             # print(c+1)
