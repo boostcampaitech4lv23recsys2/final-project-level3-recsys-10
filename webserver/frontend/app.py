@@ -104,7 +104,8 @@ session_state = get(
         },
         center={ 'coord' : [37.4920372,127.0567124] , 'level':15},
         item_list=[],
-        map_bounds={})
+        map_bounds={},
+        ex_zoom = 15,)
 
 st.set_page_config( initial_sidebar_state = "expanded",
                     page_icon="./image/hobbang_favicon_outline.png",

@@ -46,8 +46,17 @@ def show_main(session:dict,item_list:list):
     #print(minPricedItem)
     # print('---------------------')
 
-    bo = st.slider('보증금', 0,30000,30000)
-    month = st.slider('월세', 0,1000,1000)
+    max_deposit = max(session.item_list, key=lambda x:x['information']['price_deposit'])['information']['price_deposit']
+    min_deposit = min(session.item_list, key=lambda x:x['information']['price_deposit'])['information']['price_deposit']
+    max_rent = max(session.item_list, key=lambda x:x['information']['price_monthly_rent'])['information']['price_monthly_rent']
+    min_rent = min(session.item_list, key=lambda x:x['information']['price_monthly_rent'])['information']['price_monthly_rent']
+
+    # 보증금이 없는 매물만 있거나, 월세가 없는 매물만 있는 경우 오류 발생
+    max_deposit =  max_deposit + 10 if max_deposit == min_deposit else max_deposit
+    max_rent =  max_rent + 10 if max_rent == min_rent else max_rent
+
+    bo = st.slider('보증금(만원)', min_deposit,max_deposit,max_deposit)
+    month = st.slider('월세(만원)', min_rent,max_rent,max_rent)
 
     modal = Modal("도움말",key=1)
     open_modal = st.button("도움말")
@@ -166,6 +175,7 @@ def show_main(session:dict,item_list:list):
         #         session.show_item_filter.append(session.show_item_list[i])
         map_data = my_map(session, session.show_item_filter)#session.show_item_list)
         session.map_bounds = map_data["bounds"]
+        session.ex_zoom = map_data["zoom"]
             # 클릭된 좌표가 이전 것과 같지 않고, 클릭된 것이 있을 때 
             # detail 한 정보를 보여준다. 
         with st.sidebar:
@@ -325,15 +335,3 @@ def show_main(session:dict,item_list:list):
                 url = ''.join([BACKEND_ADDRESS, DOMAIN_INFO['zzim'], DOMAIN_INFO['items'], DOMAIN_INFO['register']])
                 res = requests.post(url,data=json.dumps(user_info) )
                 st.experimental_rerun()
-
-                # params = {'param1': 'value1', 'param2': 'value'}
-                # url = ''.join([BACKEND_ADDRESS, DOMAIN_INFO['zzim'], DOMAIN_INFO['house']])
-                # res = requests.get(URL, params=params)
-            # st.markdown(f"**{clicked} clicked**" if clicked != "" else "**No click**")
-
-            # # bootstrap 4 collapse example
-            # components.html(
-            #     str,
-            #     height=1300,
-            #     scrolling=True,
-            # )
