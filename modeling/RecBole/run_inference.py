@@ -28,13 +28,12 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--model_path', '-m', type=str, default='saved/model.pth', help='name of models')
-    # python run_inference.py --model_path=/opt/ml/input/RecBole/saved/SASRecF-Apr-07-2022_03-17-16.pth 로 실행
     
     args, _ = parser.parse_known_args()
     
     # load model, dataset
-    config, model, dataset, train_data, valid_data, test_data = load_data_and_model(args.model_path, pretrain=True)
-    # config, model, dataset, test_data = inference_load_data_and_model(args.model_path, pretrain=True)
+    # config, model, dataset, _, _, test_data = load_data_and_model(args.model_path, pretrain=True)
+    config, model, dataset, test_data = inference_load_data_and_model(args.model_path, pretrain=True)
     
     # setting device
     device = config.final_config_dict['device']
@@ -61,12 +60,14 @@ if __name__ == '__main__':
 
             matrix_ = list(matrix[batch_user_index].toarray() > 0)[0]           # 현재 interaction 있는 거
             rating_pred[matrix_] = 0                                            #                           제외
-            print('=====================================')
-            print(matrix_)
-            print(len(matrix_))
-            print(rating_pred)
-            print(len(rating_pred))
-            print('=====================================')
+            # print('=====================================')
+            # print(matrix_)
+            # print(len(matrix_))
+            # print(rating_pred)
+            # print(len(rating_pred))
+            # print(batch_user_index)
+            # print(len(batch_user_index))
+            # print('=====================================')
 
             # top 10
             ind = np.argpartition(rating_pred, -10)[-10:]                       # 그 중 score 가장 높은거 10개
@@ -86,19 +87,19 @@ if __name__ == '__main__':
 
             matrix_ = list(matrix[batch_user_index].toarray() > 0)[0]
             # rating_pred[matrix_] = 0
-            print('=====================================')
-            print(c+1)
-            # print(matrix_)
-            print(len(matrix_))
-            print(rating_pred)
-            print(len(rating_pred))
-            print(batch_user_index)
-            print(len(batch_user_index))
+            # print('=====================================')
+            # print(c+1)
+            # # print(matrix_)
+            # print('len(matrix_) : ', len(matrix_))
+            # print(rating_pred)
+            # print('len(rating_pred) : ', len(rating_pred))
+            # print(batch_user_index)
+            # print('len(batch_user_index) : ', len(batch_user_index))
             # print('=====================================')
 
-            # top 10
-            # ind = np.argpartition(rating_pred, -len(rating_pred))
-            ind = np.argpartition(rating_pred, -10)#[-10:]
+            # top 10                                                                ###
+            ind = np.argpartition(rating_pred, -len(rating_pred))
+            # ind = np.argpartition(rating_pred, -10)[-10:]
             arr_ind = rating_pred[ind]
 
             # sort
@@ -115,19 +116,19 @@ if __name__ == '__main__':
             user_list = np.append(user_list, batch_user_index, axis=0)
             score_list = np.append(score_list, arr_ind, axis=0)
         c+=1
-    print('===========')
-    print('batch_pred_list')
-    print(batch_pred_list)
-    print('===========')
+    # print('===========')
+    # print('batch_pred_list')
+    # print(batch_pred_list)
+    # print('===========')
 
     result = []
     cnt=0
     if str(get_model(config['model'])).split('.')[2] == 'general_recommender':
-        print('==========')
-        print(type(pred_list))
-        print(pred_list)
-        print(len(pred_list))
-        print('==========')
+        # print('==========')
+        # print(type(pred_list))
+        # print(pred_list)
+        # print(len(pred_list))
+        # print('==========')
         for user in user_list:
             pred = pred_list[cnt:cnt+10]
             score = score_list[cnt:cnt+10]
@@ -138,28 +139,38 @@ if __name__ == '__main__':
                 result.append((int(user_id2token[user]), int(item_id2token[item]), score_))
             cnt+=10
     elif str(get_model(config['model'])).split('.')[2] == 'context_aware_recommender':
-        print('==========')
-        print(type(pred_list))
-        # print(pred_list)
-        print(len(pred_list))
-        # print('user')
-        print(len(user_list))
-        print('==========')
-        for user in user_list:
-            pred = pred_list[cnt:cnt+10]
-            score = score_list[cnt:cnt+10]
+        # print('==========')
+        # print(type(pred_list))
+        # # print(pred_list)
+        # print(len(pred_list))
+        # # print('user')
+        # print(len(user_list))
+        # print(list(set(user_list)))
+        user_unique = list(set(user_list))
+        # print(np.where(user_list==list(set(user_list))[3]))
+        
+        # print('==========')
+        for user in user_unique:       # 72
+            # print('--------------')
+            _index = np.where(user_list==user)
+            scr = score_list[_index]
+            prd = pred_list[_index]
+            scr_sort = np.sort(scr, axis=0)
+            scr_argsort = np.argsort(scr_sort)
+
+            pred = prd[scr_argsort][-10:]
+            score = scr_sort[-10:]
             for item, score_ in zip(pred, score):
                 if item==0:
                     item+=1
-                print(user, item)
-                print((user_id2token[user], item_id2token[item], score_))
+                # print(user, item, score_)
+                # print((user_id2token[user], item_id2token[item], score_))
                 result.append((int(user_id2token[user]), int(item_id2token[item]), score_))
-            cnt+=10
-
+    
     # save submission
     print('inference...')
-    dataframe = pd.DataFrame(result, columns=["user", "item", 'score'])
-    dataframe.sort_values(by='user', inplace=True)
+    dataframe = pd.DataFrame(result, columns=["user", "house", "score"])
+    dataframe.sort_values(by=['user','score'], inplace=True)
     dataframe.to_csv(
         f"saved/{config['model']}_submission.csv", index=False
     )
