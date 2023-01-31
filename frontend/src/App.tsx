@@ -10,12 +10,13 @@ import SimpleListCard from "./Components/SimpleListCard";
 import DetailListCard from "./Components/DetailListCard";
 import Sidebar from "./Components/Sidebar";
 import { UserInfoProvider } from "./Contexts/UserInfoContext";
+import Recommend from "./Pages/Recommend";
 
 function App() {
   return (
     <UserInfoProvider>
-      <div>
-        <Sidebar></Sidebar>
+      <div style={{ position: "relative" }}>
+        {/* <Recommend></Recommend> */}
         <Main gu={"용산구"} />
       </div>
     </UserInfoProvider>

@@ -1,5 +1,7 @@
 import type { FC } from "react";
 import { useEffect, useRef, useState } from "react";
+import Sidebar from "../../Components/Sidebar";
+import "./Map.css";
 
 type HouseInfo = {
   houses: object;
@@ -10,6 +12,7 @@ const Map: FC<HouseInfo> = ({ houses }) => {
   const { naver } = window;
   let [showList, setShowList] = useState(Object.values(houses));
   let [markerList, setMarkerList] = useState<any>([]);
+  let [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
 
   useEffect(() => {
     if (!mapElement.current || !naver) return;
@@ -40,6 +43,7 @@ const Map: FC<HouseInfo> = ({ houses }) => {
         });
         curMarkerList.push(curMarker);
       });
+      setIsSidebarOpen(true);
       setMarkerList((markers: any) => {
         markers.forEach((item: any) => item.setMap(null));
         return curMarkerList;
@@ -61,6 +65,21 @@ const Map: FC<HouseInfo> = ({ houses }) => {
       markers.push(marker);
     }
 
+    var marker = new naver.maps.Marker({
+      position: new naver.maps.LatLng(37.3595704, 127.105399),
+      icon: {
+        content: [
+          '<div class="pin bounce">',
+          "상금",
+          "</div>",
+          '<div class="pin bounce">',
+          "500만원",
+          "</div>",
+        ].join(""),
+      },
+      map: map,
+    });
+
     for (let idx = 0; idx < houseNum; ++idx) {
       naver.maps.Event.addListener(markers[idx], "click", (e) =>
         clickMarkerEvent(e, idx)
@@ -70,6 +89,7 @@ const Map: FC<HouseInfo> = ({ houses }) => {
 
   return (
     <>
+      {true == isSidebarOpen && <Sidebar setIsSidebarOpen={setIsSidebarOpen} />}
       <div ref={mapElement} style={{ minHeight: "100vh" }} />
     </>
   );
