@@ -164,7 +164,7 @@ def show_infra(session:dict, selected_gu:str="",user_type:int=0):
         # make_colum_by_infra(upper_col_list,check_cnt,select_infra)
         # make_colum_by_infra(lower_col_list,check_cnt,select_infra, len(upper_col_list))
 
-        # TODO 함수화
+        # TODO 함수
         for idx, col in enumerate(col_list) : 
             with col :
                 item_name = INFRA_INFO[idx]['ko']
@@ -206,8 +206,8 @@ def show_infra(session:dict, selected_gu:str="",user_type:int=0):
                 url = ''.join([BACKEND_ADDRESS, DOMAIN_INFO['users'], DOMAIN_INFO['infra']])
                 res = requests.post(url,data=json.dumps(infra_user_info) )
 
-                # session.page_counter = 3
-                # st.experimental_rerun()
+                session.page_counter = 3
+                st.experimental_rerun()
             else:
                 st.error('희망 인프라를 3개 이상 선택하시오')
         
