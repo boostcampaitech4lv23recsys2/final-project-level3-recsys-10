@@ -1,6 +1,6 @@
 # models/test_model.py
 
-from sqlalchemy import Column, String, VARCHAR, CHAR, Integer, BigInteger, Float, DateTime
+from sqlalchemy import Column, String, VARCHAR, CHAR, Integer, BigInteger, Float, DateTime, Text
 # from sqlalchemy.orm import relationship
 from geoalchemy2 import Geometry
 from db.session import Base
@@ -22,8 +22,8 @@ class HouseInfo(Base):
     price_sales = Column(Integer)
     price_deposit = Column(Integer)
     price_monthly_rent = Column(Integer)
-    floor = Column(Integer)
-    floor_total = Column(Integer)
+    floor = Column(VARCHAR(10))
+    floor_total = Column(VARCHAR(10))
     manage_cost = Column(Integer)
     room_cnt = Column(Integer)
     bathroom_cnt = Column(Integer)
@@ -50,11 +50,11 @@ class HouseInfo2(Base):
     local1 = Column(VARCHAR(20))  # 시
     local2 = Column(VARCHAR(20))  # 구
     title = Column(VARCHAR(500))
-    description = Column(VARCHAR(1000))
+    description = Column(Text)
     image_thumbnail = Column(VARCHAR(255))
     images = Column(VARCHAR(1000))
-    floor = Column(Integer)
-    floor_total = Column(Integer)
+    floor = Column(VARCHAR(10))
+    floor_total = Column(VARCHAR(10))
     # room_cnt = Column(Integer)
     bathroom_cnt = Column(Integer)
     register_date = Column(DateTime)
