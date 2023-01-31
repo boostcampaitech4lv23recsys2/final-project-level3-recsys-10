@@ -148,9 +148,6 @@ def show_signup(session:dict):
 """
 def show_infra(session:dict, selected_gu:str="",user_type:int=0):
     with st.form("show_infra_page"):
-        locat = GU_INFO
-        st.title('희망 거주 지역을 선택하세요 ')
-        locate = header(session,selected_gu)
         st.title('원하는 인프라를 선택하세요 (3개 이상) ')
 
         num_of_infra = len(INFRA_INFO)
@@ -182,6 +179,10 @@ def show_infra(session:dict, selected_gu:str="",user_type:int=0):
                     select_list[int_item_key] = True
                 else:
                     select_list[int_item_key] = False
+
+        locat = GU_INFO
+        st.title('희망 거주 지역을 선택하세요 ')
+        locate = header(session,selected_gu)
         
         submit = st.form_submit_button("제출하기")
         if submit:
