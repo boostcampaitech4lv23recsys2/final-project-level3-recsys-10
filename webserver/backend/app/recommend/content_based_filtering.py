@@ -20,8 +20,7 @@ le = LabelEncoder()
 def inference_gu_CB(user_id, user_gu, latest_zzim, db: Session):
     s = f"""
             SELECT H.house_id, H.grid_id, H.sales_type, H.service_type, H.house_area, H.price_deposit,
-                H.price_monthly_rent, H.manage_cost, H.address, H.local2,
-                H.floor_total, H.bathroom_cnt
+                H.price_monthly_rent, H.manage_cost, H.address, H.local2, H.bathroom_cnt
                     , CASE WHEN (SELECT COUNT(*) FROM USERS_INFRA WHERE user_id={user_id} AND infra_type = '01' AND infra_yn = 'Y') > 0 THEN G1.infra_dist_score ELSE 0 END as score_1
                     , CASE WHEN (SELECT COUNT(*) FROM USERS_INFRA WHERE user_id={user_id} AND infra_type = '02' AND infra_yn = 'Y') > 0 THEN G2.infra_dist_score ELSE 0 END as score_2
                     , CASE WHEN (SELECT COUNT(*) FROM USERS_INFRA WHERE user_id={user_id} AND infra_type = '03' AND infra_yn = 'Y') > 0 THEN G3.infra_dist_score ELSE 0 END as score_3
@@ -65,7 +64,7 @@ def inference_gu_CB(user_id, user_gu, latest_zzim, db: Session):
     h_info = pd.DataFrame(db.execute(s).all()
                             , columns=['house_id', 'grid_id', 'sales_type', 'service_type'
                                         , 'house_area', 'price_deposit', 'price_monthly_rent', 'manage_cost'
-                                        , 'address', 'local2', 'floor_total', 'bathroom_cnt'
+                                        , 'address', 'local2', 'bathroom_cnt'
                                         , 'score_1', 'score_2', 'score_3', 'score_4', 'score_5', 'score_6', 'score_7', 'score_8'])
 
     h_info.set_index('house_id', inplace=True)
@@ -87,8 +86,7 @@ def inference_gu_CB(user_id, user_gu, latest_zzim, db: Session):
 def inference_latlng_CB(user_id, min_lat, max_lat, min_lng, max_lng, latest_zzim, db: Session):
     s = f"""
             SELECT H.house_id, H.grid_id, H.sales_type, H.service_type, H.house_area, H.price_deposit,
-                H.price_monthly_rent, H.manage_cost, H.address, H.local2,
-                H.floor_total, H.bathroom_cnt
+                H.price_monthly_rent, H.manage_cost, H.address, H.local2, H.bathroom_cnt
                     , CASE WHEN (SELECT COUNT(*) FROM USERS_INFRA WHERE user_id={user_id} AND infra_type = '01' AND infra_yn = 'Y') > 0 THEN G1.infra_dist_score ELSE 0 END as score_1
                     , CASE WHEN (SELECT COUNT(*) FROM USERS_INFRA WHERE user_id={user_id} AND infra_type = '02' AND infra_yn = 'Y') > 0 THEN G2.infra_dist_score ELSE 0 END as score_2
                     , CASE WHEN (SELECT COUNT(*) FROM USERS_INFRA WHERE user_id={user_id} AND infra_type = '03' AND infra_yn = 'Y') > 0 THEN G3.infra_dist_score ELSE 0 END as score_3
@@ -137,7 +135,7 @@ def inference_latlng_CB(user_id, min_lat, max_lat, min_lng, max_lng, latest_zzim
     h_info = pd.DataFrame(db.execute(s).all()
                             , columns=['house_id', 'grid_id', 'sales_type', 'service_type'
                                         , 'house_area', 'price_deposit', 'price_monthly_rent', 'manage_cost'
-                                        , 'address', 'local2', 'floor_total', 'bathroom_cnt'
+                                        , 'address', 'local2', 'bathroom_cnt'
                                         , 'score_1', 'score_2', 'score_3', 'score_4', 'score_5', 'score_6', 'score_7', 'score_8'])
     h_info.set_index('house_id', inplace=True)
 
