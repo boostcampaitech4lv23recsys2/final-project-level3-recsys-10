@@ -250,7 +250,6 @@ def show_main(session:dict,item_list:list):
                     st.experimental_rerun()
 
             str = '\
-            <link rel="stylesheet" href="css_basic.css">\
             <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">\
             <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square-neo.css" rel="stylesheet" " crossorigin="anonymous">\
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">\
