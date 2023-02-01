@@ -74,6 +74,7 @@ setting = {
             "img":"",
             "icon":"subway",
             "emoji":"&#128650;",
+            "is_use":True,
         },
         '02':{
             "en":"convenience store",
@@ -82,6 +83,7 @@ setting = {
             "img":"",
             "icon":"shopping-basket",
             "emoji":"&#127857;",
+            "is_use":True,
         },
         '03':{
             "en":"mart",
@@ -90,15 +92,17 @@ setting = {
             "img" : "",
             "icon":"shopping-cart",
             "emoji":"&#128717;",
+            "is_use":True,
         },
-        # '04':{
-        #     "en":"park",
-        #     "ko":"공원",
-        #     "code":"04",
-        #     "img" : "",
-        #     "icon":"futbol-o",
-        #     "emoji":"&#128054;",
-        # },
+        '04':{
+            "en":"park",
+            "ko":"공원",
+            "code":"04",
+            "img" : "",
+            "icon":"futbol-o",
+            "emoji":"&#128054;",
+            "is_use":False,
+        },
         '05':{
             "en":"cafe",
             "ko":"카페",
@@ -106,6 +110,7 @@ setting = {
             "img" : "",
             "icon":"coffee",
             "emoji":"&#127849;",
+            "is_use":True,
         },
         '06':{
             "en":"pharmacy",
@@ -114,6 +119,7 @@ setting = {
             "img" : "",
             "icon":"ambulance",
             "emoji":"&#128138;",
+            "is_use":True,
         },
         '07':{
             "en":"theater",
@@ -122,14 +128,16 @@ setting = {
             "img" : "",
             "icon":"film",
             "emoji":"&#127916;",
+            "is_use":True,
         },
         '08':{
             "en":"gym",
             "ko":"헬스장",
             "code":"08",
             "img" : "",
-            "icon":"",
-            "emoji":"&#127916;",
+            "icon":"heartbeat",
+            "emoji":"&#128170;",
+            "is_use":True,
         },
     },
     "2infra":
@@ -215,12 +223,11 @@ setting = {
         ('map_bounds',{}),
         ]
 }
-
 BACKEND_ADDRESS = f'{setting["backend"]["protocol"]}{setting["backend"]["address"]}:{setting["backend"]["port"]}'
 DOMAIN_INFO = setting["domain"] 
 GU_INFO = setting["location"]["gu"]["name_list"]
 GU_INFO_CENTER = setting["location"]["gu"]["center_code"]
 # INFRA_INFO = [*setting["infra"].values()]
-INFRA_INFO = [*setting["infra"].values()]
+INFRA_INFO = list(filter(lambda infra: infra["is_use"] == True,[*setting["infra"].values()]))
 INFRA_INFO_DICT= setting["infra"]
 STATE_KEYS_VALS = setting["state_key"]

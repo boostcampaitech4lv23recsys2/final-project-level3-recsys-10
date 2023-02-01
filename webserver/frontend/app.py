@@ -173,7 +173,12 @@ elif( 3 == session_state.page_counter ):
             session_state.center['coord'] = [GU_INFO_CENTER[selected_gu]["lat"],GU_INFO_CENTER[selected_gu]["lng"]]
             url = ''.join([BACKEND_ADDRESS, DOMAIN_INFO['map'], DOMAIN_INFO['items']])
             res = requests.post(url,data=json.dumps(user_info) )
-            session_state.item_list= [*res.json()['houses'].values()]
+            house_list = [*res.json()['houses'].values()]
+
+            if( 'house_id' not in res.json()['houses']["0"] ):
+                session_state.item_list= house_list[1:]
+            else:
+                session_state.item_list= house_list
             session_state.show_item_list= session_state.item_list
 
     show_main(session_state, session_state.show_item_list)

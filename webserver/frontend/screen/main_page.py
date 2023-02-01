@@ -45,7 +45,7 @@ def show_main(session:dict,item_list:list):
     # print(maxPricedItem)
     #print(minPricedItem)
     # print('---------------------')
-
+    
     max_deposit = max(session.item_list, key=lambda x:x['information']['price_deposit'])['information']['price_deposit']
     min_deposit = min(session.item_list, key=lambda x:x['information']['price_deposit'])['information']['price_deposit']
     max_rent = max(session.item_list, key=lambda x:x['information']['price_monthly_rent'])['information']['price_monthly_rent']
@@ -290,18 +290,16 @@ def show_main(session:dict,item_list:list):
                 }\
                 </style>\
             <div style="overflow-y: scroll; height:1000px; ">\
-            <h1 style="color:red">PC에서 확인해 주세요</h1>'
+            <h4 style="color:red">PC에서 확인해 주세요</h1>'
+ 
+            str += f'<h4>선택하신 인프라 {",".join([INFRA_INFO_DICT[k]["emoji"] for k in session.cur_user_info["infra_list"]])} 기반으로 검색한 매물입니다.</h4>'
 
-            str += f'<h1>{session.cur_user_info["infra_list"]}</h1>'
-
-        
-            
             # 실행 순서상 아래 str 만드는 for 문 바로 위에 있어야 함 
             str += " <h1>관심 목록 </h1>" if(True ==session.show_heart ) else ""
             make_html = get_detail_component if( True == session.show_detail) else get_list_component
 
             for item in session.show_item_filter:#session.show_item_list: 
-                str+= make_html(item)
+                str+= make_html(item, session.show_heart)
             str+= "</div>"
             clicked = click_detector(str)
             clicked_info = clicked.split('_')

@@ -39,6 +39,7 @@ def show_login(session:dict):
 
                 session.cur_user_info['user_id'] = check['user_id']
                 session.cur_user_info['user_gu'] = check['user_gu']
+                session.cur_user_info['infra_list'] = check['infra_list']
 
                 if check["user_gu"] == None and check['msg'] == "로그인에 성공했습니다.":
                     session.page_counter = 2 #Infra Page
@@ -196,12 +197,13 @@ def show_infra(session:dict, selected_gu:str="",user_type:int=0):
                         selected_infra_list.append(value_str)
                     idx += 1
                 # session['ex_user_info'] = session.cur_user_info
+                print(selected_infra_list)
                 session.cur_user_info['user_gu'] = locate
+                session.cur_user_info['infra_list'] = selected_infra_list
                 session.item_list = []
                 infra_user_info = {
                 "user_id" :session.cur_user_info['user_id'],
                 "user_gu" :session.cur_user_info['user_gu'],
-                "infra": selected_infra_list
                 }
                 url = ''.join([BACKEND_ADDRESS, DOMAIN_INFO['users'], DOMAIN_INFO['infra']])
                 res = requests.post(url,data=json.dumps(infra_user_info) )
