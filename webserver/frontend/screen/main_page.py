@@ -45,18 +45,18 @@ def show_main(session:dict,item_list:list):
     # print(maxPricedItem)
     #print(minPricedItem)
     # print('---------------------')
+    if(  0 < len(session.item_list)):
+        max_deposit = max(session.item_list, key=lambda x:x['information']['price_deposit'])['information']['price_deposit']
+        min_deposit = min(session.item_list, key=lambda x:x['information']['price_deposit'])['information']['price_deposit']
+        max_rent = max(session.item_list, key=lambda x:x['information']['price_monthly_rent'])['information']['price_monthly_rent']
+        min_rent = min(session.item_list, key=lambda x:x['information']['price_monthly_rent'])['information']['price_monthly_rent']
     
-    max_deposit = max(session.item_list, key=lambda x:x['information']['price_deposit'])['information']['price_deposit']
-    min_deposit = min(session.item_list, key=lambda x:x['information']['price_deposit'])['information']['price_deposit']
-    max_rent = max(session.item_list, key=lambda x:x['information']['price_monthly_rent'])['information']['price_monthly_rent']
-    min_rent = min(session.item_list, key=lambda x:x['information']['price_monthly_rent'])['information']['price_monthly_rent']
- 
-    # 보증금이 없는 매물만 있거나, 월세가 없는 매물만 있는 경우 오류 발생
-    max_deposit =  max_deposit + 10 if max_deposit == min_deposit else max_deposit
-    max_rent =  max_rent + 10 if max_rent == min_rent else max_rent
+        # 보증금이 없는 매물만 있거나, 월세가 없는 매물만 있는 경우 오류 발생
+        max_deposit =  max_deposit + 10 if max_deposit == min_deposit else max_deposit
+        max_rent =  max_rent + 10 if max_rent == min_rent else max_rent
 
-    min_bo,max_bo = st.slider('보증금(만원)', min_deposit,max_deposit,(min_deposit,max_deposit))
-    min_month,max_month = st.slider('월세(만원)', min_rent,max_rent,(min_rent,max_rent))
+        min_bo,max_bo = st.slider('보증금(만원)', min_deposit,max_deposit,(min_deposit,max_deposit))
+        min_month,max_month = st.slider('월세(만원)', min_rent,max_rent,(min_rent,max_rent))
 
 
     modal = Modal("도움말",key=1)
@@ -76,7 +76,7 @@ def show_main(session:dict,item_list:list):
 
             html_string = '''
             3. <span style="background-color: rgba(242,179,188,0.5)"><strong>　관심 목록　</strong></span>을 클릭하면 <span style="background-color: rgba(242,179,188,0.5)"><strong>　😍.zip　</strong></span> 을 보실 수 있답니다!<br><br>\
-            4. 지도를 이동한 후 <span style="background-color: rgba(242,179,188,0.5)"><strong>　"현재 위치에서 매물 보기" 　</strong></span> 를 누르면 현재 위치에 있는 부동산을 조회할 수 있어요.<br><br>\
+            4. 지도를 이동한 후 <span style="background-color: rgba(242,179,188,0.5)"><strong>　"현재 화면에서 매물 보기" 　</strong></span> 를 누르면 현재 위치에 있는 부동산을 조회할 수 있어요.<br><br>\
             '''
             components.html(html_string)
   
@@ -132,11 +132,19 @@ def show_main(session:dict,item_list:list):
                     st.error('현재 사용할 수 없는 기능입니다.')
                     temp_center = [GU_INFO_CENTER["강남구"]["lat"],GU_INFO_CENTER["강남구"]["lng"]]
 
-                elif( False == bool(res.json()['houses'])):
+                # default value 
+                elif( (1 == len(res.json()['houses'])) and ( 'house_id' not in (res.json()['houses']["0"]))):
                     st.warning('현재 위치에 매물이 하나도 없습니다.')
                 else:    
-                    session.item_list = [*res.json()['houses'].values()]
+                    # session.item_list = [*res.json()['houses'].values()]
+                    house_list =  [*res.json()['houses'].values()]
+                    if( 'house_id' not in res.json()['houses']["0"] ):
+                        session.item_list= house_list[1:]
+                    else:
+                        session.item_list= house_list
+
                     temp_center = [min_lat + ( max_lat - min_lat) / 2 ,min_lng + ( max_lng - min_lng) / 2]
+                    session.ex_show_item_list = copy.deepcopy(session.item_list)
                     change_center_info(session, temp_center , session.ex_zoom )
 
 
@@ -202,8 +210,8 @@ def show_main(session:dict,item_list:list):
                     res = requests.post(url,data=json.dumps(params) )
                     
                     last_object_clicked_coord = [ map_data["last_object_clicked"]['lat'] ,map_data["last_object_clicked"]['lng']  ]
-                    # 이전 상태 저장 
-                    session.ex_show_item_list = session.show_item_list
+                    # 이전 상태 저장  - 이전 목록이 사라지는 문제로 주석
+                    # session.ex_show_item_list = session.show_item_list
                     session.show_item_list = temp_item_list
                     change_center_info(session, last_object_clicked_coord, 18)
 
@@ -226,7 +234,11 @@ def show_main(session:dict,item_list:list):
                     change_center_info(session, temp_center , 14 )
                     # 찜 동기화를 위해 deepcopy 비활성화 
                     # session.show_item_list = copy.deepcopy(session.item_list)
-                    session.show_item_list = (session.ex_show_item_list)
+                    if( 0 < len(session.ex_show_item_list)):
+                        session.show_item_list = (session.ex_show_item_list)
+                        session.ex_show_item_list = []
+                    else:
+                        session.show_item_list  =session.item_list
                     # session.ex_loaction=  None
                     st.experimental_rerun()
                     # session.show_detail= False
@@ -315,7 +327,7 @@ def show_main(session:dict,item_list:list):
                 res = requests.post(url,data=json.dumps(params) )
                 
                 session.show_detail= True
-                session.ex_show_item_list = session.show_item_list
+                # session.ex_show_item_list = session.show_item_list
                 session.show_item_list = list(filter(lambda item:  int(clicked_info[0]) == item['house_id'], item_list) )
                 # session.show_item_list = list(filter(lambda item: item['location'] == clicked, item_list))
                 change_center_info(session, list(map(float,clicked_info[1:]) ), 18)

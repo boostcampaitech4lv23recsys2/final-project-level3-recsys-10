@@ -35,7 +35,6 @@ def show_login(session:dict):
 
                 x = requests.post(url, data=json.dumps(users_login))
                 check = x.json()
-                print(check)
 
                 session.cur_user_info['user_id'] = check['user_id']
                 session.cur_user_info['user_gu'] = check['user_gu']
@@ -187,7 +186,7 @@ def show_infra(session:dict, selected_gu:str="",user_type:int=0):
         
         submit = st.form_submit_button("제출하기")
         if submit:
-            if locate == '원하는 구를 선택하세요.':
+            if locate == '':
                 st.error('구를 선택하세요.')
             elif check_cnt >=3:
                 selected_infra_list = []
@@ -197,14 +196,15 @@ def show_infra(session:dict, selected_gu:str="",user_type:int=0):
                         selected_infra_list.append(value_str)
                     idx += 1
                 # session['ex_user_info'] = session.cur_user_info
-                print(selected_infra_list)
                 session.cur_user_info['user_gu'] = locate
                 session.cur_user_info['infra_list'] = selected_infra_list
                 session.item_list = []
                 infra_user_info = {
                 "user_id" :session.cur_user_info['user_id'],
                 "user_gu" :session.cur_user_info['user_gu'],
+                "infra" :  session.cur_user_info['infra_list']
                 }
+
                 url = ''.join([BACKEND_ADDRESS, DOMAIN_INFO['users'], DOMAIN_INFO['infra']])
                 res = requests.post(url,data=json.dumps(infra_user_info) )
 
