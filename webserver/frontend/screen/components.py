@@ -134,7 +134,7 @@ def get_list_component( item:dict, clickevent=None, isZzimList=False):
                 <div style="display:inline-block; font-size:50px;"> {rank_info} </div>\
             </div>\
                 <div style="font-weight:bold;"> { price_str} </div>\
-                <div style="font-weight:bold;"> { cur_item_info["price_deposit"] } / { cur_item_info["price_monthly_rent"] }　{cur_item_info["address"]} </div>\
+                <div style="font-weight:bold;"> {cur_item_info["address"]} </div>\
                 <br>\
             <div> {infra_str} </div>\
         </a></div>\
@@ -173,7 +173,7 @@ def get_detail_component( item:dict,clickevent=None, isZzimList=False ):
         </div>\
         <br>\
         <div style="font-weight:bold;"> { price_str} </div>\
-        <div style="font-weight:bold;"> { cur_item_info["price_deposit"] } / { cur_item_info["price_monthly_rent"] }　{cur_item_info["address"]} </div>\
+        <div style="font-weight:bold;"> {cur_item_info["address"]} </div>\
         <br>\
         <div> {cur_item_info["description"]}</div>\
         <hr/>'
