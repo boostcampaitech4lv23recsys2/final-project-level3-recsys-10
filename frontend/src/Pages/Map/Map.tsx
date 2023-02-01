@@ -1,6 +1,7 @@
 import type { FC } from "react";
 import { useEffect, useRef, useState } from "react";
 import Sidebar from "../../Components/Sidebar";
+import Sidebar2 from "../../Components/Sidebar2";
 import "./Map.css";
 
 type HouseInfo = {
@@ -10,13 +11,16 @@ type HouseInfo = {
 const Map: FC<HouseInfo> = ({ houses }) => {
   const mapElement = useRef(null);
   const { naver } = window;
-  let [showList, setShowList] = useState(Object.values(houses));
+  let [showList, setShowList] = useState<any>([]);
   let [markerList, setMarkerList] = useState<any>([]);
+  let [gumarkerList, setGumarkerList] = useState<any>([]);
   let [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
 
   useEffect(() => {
     if (!mapElement.current || !naver) return;
+    if (Object.values(houses).length === 0) return;
 
+    setShowList(houses);
     // 지도에 표시할 위치의 위도와 경도 좌표를 파라미터로 넣어줍니다.
     const location = new naver.maps.LatLng(37.5656, 126.9769);
     const mapOptions: naver.maps.MapOptions = {
@@ -48,6 +52,7 @@ const Map: FC<HouseInfo> = ({ houses }) => {
         markers.forEach((item: any) => item.setMap(null));
         return curMarkerList;
       });
+      setShowList([Object.values(houses)[idx]]);
     };
 
     const houseInfoList = Object.values(houses);
@@ -85,14 +90,22 @@ const Map: FC<HouseInfo> = ({ houses }) => {
         clickMarkerEvent(e, idx)
       );
     }
-  }, [houses]);
+  }, [houses, mapElement]);
 
-  return (
-    <>
-      {true == isSidebarOpen && <Sidebar setIsSidebarOpen={setIsSidebarOpen} />}
-      <div ref={mapElement} style={{ minHeight: "100vh" }} />
-    </>
-  );
+  if (Object.values(houses).length === 0) return <></>;
+  else {
+    return (
+      <>
+        {true == isSidebarOpen && (
+          <Sidebar
+            setIsSidebarOpen={setIsSidebarOpen}
+            itemList={Object.values(showList)}
+          />
+        )}
+        <div ref={mapElement} style={{ minHeight: "100vh" }} />
+      </>
+    );
+  }
 };
 
 export default Map;

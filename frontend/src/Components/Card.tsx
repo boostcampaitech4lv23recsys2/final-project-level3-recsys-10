@@ -2,12 +2,13 @@ import { useEffect, useRef, useState } from "react";
 import type { FC } from "react";
 import { ReactComponent as Heart } from "../heart.svg";
 
-type targetInfo = {
-  house: object;
+type myType = {
+  item: any;
 };
-
-const Card = () => {
+const Card: FC<myType> = ({ item }) => {
   useEffect(() => {}, []);
+  const imgPath = `https://ic.zigbang.com/ic/items/${item["information"]["zigbang_id"]}/2.jpg?w=800&h=600&q=70&a=1`;
+  console.log(item["information"]["zigbang_id"]);
 
   //   if (Object.keys(houseInfo).length === 0) return <></>;
   return (
@@ -17,6 +18,7 @@ const Card = () => {
         margin: "0 1vw",
         width: "18rem",
         display: "inline-block",
+        whiteSpace: "pre-wrap",
         // top: "10vw",
         // left: "20vw",
       }}
@@ -33,17 +35,12 @@ const Card = () => {
           {/* <Heart fill="#ff385c" /> */}
           <Heart />
         </button>
-        <img
-          src="https://ic.zigbang.com/ic/items/35171998/12.jpg?w=800&h=600&q=70&a=1"
-          className="card-img-top"
-          alt="..."
-        />
+        <img src={imgPath} className="card-img-top" alt="..." />
       </div>
       <div className="card-body">
         <h5 className="card-title">Card title</h5>
         <p className="card-text">
-          Some quick example text to build on the card title and make up the
-          bulk of the card's content.
+          {item["information"]["description"].replace(/<br>/g, "\n")}
         </p>
         <a href="#" className="btn btn-primary">
           Go somewhere
