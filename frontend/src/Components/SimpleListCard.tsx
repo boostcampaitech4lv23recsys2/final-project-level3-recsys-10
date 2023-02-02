@@ -48,6 +48,7 @@ const SimpleListCard: FC<myType> = ({ item }) => {
   );
 
   const address = item["information"]["address"];
+  const isZzim = "Y" === item["zzim"];
 
   //   if (Object.keys(houseInfo).length === 0) return <></>;
   return (
@@ -65,7 +66,7 @@ const SimpleListCard: FC<myType> = ({ item }) => {
           }}
         >
           {/* <Heart fill="#ff385c" /> */}
-          <Heart />
+          {true === isZzim ? <Heart fill="#ff385c" /> : <Heart />}
         </button>
         <img
           className="object-cover w-full ml-1 rounded-t-lg rounded-r-lg h-96 md:h-auto md:w-auto md:rounded-none md:rounded-l-lg md:rounded-r-lg"
