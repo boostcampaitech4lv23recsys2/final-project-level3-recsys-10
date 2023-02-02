@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import type { FC } from "react";
 import Map from "../Map/Map";
 import Recommend from "../Recommend";
+import { fetchHouseByCoord } from "../../data/fetchByUser";
 
 type userInfo = {
   gu: string;
