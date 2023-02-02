@@ -15,39 +15,73 @@ import os
 
 def inference_gu(user_id, user_gu, db: Session):
     s = f"""
-    SELECT H.house_id,
-            RANK() over (ORDER BY (SUM(G.infra_dist_score) + SUM(G.infra_cnt_score)) DESC, H.house_id) as ranking
-    FROM HOUSE_INFO H,
-            GRID_SCORE G
-    WHERE H.grid_id = G.grid_id
-       	AND local2 = "{user_gu}"
-        AND G.INFRA_TYPE IN (SELECT U.infra_type
-                            FROM USERS_INFRA U
-                            where U.user_id = {user_id}
+        SELECT H.house_id, 
+                RANK() over (ORDER BY (SUM(G.infra_dist_score) + SUM(G.infra_cnt_score)) DESC
+                                , H.price_deposit
+                                , H.price_monthly_rent
+                                , H.house_id) as ranking
+        FROM HOUSE_INFO2 H,
+                (SELECT MIN(H1.house_id) as house_id
+		  FROM HOUSE_INFO2 H1
+		INNER JOIN
+			(SELECT address
+				, MIN(price_deposit) price_deposit 
+			  FROM HOUSE_INFO2
+			 GROUP BY address) H2
+		ON H1.address = H2.address
+		AND H1.price_deposit = H2.price_deposit 
+		GROUP BY H1.address) HD,
+                GRID_SCORE G
+        WHERE H.grid_id = G.grid_id
+                AND H.house_id = HD.house_id
+                AND H.sold_yn = 'N'
+                AND local2 = "{user_gu}"
+                AND G.INFRA_TYPE IN (SELECT U.infra_type
+                                FROM USERS_INFRA U
+                                where U.user_id = {user_id}
                                 AND U.infra_yn = 'Y')
-    GROUP BY H.house_id
-    ORDER BY ranking 
-    """
+        GROUP BY H.house_id
+        ORDER BY ranking 
+        LIMIT 80
+        """
     return db.execute(s).all()
 
 
 def inference_latlng(user_id, min_lat, max_lat, min_lng, max_lng, db: Session):
     s = f"""
-    SELECT H.house_id,
-            RANK() over (ORDER BY (SUM(G.infra_dist_score) + SUM(G.infra_cnt_score)) DESC, H.house_id) as ranking
-    FROM HOUSE_INFO H,
-            GRID_SCORE G
-    WHERE H.grid_id = G.grid_id
-        AND H.lat >= {min_lat}
-        AND H.lat <= {max_lat}
-        AND H.lng >= {min_lng}
-        AND H.lng <= {max_lng}
-        AND G.INFRA_TYPE IN (SELECT U.infra_type
-                            FROM USERS_INFRA U
-                            where U.user_id = {user_id}
-                                AND U.infra_yn = 'Y')
-    GROUP BY H.house_id
-    ORDER BY ranking 
+        SELECT H.house_id,
+                RANK() over (ORDER BY (SUM(G.infra_dist_score) + SUM(G.infra_cnt_score)) DESC
+                                , H.price_deposit
+                                , H.price_monthly_rent
+                                , H.house_id) as ranking
+        FROM HOUSE_INFO2 H,
+                (SELECT MIN(H1.house_id) as house_id
+		  FROM HOUSE_INFO2 H1
+		INNER JOIN
+			(SELECT address
+				, MIN(price_deposit) price_deposit 
+			  FROM HOUSE_INFO2
+			 GROUP BY address) H2
+		ON H1.address = H2.address
+		AND H1.price_deposit = H2.price_deposit 
+		GROUP BY H1.address) HD,
+                GRID_SCORE G
+        WHERE H.grid_id = G.grid_id
+                AND H.house_id = HD.house_id
+                AND H.sold_yn = 'N'
+                AND ST_CONTAINS(ST_POLYFROMTEXT('POLYGON(({min_lng} {min_lat}
+                                                        , {min_lng} {max_lat}
+                                                        , {max_lng} {max_lat}
+                                                        , {max_lng} {min_lat}
+                                                        , {min_lng} {min_lat}))')
+                                                , H.latlng)
+                AND G.INFRA_TYPE IN (SELECT U.infra_type
+                                FROM USERS_INFRA U
+                                where U.user_id = {user_id}
+                                        AND U.infra_yn = 'Y')
+        GROUP BY H.house_id
+        ORDER BY ranking
+        LIMIT 80
     """
     return db.execute(s).all()
 

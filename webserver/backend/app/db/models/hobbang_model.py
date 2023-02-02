@@ -1,7 +1,8 @@
 # models/test_model.py
 
-from sqlalchemy import Column, String, VARCHAR, CHAR, Integer, BigInteger, Float, DateTime
-from sqlalchemy.orm import relationship
+from sqlalchemy import Column, String, VARCHAR, CHAR, Integer, BigInteger, Float, DateTime, Text
+# from sqlalchemy.orm import relationship
+from geoalchemy2 import Geometry
 from db.session import Base
 
 
@@ -10,18 +11,19 @@ class HouseInfo(Base):
 
     house_id = Column(Integer, primary_key=True)
     zigbang_id = Column(Integer)
-    lat = Column(Float)
-    lng = Column(Float)
+    # lat = Column(Float)
+    # lng = Column(Float)
     grid_id = Column(Integer)   # Foreign key
     local1 = Column(VARCHAR(20))  # 시
     local2 = Column(VARCHAR(20))  # 구
+    latlng = Column(Geometry('POINT', srid=4326))
     sales_type = Column(VARCHAR(255))
     service_type = Column(VARCHAR(255))
     price_sales = Column(Integer)
     price_deposit = Column(Integer)
     price_monthly_rent = Column(Integer)
-    floor = Column(Integer)
-    floor_total = Column(Integer)
+    floor = Column(VARCHAR(10))
+    floor_total = Column(VARCHAR(10))
     manage_cost = Column(Integer)
     room_cnt = Column(Integer)
     bathroom_cnt = Column(Integer)
@@ -29,6 +31,35 @@ class HouseInfo(Base):
     update_date = Column(DateTime)
     sold_yn = Column(CHAR(1))
 
+
+class HouseInfo2(Base):
+    __tablename__ = "HOUSE_INFO2"
+
+    house_id = Column(Integer, primary_key=True)
+    zigbang_id = Column(Integer)
+    latlng = Column(Geometry('POINT', srid=4326))
+    grid_id = Column(Integer)   # Foreign key
+    sales_type = Column(VARCHAR(255))
+    service_type = Column(VARCHAR(255))
+    house_area = Column(Float)
+    price_sales = Column(Integer)
+    price_deposit = Column(Integer)
+    price_monthly_rent = Column(Integer)
+    manage_cost = Column(Integer)
+    address = Column(VARCHAR(255))
+    local1 = Column(VARCHAR(20))  # 시
+    local2 = Column(VARCHAR(20))  # 구
+    title = Column(VARCHAR(500))
+    description = Column(Text)
+    image_thumbnail = Column(VARCHAR(255))
+    images = Column(VARCHAR(1000))
+    floor = Column(VARCHAR(10))
+    floor_total = Column(VARCHAR(10))
+    # room_cnt = Column(Integer)
+    bathroom_cnt = Column(Integer)
+    register_date = Column(DateTime)
+    update_date = Column(DateTime)
+    sold_yn = Column(CHAR(1))
 
 class UsersInfo(Base):
     __tablename__ = "USERS_INFO"
@@ -40,6 +71,9 @@ class UsersInfo(Base):
     user_age = Column(Integer)
     user_sex = Column(Integer)
     user_type = Column(CHAR)
+    register_date = Column(DateTime)
+    update_date = Column(DateTime)
+
 
 
 class UsersInfra(Base):
@@ -59,7 +93,9 @@ class UserZzim(Base):
     idx = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer)
     house_id = Column(Integer)
-    zzim_date = Column(DateTime)
+    register_date = Column(DateTime)
+    update_date = Column(DateTime)
+    zzim_yn = Column(CHAR(2))
 
 
 class Infra(Base):
@@ -75,10 +111,11 @@ class InfraInfo(Base):
     infra_id = Column(CHAR(20), primary_key=True)
     infra_type = Column(CHAR(2))
     name = Column(VARCHAR(255))
-    lat = Column(Float)
-    lng = Column(Float)
+    # lat = Column(Float)
+    # lng = Column(Float)
     local1 = Column(VARCHAR(20))
     local2 = Column(VARCHAR(20))
+    latlng = Column(Geometry('POINT', srid=4326))
     grid_id = Column(Integer)
     register_date = Column(DateTime)
     update_date = Column(DateTime)
