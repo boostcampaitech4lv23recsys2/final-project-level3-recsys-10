@@ -2,6 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import type { FC } from "react";
 import { ReactComponent as Heart } from "../heart.svg";
 
+import { useSelector, useDispatch } from "react-redux";
+import * as H from "../store/house";
+import { AppState } from "../store";
+
 type myType = {
   item: any;
 };

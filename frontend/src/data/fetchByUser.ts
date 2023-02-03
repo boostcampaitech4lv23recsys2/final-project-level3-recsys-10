@@ -24,13 +24,19 @@ export type IUserSignUp = {
 };
 
 // user_id 와 user_gu 정보로 해당 gu 에서 hosue information 을 받아오는 함수
-export const fetchHouseByGu = ({ user_id, user_gu }: IUser): Promise<unknown> =>
+export const fetchHouseByGu = ({
+  userId,
+  userGu,
+}: {
+  userId: number;
+  userGu: string;
+}): Promise<any> =>
   new Promise((resolve, reject) => {
     let requestOption = FETCH_BASIC_OPTION;
     requestOption["method"] = "POST";
     requestOption["body"] = JSON.stringify({
-      user_id,
-      user_gu,
+      user_id: userId,
+      user_gu: userGu,
       house_ranking: {},
     });
     fetch(
@@ -39,9 +45,9 @@ export const fetchHouseByGu = ({ user_id, user_gu }: IUser): Promise<unknown> =>
     )
       // fetch("http://27.96.130.120:30007/users/login")
       .then((res) => res.json())
-      .then((data: unknown) => {
-        console.log(data);
-        const { houses } = data as { houses: unknown };
+      .then((data: any) => {
+        // console.log(data);
+        const { houses } = data as { houses: any };
         resolve(houses);
       })
       .catch(reject);
@@ -62,7 +68,7 @@ export const fetchHouseByCoord = ({
   min_lng: number;
   max_lat: number;
   max_lng: number;
-}): Promise<unknown> =>
+}): Promise<any> =>
   new Promise((resolve, reject) => {
     let requestOption: RequestInit = FETCH_BASIC_OPTION;
     requestOption["method"] = "POST";
@@ -137,23 +143,23 @@ export const fetchSignUp = (signUpInfo: IUserSignUp): Promise<boolean> =>
       .catch(reject);
   });
 
-// 클릭 로그를 기록하는 함수
-export const fetchCheckDoubleName = (name: string): Promise<boolean> =>
-  new Promise((resolve, reject) => {
-    let requestOption = FETCH_BASIC_OPTION;
-    requestOption["method"] = "GET";
-    fetch(
-      `${BACKEND_ADDRESS}${DOMAIN_INFO["map"]}${DOMAIN_INFO["items"]}${DOMAIN_INFO["click"]}` +
-        new URLSearchParams({ name })
-    )
-      // fetch("http://27.96.130.120:30007/users/login")
-      .then((res) => res.json())
-      .then((data: unknown) => {
-        console.log(data);
-        resolve(true); // TODO 수정 필요
-      })
-      .catch(reject);
-  });
+// // 닉네임 중복 확인 함수
+// export const fetchCheckDoubleName = (name: string): Promise<boolean> =>
+//   new Promise((resolve, reject) => {
+//     let requestOption = FETCH_BASIC_OPTION;
+//     requestOption["method"] = "GET";
+//     fetch(
+//       `${BACKEND_ADDRESS}${DOMAIN_INFO["map"]}${DOMAIN_INFO["items"]}${DOMAIN_INFO["click"]}` +
+//         new URLSearchParams({ name })
+//     )
+//       // fetch("http://27.96.130.120:30007/users/login")
+//       .then((res) => res.json())
+//       .then((data: unknown) => {
+//         console.log(data);
+//         resolve(true); // TODO 수정 필요
+//       })
+//       .catch(reject);
+//   });
 
 // name 과 pw 를 이용하여 login 요청
 // TODO pw 는 암호화되어 있어야 함
