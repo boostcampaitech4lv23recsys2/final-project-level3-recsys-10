@@ -199,7 +199,7 @@ export const fetchAddInfra = ({
   user_type: string;
   user_gu: string;
   infra_list: string[];
-}): Promise<unknown> =>
+}): Promise<IUser> =>
   new Promise((resolve, reject) => {
     let requestOption = FETCH_BASIC_OPTION;
     requestOption["method"] = "POST";
@@ -216,9 +216,9 @@ export const fetchAddInfra = ({
     )
       // fetch("http://27.96.130.120:30007/users/login")
       .then((res) => res.json())
-      .then((data: unknown) => {
+      .then((data: IUser) => {
         console.log(data);
-        resolve(true);
+        resolve(data);
       })
       .catch(reject);
   });
