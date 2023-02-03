@@ -1,12 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { FC } from "react";
-import Map from "../Map/Map";
-import Recommend from "../Recommend";
-import { fetchHouseByCoord } from "../../data/fetchByUser";
+import Map from "./Map/Map";
+import Recommend from "./Recommend";
 import { useSelector, useDispatch } from "react-redux";
-import * as H from "../../store/house";
-import * as D from "../../data";
-import { AppState } from "../../store";
+import * as H from "../store/house";
+import * as D from "../data";
+import { AppState } from "../store";
 
 type userInfo = {
   gu: string;

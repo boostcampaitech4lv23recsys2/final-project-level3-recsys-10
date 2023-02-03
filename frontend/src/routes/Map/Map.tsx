@@ -1,7 +1,6 @@
 import type { FC } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Sidebar from "../../Components/Sidebar";
-import Sidebar2 from "../../Components/Sidebar2";
 import "./Map.css";
 
 import { useSelector, useDispatch } from "react-redux";

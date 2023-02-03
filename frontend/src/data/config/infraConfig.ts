@@ -6,7 +6,7 @@ export const setting = {
       ko: "지하철",
       code: "01",
       img: "",
-      icon: "subway",
+      icon: "subway_hobbang.png",
       emoji: "&//128650;",
       is_use: true,
     },
@@ -15,7 +15,7 @@ export const setting = {
       ko: "편의점",
       code: "02",
       img: "",
-      icon: "shopping-basket",
+      icon: "store_hobbang.png",
       emoji: "&//127857;",
       is_use: true,
     },
@@ -35,7 +35,7 @@ export const setting = {
       img: "",
       icon: "futbol-o",
       emoji: "&//128054;",
-      is_use: true,
+      is_use: false,
     },
     "05": {
       en: "cafe",
@@ -60,7 +60,7 @@ export const setting = {
       ko: "영화관",
       code: "07",
       img: "",
-      icon: "film",
+      icon: "movie_hobbang.png",
       emoji: "&//127916;",
       is_use: true,
     },
@@ -69,7 +69,7 @@ export const setting = {
       ko: "헬스장",
       code: "08",
       img: "",
-      icon: "heartbeat",
+      icon: "health_hobbang.png",
       emoji: "&//128170;",
       is_use: true,
     },
@@ -77,4 +77,6 @@ export const setting = {
 };
 
 // export const INFRA_INFO = list(filter(lambda infra: infra["is_use"] == True,[*setting["infra"].values()]))
-export const INFRA_INFO_DICT = setting["infra"];
+export const INFRA_INFO_LIST = Object.values(setting["infra"]).filter(
+  (infra) => infra.is_use === true
+);
