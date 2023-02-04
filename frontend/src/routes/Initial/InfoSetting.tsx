@@ -57,23 +57,36 @@ export default function InfoSetting() {
     }
   }, [guInfo, infraInfo]);
   return (
-    <form className="relative">
-      <div className="mb-80">
-        <InfraSelect
-          setInfra={setInfraInfo}
-          selectedInfra={infraInfo}
-        ></InfraSelect>
+    <div className="flex flex-col min-h-screen bg-gray-100 border border-gray-300 shadow-xl rounded-xl">
+      <div className="flex flex-col items-center justify-center flex-1 max-w-sm px-2 mx-auto">
+        <div className="w-full px-6 py-8 text-black bg-white rounded shadow-md">
+          <form className="relative">
+            <div>
+              <Gu
+                setGu={setGuInfo}
+                className="z-10 mb-4 w-80 basic-single"
+              ></Gu>
+            </div>
+            <div className="mb-80">
+              <InfraSelect
+                setInfra={setInfraInfo}
+                selectedInfra={infraInfo}
+              ></InfraSelect>
+            </div>
+
+            <button
+              type="button"
+              className="w-full btn text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              onClick={goMain}
+            >
+              집 보러 가기
+            </button>
+          </form>
+          <p className="text-xs text-center text-gray-500">
+            &copy;2023 Hobbang Corp. All rights reserved.
+          </p>
+        </div>
       </div>
-      <div>
-        <Gu setGu={setGuInfo}></Gu>
-      </div>
-      <button
-        type="button"
-        className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-        onClick={goMain}
-      >
-        집 보러 가기
-      </button>
-    </form>
+    </div>
   );
 }

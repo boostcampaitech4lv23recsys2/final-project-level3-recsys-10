@@ -143,23 +143,22 @@ export const fetchSignUp = (signUpInfo: IUserSignUp): Promise<boolean> =>
       .catch(reject);
   });
 
-// // 닉네임 중복 확인 함수
-// export const fetchCheckDoubleName = (name: string): Promise<boolean> =>
-//   new Promise((resolve, reject) => {
-//     let requestOption = FETCH_BASIC_OPTION;
-//     requestOption["method"] = "GET";
-//     fetch(
-//       `${BACKEND_ADDRESS}${DOMAIN_INFO["map"]}${DOMAIN_INFO["items"]}${DOMAIN_INFO["click"]}` +
-//         new URLSearchParams({ name })
-//     )
-//       // fetch("http://27.96.130.120:30007/users/login")
-//       .then((res) => res.json())
-//       .then((data: unknown) => {
-//         console.log(data);
-//         resolve(true); // TODO 수정 필요
-//       })
-//       .catch(reject);
-//   });
+// 닉네임 중복 확인 함수
+export const fetchCheckDoubleName = (name: string): Promise<boolean> =>
+  new Promise((resolve, reject) => {
+    let requestOption = FETCH_BASIC_OPTION;
+    requestOption["method"] = "GET";
+    fetch(
+      `${BACKEND_ADDRESS}${DOMAIN_INFO["users"]}${DOMAIN_INFO["name"]}/${name}`
+    )
+      // fetch("http://27.96.130.120:30007/users/login")
+      .then((res) => res.json())
+      .then((data: unknown) => {
+        console.log(data);
+        resolve(true); // TODO 수정 필요
+      })
+      .catch(reject);
+  });
 
 // name 과 pw 를 이용하여 login 요청
 // TODO pw 는 암호화되어 있어야 함

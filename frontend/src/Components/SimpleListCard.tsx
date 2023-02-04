@@ -58,6 +58,7 @@ const SimpleListCard: FC<myType> = ({ item }) => {
     >
       <div style={{ position: "relative" }}>
         <button
+          onClick={(e) => {}}
           style={{
             bottom: "0",
             right: "0.3vw",
@@ -75,7 +76,7 @@ const SimpleListCard: FC<myType> = ({ item }) => {
         />
       </div>
       <div className="flex flex-col justify-between p-4 leading-normal">
-        <strong className="mb-2 text-lg font-bold tracking-tight text-gray-900 dark:text-white">
+        <strong className="mb-2 text-lg font-bold tracking-tight text-gray-900">
           {wholeFee}
         </strong>
         <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">

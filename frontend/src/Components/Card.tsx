@@ -17,10 +17,9 @@ const Card: FC<myType> = ({ item }) => {
   //   if (Object.keys(houseInfo).length === 0) return <></>;
   return (
     <div
-      className="card"
+      className="card md:max-w-xl"
       style={{
         margin: "0 1vw",
-        width: "18rem",
         display: "inline-block",
         whiteSpace: "pre-wrap",
         // top: "10vw",

@@ -17,9 +17,10 @@ export const convertToSeletOption = (targetList: string[]) => {
 
 const optionList = convertToSeletOption(GU_INFO);
 
-export const Gu: FC<{ setGu: Dispatch<SetStateAction<string>> }> = ({
-  setGu,
-}) => {
+export const Gu: FC<{
+  setGu: Dispatch<SetStateAction<string>>;
+  className: string | undefined;
+}> = ({ setGu, className }) => {
   const [isClearable, setIsClearable] = useState(true);
   const [isSearchable, setIsSearchable] = useState(true);
   const [isDisabled, setIsDisabled] = useState(false);
@@ -35,7 +36,7 @@ export const Gu: FC<{ setGu: Dispatch<SetStateAction<string>> }> = ({
 
   return (
     <Select
-      className="mb-4 w-80 basic-single"
+      className={className}
       classNamePrefix="select"
       defaultValue={optionList[0]}
       isDisabled={isDisabled}

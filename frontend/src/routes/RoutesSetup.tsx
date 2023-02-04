@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import NoMatch from "./NoMatch";
 import Main from "./Main";
+import SignUp from "./Initial/SignUp";
 import Login from "./Initial/Login";
 import InfoSetting from "./Initial/InfoSetting";
 
@@ -9,6 +10,7 @@ export default function RoutesSetup() {
     <Routes>
       <Route path="/" element={<Main gu="강남구" />}></Route>
       <Route path="/login" element={<Login />}></Route>
+      <Route path="/signup" element={<SignUp />}></Route>
       <Route path="/infra" element={<InfoSetting />}></Route>
       <Route path="*" element={<NoMatch />}>
         {" "}
