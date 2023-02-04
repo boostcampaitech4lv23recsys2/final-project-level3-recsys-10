@@ -120,20 +120,20 @@ const Map: FC<HouseInfo> = ({ houses }) => {
       markers.push(marker);
     }
 
-    // var marker = new naver.maps.Marker({
-    //   position: new naver.maps.LatLng(37.3595704, 127.105399),
-    //   icon: {
-    //     content: [
-    //       '<div class="pin bounce">',
-    //       "상금",
-    //       "</div>",
-    //       '<div class="pin bounce">',
-    //       "500만원",
-    //       "</div>",
-    //     ].join(""),
-    //   },
-    //   map: map,
-    // });
+    var marker = new naver.maps.Marker({
+      position: new naver.maps.LatLng(37.3595704, 127.105399),
+      icon: {
+        content: [
+          '<div class="pin bounce">',
+          "상금",
+          "</div>",
+          '<div class="pin bounce">',
+          "500만원",
+          "</div>",
+        ].join(""),
+      },
+      map: map,
+    });
 
     for (let idx = 0; idx < houseNum; ++idx) {
       naver.maps.Event.addListener(markers[idx], "click", (e) =>

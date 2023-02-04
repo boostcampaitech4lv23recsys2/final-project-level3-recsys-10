@@ -4,8 +4,7 @@ export type State = {
   curMarker: unknown;
   markerList: unknown[];
 };
-
-export type SetMarkerInfo = Action<"@marker/setMakerInfo"> & {
+export type SetMarkerInfoAction = Action<"@marker/setMarkerInfo"> & {
   payload: State;
 };
 
@@ -20,7 +19,7 @@ export type ChangeMarkerList = Action<"@marker/changeMarkerList"> & {
 };
 
 export type Actions =
-  | SetMarkerInfo
+  | SetMarkerInfoAction
   | ChangeCurMarkerAction
   | ClearCurMarkerAction
   | ChangeMarkerList;

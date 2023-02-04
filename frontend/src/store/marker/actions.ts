@@ -1,6 +1,6 @@
-import type * as T from "./types";
+import * as T from "./types";
 
-export const setMarkerInfo = (payload: T.State): T.SetMarkerInfo => ({
+export const setMarkerInfo = (payload: T.State): T.SetMarkerInfoAction => ({
   type: "@marker/setMarkerInfo",
   payload,
 });
@@ -12,9 +12,7 @@ export const setChangeCurMarker = (
   payload,
 });
 
-export const setUpdateCurMarker = (
-  payload: string
-): T.ClearCurMarkerAction => ({
+export const setUpdateCurMarker = (): T.ClearCurMarkerAction => ({
   type: "@marker/clearCurMarker",
 });
 
