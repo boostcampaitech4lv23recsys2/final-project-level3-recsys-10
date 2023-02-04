@@ -5,6 +5,11 @@ export const setUserInfo = (payload: T.State): T.SetUserInfoAction => ({
   payload,
 });
 
+export const setUserId = (payload: number): T.ChangeIdAction => ({
+  type: "@user/changeId",
+  payload,
+});
+
 export const setChangeGu = (payload: string): T.ChangeGuAction => ({
   type: "@user/changeGu",
   payload,

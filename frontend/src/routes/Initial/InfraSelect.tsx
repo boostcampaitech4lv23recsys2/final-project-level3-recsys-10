@@ -38,22 +38,22 @@ export const InfraSelect: FC<ISelectedInfra> = ({
   setInfra,
   selectedInfra,
 }) => {
-  //   const [menuIsOpen, setMenuIsOpen] = React.useState<boolean>();
+  const [menuIsOpen, setMenuIsOpen] = React.useState<boolean>();
   const optionList = convertToSeletOption(INFRA_INFO_LIST);
 
-  //   const onInputChange = (
-  //     inputValue: string,
-  //     { action, prevInputValue }: InputActionMeta
-  //   ) => {
-  //     if (action === "input-change") {
-  //       return inputValue;
-  //     }
-  //     if (action === "menu-close") {
-  //       if (prevInputValue) setMenuIsOpen(true);
-  //       else setMenuIsOpen(undefined);
-  //     }
-  //     return prevInputValue;
-  //   };
+  const onInputChange = (
+    inputValue: string,
+    { action, prevInputValue }: InputActionMeta
+  ) => {
+    if (action === "input-change") {
+      return inputValue;
+    }
+    if (action === "menu-close") {
+      if (prevInputValue) setMenuIsOpen(true);
+      else setMenuIsOpen(undefined);
+    }
+    return prevInputValue;
+  };
 
   const onChange = useCallback(
     (inputValue: MultiValue<ISelectOption>, a: ActionMeta<ISelectOption>) => {
@@ -71,10 +71,11 @@ export const InfraSelect: FC<ISelectedInfra> = ({
       className="mb-4 w-80 basic-single"
       isMulti
       defaultValue={undefined}
+      placeholder={"인프라를 선택해주세요. "}
       isClearable
       isSearchable
       onChange={onChange}
-      name="color"
+      name="infra"
       options={optionList}
       menuIsOpen={true}
       isOptionDisabled={(option) => {

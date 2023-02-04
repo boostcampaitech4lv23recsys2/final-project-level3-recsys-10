@@ -6,6 +6,8 @@ export const reducer = (state: T.State = initialState, action: T.Actions) => {
   switch (action.type) {
     case "@user/setUserInfo":
       return action.payload;
+    case "@user/changeId":
+      return { ...state, userId: action.payload };
     case "@user/changeGu":
       return { ...state, userGu: action.payload };
     case "@user/changeInfra":

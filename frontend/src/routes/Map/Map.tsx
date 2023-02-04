@@ -62,6 +62,7 @@ const Map: FC<HouseInfo> = ({ houses }) => {
 
     // 구가 바뀌었으니 보여줄 매물을 전체 매물로 설정
     dispatch(H.changeShowHouseList(houses));
+    setIsSidebarOpen(true);
 
     // 지도에 표시할 위치의 위도와 경도 좌표를 파라미터로 넣어줍니다.
     const { minLat, minLng, maxLat, maxLng } = getBoundsByShowHouse(houses);
@@ -119,20 +120,20 @@ const Map: FC<HouseInfo> = ({ houses }) => {
       markers.push(marker);
     }
 
-    var marker = new naver.maps.Marker({
-      position: new naver.maps.LatLng(37.3595704, 127.105399),
-      icon: {
-        content: [
-          '<div class="pin bounce">',
-          "상금",
-          "</div>",
-          '<div class="pin bounce">',
-          "500만원",
-          "</div>",
-        ].join(""),
-      },
-      map: map,
-    });
+    // var marker = new naver.maps.Marker({
+    //   position: new naver.maps.LatLng(37.3595704, 127.105399),
+    //   icon: {
+    //     content: [
+    //       '<div class="pin bounce">',
+    //       "상금",
+    //       "</div>",
+    //       '<div class="pin bounce">',
+    //       "500만원",
+    //       "</div>",
+    //     ].join(""),
+    //   },
+    //   map: map,
+    // });
 
     for (let idx = 0; idx < houseNum; ++idx) {
       naver.maps.Event.addListener(markers[idx], "click", (e) =>
@@ -160,7 +161,7 @@ const Map: FC<HouseInfo> = ({ houses }) => {
         <button
           style={{
             bottom: "2vh",
-            left: "40.2vw",
+            left: "45.5vw",
             zIndex: "2",
             position: "absolute",
           }}

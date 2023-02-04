@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 export default function NoMatch() {
   const navigate = useNavigate();
 
-  const goBack = useCallback(() => {
-    navigate(-1);
+  const goSettingInfo = useCallback(() => {
+    navigate("/infra");
   }, [navigate]);
   return (
     <div className="flex justify-center mt-52">
@@ -38,7 +38,7 @@ export default function NoMatch() {
               type="password"
               placeholder="******************"
             />
-            <p className="text-xs italic text-red-500">
+            <p className="text-xs italic text-re d-500">
               Please choose a password.
             </p>
           </div>

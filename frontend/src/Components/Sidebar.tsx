@@ -24,10 +24,7 @@ const Sidebar: FC<myType> = ({ setIsSidebarOpen, itemList, markerList }) => {
   );
 
   return (
-    <aside
-      style={{ width: "26rem", marginRight: "1vw" }}
-      className="fixed top-0 right-0 z-40 h-screen transition-transform-translate-x-full sm:translate-x-5"
-    >
+    <aside className="fixed top-0 right-0 z-40 h-screen min-h-screen transition-transform-translate-x-full sm:translate-x-5 md:flex">
       <div className="h-full px-3 py-4 overflow-y-auto bg-white dark:bg-gray-800">
         <ul className="space-y-2">
           <li>
