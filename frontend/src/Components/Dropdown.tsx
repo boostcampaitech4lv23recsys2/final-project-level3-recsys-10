@@ -10,24 +10,27 @@ export default function Dropdwon() {
     navigate(-1);
   }, [navigate]);
   return (
-    <div className="flex justify-center h-screen ml-80">
-      <div className="relative my-32">
+    <div className="flex justify-center ml-10 ">
+      <div className="relative my-2">
         <button
-          className="relative z-10 block p-2 bg-white rounded-md focus:outline-none"
+          className="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
           onClick={onClickOpen}
         >
-          <svg
-            className="w-5 h-5 text-gray-800"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-              clipRule="evenodd"
-            />
-          </svg>
+          <div className="flex">
+            <svg
+              className="w-5 h-5 text-gray-800"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                clipRule="evenodd"
+              />
+            </svg>
+            유진님
+          </div>
         </button>
 
         {openMenu && (
@@ -36,32 +39,21 @@ export default function Dropdwon() {
               href="#"
               className="block px-4 py-2 text-sm text-gray-700 capitalize hover:bg-blue-500 hover:text-white"
             >
-              your profile
+              관심목록
             </a>
             <a
               href="#"
               className="block px-4 py-2 text-sm text-gray-700 capitalize hover:bg-blue-500 hover:text-white"
             >
-              Your projects
+              설정 변경
             </a>
             <a
               href="#"
               className="block px-4 py-2 text-sm text-gray-700 capitalize hover:bg-blue-500 hover:text-white"
             >
-              Help
+              로그아웃
             </a>
-            <a
-              href="#"
-              className="block px-4 py-2 text-sm text-gray-700 capitalize hover:bg-blue-500 hover:text-white"
-            >
-              Settings
-            </a>
-            <a
-              href="#"
-              className="block px-4 py-2 text-sm text-gray-700 capitalize hover:bg-blue-500 hover:text-white"
-            >
-              Sign Out
-            </a>
+
             <a>
               <input
                 type="range"

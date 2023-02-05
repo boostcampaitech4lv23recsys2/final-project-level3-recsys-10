@@ -5,6 +5,7 @@ import { ReactComponent as Heart } from "../heart.svg";
 import { useSelector, useDispatch } from "react-redux";
 import * as H from "../store/house";
 import { AppState } from "../store";
+import { makeFeeStr, makeInfraHtml } from "../utils/utils";
 
 type myType = {
   item: any;
@@ -13,6 +14,9 @@ const Card: FC<myType> = ({ item }) => {
   useEffect(() => {}, []);
   const imgPath = `https://ic.zigbang.com/ic/items/${item["information"]["zigbang_id"]}/2.jpg?w=800&h=600&q=70&a=1`;
   console.log(item["information"]["zigbang_id"]);
+  const wholeFee = makeFeeStr(item);
+  const { house_area, address } = item["information"];
+  const infraHtml = makeInfraHtml(item["related_infra"]);
 
   //   if (Object.keys(houseInfo).length === 0) return <></>;
   return (
@@ -41,7 +45,11 @@ const Card: FC<myType> = ({ item }) => {
         <img src={imgPath} className="card-img-top" alt="..." />
       </div>
       <div className="card-body">
-        <h5 className="card-title">Card title</h5>
+        <h5 className="card-title">{`${address}`} </h5>
+        <h5 className="card-title">{`${wholeFee} | ${house_area}㎡`} </h5>
+        <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
+          {infraHtml}
+        </p>
         <p className="card-text">
           {item["information"]["description"].replace(/<br>/g, "\n")}
         </p>

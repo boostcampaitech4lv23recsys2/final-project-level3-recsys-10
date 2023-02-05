@@ -7,7 +7,7 @@ export const setting = {
       code: "01",
       img: "",
       icon: "subway_hobbang.png",
-      emoji: "&//128650;",
+      emoji: "🚊",
       is_use: true,
     },
     "02": {
@@ -16,7 +16,7 @@ export const setting = {
       code: "02",
       img: "",
       icon: "store_hobbang.png",
-      emoji: "&//127857;",
+      emoji: "🍱",
       is_use: true,
     },
     "03": {
@@ -25,7 +25,7 @@ export const setting = {
       code: "03",
       img: "",
       icon: "shopping-cart",
-      emoji: "&//128717;",
+      emoji: "🛍",
       is_use: true,
     },
     "04": {
@@ -34,7 +34,7 @@ export const setting = {
       code: "04",
       img: "",
       icon: "futbol-o",
-      emoji: "&//128054;",
+      emoji: "🐶",
       is_use: false,
     },
     "05": {
@@ -43,7 +43,7 @@ export const setting = {
       code: "05",
       img: "",
       icon: "coffee",
-      emoji: "&//127849;",
+      emoji: "🍩",
       is_use: true,
     },
     "06": {
@@ -52,7 +52,7 @@ export const setting = {
       code: "06",
       img: "",
       icon: "ambulance",
-      emoji: "&//128138;",
+      emoji: "💊",
       is_use: true,
     },
     "07": {
@@ -61,7 +61,7 @@ export const setting = {
       code: "07",
       img: "",
       icon: "movie_hobbang.png",
-      emoji: "&//127916;",
+      emoji: "🎬",
       is_use: true,
     },
     "08": {
@@ -70,7 +70,7 @@ export const setting = {
       code: "08",
       img: "",
       icon: "health_hobbang.png",
-      emoji: "&//128170;",
+      emoji: "💪",
       is_use: true,
     },
   },
@@ -80,3 +80,5 @@ export const setting = {
 export const INFRA_INFO_LIST = Object.values(setting["infra"]).filter(
   (infra) => infra.is_use === true
 );
+
+export const INFRA_INFO_DICT = setting["infra"];

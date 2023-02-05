@@ -1,35 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import type { FC } from "react";
 import { ReactComponent as Heart } from "../heart.svg";
+import { makeFeeStr, makeInfraHtml } from "../utils/utils";
 
 type myType = {
   item: any;
-};
-export const getFeeStr = (fee: number): string => {
-  let remainder = fee % 10000;
-  let quotient = Math.floor(fee / 10000);
-  let res = `${quotient}억 ${remainder}`;
-  res = 0 === quotient ? res.slice(3) : res;
-  res = 0 === remainder ? res.slice(0, res.length - 1) : res;
-  return res;
-};
-
-export const getSalesTypeStr = (rentFee: number): string => {
-  return 0 == rentFee ? "전세" : "월세";
-};
-
-export const getWholeFeeStr = (
-  salesStr: string,
-  feeStr: string,
-  rentFee: number
-): string => {
-  let res = `${salesStr} ${feeStr}`;
-
-  if (0 !== rentFee) {
-    res = `${res} / ${rentFee}`;
-  }
-
-  return res;
 };
 
 const SimpleListCard: FC<myType> = ({ item }) => {
@@ -37,18 +12,12 @@ const SimpleListCard: FC<myType> = ({ item }) => {
 
   const imgPath = `${item["information"]["image_thumbnail"]}?w=800&h=600&q=70&a=1`;
   const title = item["information"]["title"];
-  const curFeeStr = getFeeStr(item["information"]["price_deposit"]);
-  const curSalesType = getSalesTypeStr(
-    item["information"]["price_monthly_rent"]
-  );
-  const wholeFee = getWholeFeeStr(
-    curSalesType,
-    curFeeStr,
-    item["information"]["price_monthly_rent"]
-  );
+  const wholeFee = makeFeeStr(item);
 
+  const houseArea = item["information"]["house_area"];
   const address = item["information"]["address"];
   const isZzim = "Y" === item["zzim"];
+  const infraHtml = makeInfraHtml(item["related_infra"]);
 
   //   if (Object.keys(houseInfo).length === 0) return <></>;
   return (
@@ -76,9 +45,14 @@ const SimpleListCard: FC<myType> = ({ item }) => {
         />
       </div>
       <div className="flex flex-col justify-between p-4 leading-normal">
-        <strong className="mb-2 text-lg font-bold tracking-tight text-gray-900">
-          {wholeFee}
-        </strong>
+        <div className="flex">
+          <strong className="mb-2 text-lg font-bold tracking-tight text-gray-900">
+            {`${wholeFee} | ${houseArea}㎡`}
+          </strong>
+        </div>
+        <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
+          {infraHtml}
+        </p>
         <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
           {address}
         </p>
