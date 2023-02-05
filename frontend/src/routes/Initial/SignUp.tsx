@@ -16,11 +16,12 @@ export default function SignUp() {
     useState<boolean>(false);
 
   const changed = useCallback(
-    (key: string) => (e: ChangeEvent<HTMLInputElement>) => {
+    (key: string) => (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
       setForm((obj) => ({ ...obj, [key]: e.target.value }));
     },
     []
   );
+
   const dispatch = useDispatch();
 
   const onClickDouble = useCallback(() => {
@@ -40,8 +41,8 @@ export default function SignUp() {
 
     if ("" === name) return "name";
     if ("" === password) return "password";
-    if (numAge > 100 && numAge < 16) return "age";
-    if (numSex < 0 && numSex >= 3) return "sex";
+    if (numAge > 100 || numAge < 16) return "age";
+    if (numSex < 0 || numSex >= 3) return "sex";
     if (false === isCompleteDoubleCheck) return "doublecheck";
 
     return "";
@@ -61,7 +62,10 @@ export default function SignUp() {
       user_sex: parseInt(sex),
       user_type: "Y",
     } as D.IUserSignUp)
-      .then((data) => dispatch(U.setUserId(1)))
+      .then((data) => {
+        console.log(data);
+        dispatch(U.setUserId(1));
+      })
       .catch()
       .finally();
     navigate("/infra");
@@ -107,14 +111,24 @@ export default function SignUp() {
             value={undefined}
             onChange={changed("age")}
           />
-          <input
+          {/* <input
             type="text"
             className="w-full p-3 mb-4 input input-primary"
             name="sex"
             placeholder="성별"
             value={undefined}
             onChange={changed("sex")}
-          />
+          /> */}
+          <select onChange={changed("sex")} name="sex" className="w-full mb-4">
+            <option value="0" className="w-full p-3 mb-2">
+              {" "}
+              남자
+            </option>
+            <option value="1" className="w-full p-3 mb-2">
+              {" "}
+              여자
+            </option>
+          </select>
 
           <button
             type="submit"

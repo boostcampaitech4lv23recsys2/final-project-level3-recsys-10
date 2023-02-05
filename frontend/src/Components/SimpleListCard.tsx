@@ -1,7 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { FC } from "react";
 import { ReactComponent as Heart } from "../heart.svg";
 import { makeFeeStr, makeInfraHtml } from "../utils/utils";
+import * as H from "../store/house";
+import * as D from "../data/fetchByUser";
+import { useDispatch } from "react-redux";
 
 type myType = {
   item: any;
@@ -18,6 +21,22 @@ const SimpleListCard: FC<myType> = ({ item }) => {
   const address = item["information"]["address"];
   const isZzim = "Y" === item["zzim"];
   const infraHtml = makeInfraHtml(item["related_infra"]);
+  const { zzim, house_id } = item;
+  const dispatch = useDispatch();
+
+  const onClickHeart = useCallback(() => {
+    const nextZzim = "N" === zzim ? "Y" : "N";
+    D.fetchZzimRegister({
+      user_id: 1,
+      house_id,
+      zzim_yn: nextZzim,
+    })
+      .then((data) => {
+        dispatch(H.updateHouseZzim({ houseId: house_id, zzim: nextZzim }));
+      })
+      .catch(() => {})
+      .finally(() => {});
+  }, []);
 
   //   if (Object.keys(houseInfo).length === 0) return <></>;
   return (
@@ -27,7 +46,7 @@ const SimpleListCard: FC<myType> = ({ item }) => {
     >
       <div style={{ position: "relative" }}>
         <button
-          onClick={(e) => {}}
+          onClick={onClickHeart}
           style={{
             bottom: "0",
             right: "0.3vw",

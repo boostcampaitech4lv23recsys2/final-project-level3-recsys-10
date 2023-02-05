@@ -19,7 +19,7 @@ export const reducer = (state: T.State = initialState, action: T.Actions) => {
       return { ...state, showHouseList: action.payload };
     case "@house/updateHouseZzim": {
       let tmpCurHouseList = state.curHouseList.map((item) => {
-        if (item.houseId == action.payload.houseId) {
+        if (item.house_id == action.payload.houseId) {
           const updatedItem = {
             ...item,
             zzim: action.payload.zzim,
@@ -28,7 +28,22 @@ export const reducer = (state: T.State = initialState, action: T.Actions) => {
         }
         return item;
       });
-      return { ...state };
+
+      let tmpCurHouseList2 = state.showHouseList.map((item) => {
+        if (item.house_id == action.payload.houseId) {
+          const updatedItem = {
+            ...item,
+            zzim: action.payload.zzim,
+          };
+          return updatedItem;
+        }
+        return item;
+      });
+      return {
+        ...state,
+        curHouseList: tmpCurHouseList,
+        showHouseList: tmpCurHouseList2,
+      };
     }
   }
   return state;

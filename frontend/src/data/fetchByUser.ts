@@ -128,17 +128,20 @@ export const fetchAddClickLog = ({
   });
 
 // 회원가입 함수
-export const fetchSignUp = (signUpInfo: IUserSignUp): Promise<boolean> =>
+export const fetchSignUp = (signUpInfo: IUserSignUp): Promise<string> =>
   new Promise((resolve, reject) => {
     let requestOption = FETCH_BASIC_OPTION;
     requestOption["method"] = "POST";
     requestOption["body"] = JSON.stringify(signUpInfo);
-    fetch(`${BACKEND_ADDRESS}${DOMAIN_INFO["users"]}${DOMAIN_INFO["join"]}`)
+    fetch(
+      `${BACKEND_ADDRESS}${DOMAIN_INFO["users"]}${DOMAIN_INFO["join"]}`,
+      requestOption
+    )
       // fetch("http://27.96.130.120:30007/users/login")
       .then((res) => res.json())
-      .then((data: unknown) => {
-        console.log(data);
-        resolve(true); // TODO 수정 필요
+      .then((data: { user_id: string }) => {
+        const { user_id } = data;
+        resolve(user_id); // TODO 수정 필요
       })
       .catch(reject);
   });
