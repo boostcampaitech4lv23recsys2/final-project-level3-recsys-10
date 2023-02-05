@@ -14,7 +14,7 @@ from recbole.quick_start import run_recbole, run_recboles
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model", "-m", type=str, default="FFM", help="name of models") # MultiVAE, MultiDAE, LightGCN, DCN, FFM
+    parser.add_argument("--model", "-m", type=str, default="LightGCN", help="name of models") # MultiVAE, MultiDAE, LightGCN, DCN, FFM
     parser.add_argument(
         "--dataset", "-d", type=str, default="sample_rec", help="name of datasets"      # ml-100k sample_rec
     )
