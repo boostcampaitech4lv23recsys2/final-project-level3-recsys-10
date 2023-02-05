@@ -236,6 +236,7 @@ def create_user_infra(user: schemas.UserSelect, db: Session):
                 ,({user.user_id}, '05', IF({infra_list["05"]}=0, "N", "Y"), now(), now())
                 ,({user.user_id}, '06', IF({infra_list["06"]}=0, "N", "Y"), now(), now())
                 ,({user.user_id}, '07', IF({infra_list["07"]}=0, "N", "Y"), now(), now())
+                ,({user.user_id}, '08', IF({infra_list["08"]}=0, "N", "Y"), now(), now())
     """
     
     # s = f"""

@@ -32,7 +32,7 @@ setting = {
         "si":[],
         "gun":[],
         "gu":{
-            "name_list": ['강남구','강동구','강서구','강북구','관악구','광진구','구로구','금천구','노원구',
+            "name_list": ['원하는 구를 선택하세요.','강남구','강동구','강서구','강북구','관악구','광진구','구로구','금천구','노원구',
             '동대문구','도봉구','동작구','마포구','서대문구','성동구','성북구','서초구','송파구',
             '영등포구','용산구','양천구','은평구','종로구','중구','중랑구'],
             "center_code": { 
@@ -74,6 +74,7 @@ setting = {
             "img":"",
             "icon":"subway",
             "emoji":"&#128650;",
+            "is_use":True,
         },
         '02':{
             "en":"convenience store",
@@ -82,6 +83,7 @@ setting = {
             "img":"",
             "icon":"shopping-basket",
             "emoji":"&#127857;",
+            "is_use":True,
         },
         '03':{
             "en":"mart",
@@ -90,6 +92,7 @@ setting = {
             "img" : "",
             "icon":"shopping-cart",
             "emoji":"&#128717;",
+            "is_use":True,
         },
         '04':{
             "en":"park",
@@ -98,6 +101,7 @@ setting = {
             "img" : "",
             "icon":"futbol-o",
             "emoji":"&#128054;",
+            "is_use":False,
         },
         '05':{
             "en":"cafe",
@@ -106,6 +110,7 @@ setting = {
             "img" : "",
             "icon":"coffee",
             "emoji":"&#127849;",
+            "is_use":True,
         },
         '06':{
             "en":"pharmacy",
@@ -114,6 +119,7 @@ setting = {
             "img" : "",
             "icon":"ambulance",
             "emoji":"&#128138;",
+            "is_use":True,
         },
         '07':{
             "en":"theater",
@@ -122,6 +128,16 @@ setting = {
             "img" : "",
             "icon":"film",
             "emoji":"&#127916;",
+            "is_use":True,
+        },
+        '08':{
+            "en":"gym",
+            "ko":"헬스장",
+            "code":"08",
+            "img" : "",
+            "icon":"heartbeat",
+            "emoji":"&#128170;",
+            "is_use":True,
         },
     },
     "2infra":
@@ -173,6 +189,13 @@ setting = {
             "code":"07",
             "img" : "",
             "icon":"film",
+        },
+        {
+            "en":"gym",
+            "ko":"헬스장",
+            "code":"08",
+            "img" : "",
+            "icon":"gym",
         }
     ],
     "state_key":[
@@ -200,12 +223,11 @@ setting = {
         ('map_bounds',{}),
         ]
 }
-
 BACKEND_ADDRESS = f'{setting["backend"]["protocol"]}{setting["backend"]["address"]}:{setting["backend"]["port"]}'
 DOMAIN_INFO = setting["domain"] 
 GU_INFO = setting["location"]["gu"]["name_list"]
 GU_INFO_CENTER = setting["location"]["gu"]["center_code"]
 # INFRA_INFO = [*setting["infra"].values()]
-INFRA_INFO = [*setting["infra"].values()]
+INFRA_INFO = list(filter(lambda infra: infra["is_use"] == True,[*setting["infra"].values()]))
 INFRA_INFO_DICT= setting["infra"]
 STATE_KEYS_VALS = setting["state_key"]
