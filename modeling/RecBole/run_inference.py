@@ -31,7 +31,8 @@ def inference():
     args, _ = parser.parse_known_args()
     
     # load model, dataset
-    config, model, dataset, test_data = inference_load_data_and_model(args.model_path, pretrain=True)
+    # config, model, dataset, test_data = load_data_and_model(args.model_path, pretrain=False)
+    config, model, dataset, test_data = inference_load_data_and_model(args.model_path, pretrain=False)
     
     # setting device
     device = config.final_config_dict['device']
@@ -128,8 +129,7 @@ def inference():
     print('inference done!')
     end = time.time()
     print(f'{round(end - start,10)} sec')
-    print(dataframe)
-    return result
+    return list(dataframe['house'])[::-1]
 
 if __name__ == '__main__':
     inference()
