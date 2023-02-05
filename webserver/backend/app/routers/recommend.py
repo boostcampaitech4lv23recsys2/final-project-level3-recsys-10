@@ -18,26 +18,44 @@ router = APIRouter(
     prefix="/recommend",
 )
 
-@router.post("/train")
+# @router.post("/train")
 def train(map: schemas.Items, db: Session = Depends(get_db)):
+    # 1. data 확인
     all_user = hobbang_crud_test.get_users(db)
     all_house = hobbang_crud_test.get_house_all(db)
     zzim_list = hobbang_crud_test.get_user_zzim_list(map.user_id, db)
-    # zzim_list = hobbang_crud_test.get_zzim_list(map.user_id, db)
-    # click = hobbang_crud_test.get_user_click_list(map.user_id, db)
     click = hobbang_crud_test.get_click_list(db)
-    # print(all_house)
+
+    # 2. 모델 학습     
+    result = train_ml(map.user_id, map.user_gu, all_user, all_house, zzim_list, click, db)
     
-    result = train_ml(map.user_id, all_user, all_house, zzim_list, click, db)
-    
-    return {'result' : result}
+    # return {'result' : result}
 
 
-@router.post("/inference")
+# @router.post("/inference")
 def inference(map: schemas.Items, db: Session = Depends(get_db)):
+    # 1. interaction data
     zzim_list = hobbang_crud_test.get_user_zzim_list(map.user_id, db)
     click = hobbang_crud_test.get_user_click_list(map.user_id, db)
     
+    # 2. 모델 inference
     result = inference_ml(zzim_list, click, db)
-    
-    return {'result' : result}
+
+    house_ranking = inference_gu(map.user_id, map.user_gu, db)
+    house_ranking.append({"house_id": result[0], "ranking": 0})
+
+    # 3. house_info 가져오기
+    map.house_ranking = {f'{house["house_id"]}': house["ranking"] for house in house_ranking}
+    houses = hobbang_crud_test.get_houses_info(map, db)
+
+    # 4. 랭킹순으로 정렬(house_list[ranking] = house_info)
+    houses = dict(sorted({houses[house]["ranking"]: houses[house] for house in houses}.items()))
+
+    return {"houses": houses}
+
+
+@router.post("/rec")
+def recommend_ML(map: schemas.Items, db: Session = Depends(get_db)):
+    train(map, db)
+    result = inference(map, db)
+    return result
