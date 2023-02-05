@@ -13,6 +13,7 @@ from recommend.ML import train_ml, inference_ml
 # from modeling.RecBole.recbole.properties
 import sys
 import os
+import time
 
 router = APIRouter(
     prefix="/recommend",
@@ -56,6 +57,9 @@ def inference(map: schemas.Items, db: Session = Depends(get_db)):
 
 @router.post("/rec")
 def recommend_ML(map: schemas.Items, db: Session = Depends(get_db)):
+    start = time.time()
     train(map, db)
     result = inference(map, db)
+    end = time.time()
+    print(end-start)
     return result

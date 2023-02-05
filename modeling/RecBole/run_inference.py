@@ -46,7 +46,6 @@ def inference():
 
     pred_list, user_list, score_list = None, None, None
     
-    start = time.time()
     model.eval()
     c=0
     for data in test_data:
@@ -119,16 +118,15 @@ def inference():
                     item+=1
                 result.append((int(user_id2token[user]), int(item_id2token[item]), score_))
     
-    # save submission
-    print('inference...')
+    # # save submission
+    # print('inference...')
     dataframe = pd.DataFrame(result, columns=["user", "house", "score"])
     dataframe.sort_values(by=['user','score'], inplace=True)
-    dataframe.to_csv(
-        f"saved/{config['model']}_submission.csv", index=False
-    )
-    print('inference done!')
-    end = time.time()
-    print(f'{round(end - start,10)} sec')
+    # dataframe.to_csv(
+    #     f"saved/{config['model']}_submission.csv", index=False
+    # )
+    # print('inference done!')
+
     return list(dataframe['house'])[::-1]
 
 if __name__ == '__main__':
