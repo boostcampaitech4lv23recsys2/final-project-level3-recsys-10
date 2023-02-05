@@ -27,8 +27,16 @@ const Main: FC<userInfo> = ({ gu }) => {
   );
 
   const getCurrentHouseInfo = useCallback(() => {
-    D.fetchHouseByGu({ userId: 1, userGu: "강남구" })
-      .then((houses) => dispatch(H.changeCurHouseList(Object.values(houses))))
+    D.fetchHouseByGu({ userId: 1, userGu: userGu })
+      .then((houses) =>
+        dispatch(
+          H.changeCurHouseList(
+            Object.values(houses).filter((item: any) =>
+              Object.keys(item).includes("house_id")
+            )
+          )
+        )
+      )
       .catch()
       .finally();
   }, [userGu]);
@@ -90,6 +98,7 @@ const Main: FC<userInfo> = ({ gu }) => {
           <div
             className="max-w-sm"
             style={{
+              width: "13vw",
               top: "2vh",
               left: "43.2vw",
               position: "fixed",
@@ -99,6 +108,17 @@ const Main: FC<userInfo> = ({ gu }) => {
             <Gu setGu={setCurUserGu} className="z-10 mr-2"></Gu>
           </div>
           <Dropdown></Dropdown>
+
+          {/* <button
+            style={{
+              top: "2vh",
+              position: "fixed",
+            }}
+            type="button"
+            className="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+          >
+            <Heart />
+          </button> */}
         </div>
       </div>
       <Map houses={houseInfoManage["curHouseList"]} />

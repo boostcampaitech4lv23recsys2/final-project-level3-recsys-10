@@ -1,6 +1,10 @@
+import { useRef } from "react";
 import * as T from "./types";
 
-const initialState: T.State = { curMarker: undefined, markerList: [] };
+const initialState: T.State = {
+  curMarker: undefined,
+  markerList: [],
+};
 
 export const reducer = (state: T.State = initialState, action: T.Actions) => {
   switch (action.type) {
