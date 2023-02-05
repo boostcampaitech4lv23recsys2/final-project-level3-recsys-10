@@ -5,10 +5,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.preprocessing import StandardScaler, LabelEncoder, normalize
 from sqlalchemy.orm import Session
 from db.models.hobbang_model import HouseInfo, UsersInfo, UsersInfra, UserZzim, Infra, InfraInfo, Grid, GridScore, LogClick
-# from . import schemas
-
-# from modeling.RecBole import run_recbole
-# from modeling.RecBole.recbole.properties
+from recommend.rule_based import inference_gu, inference_latlng
 
 import warnings
 warnings.filterwarnings(action='ignore')
@@ -23,13 +20,8 @@ sys.path.append('/opt/ml/final-project-level3-recsys-10/modeling/RecBole/')
 from recbole.quick_start import run_recbole
 from run_inference import inference
 
-# from tqdm import tqdm
 
-# pd.options.display.max_columns = 100
-
-le = LabelEncoder()
-
-def train_ml(user_id, all_user, all_house, zzim_list, click, db: Session):
+def train_ml(user_id, user_gu, all_user, all_house, zzim_list, click, db: Session):
     start = time.time()
     s = f"""
             SELECT H.house_id, H.grid_id, H.sales_type, H.service_type, H.house_area, H.price_deposit,
@@ -67,6 +59,9 @@ def train_ml(user_id, all_user, all_house, zzim_list, click, db: Session):
             LEFT JOIN GRID_SCORE G8
                     ON (H.grid_id = G8.grid_id
                         AND G8.infra_type = '08')
+            WHERE 1=1
+                AND(H.local2 = "{user_gu}"
+                        AND H.sold_yn = 'N')
         """
 
     
