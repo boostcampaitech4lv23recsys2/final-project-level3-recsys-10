@@ -19,7 +19,7 @@ load_col:                       # (dict) The suffix of atomic files: (list) fiel
     # item: [house_id, subway_dist_score, theater_dist_score, mart_dist_score]
     item: ['house_id', 'grid_id', 'sales_type', 'service_type'
             , 'house_area', 'price_deposit', 'price_monthly_rent', 'manage_cost'
-            , 'address', 'local2', 'bathroom_cnt'
+            , 'address', 'local2'
             , 'score_1', 'score_2', 'score_3', 'score_4', 'score_5', 'score_6', 'score_7', 'score_8']
     user: [user_id, user_gu, user_age, user_sex, user_type]
 unload_col: ~                   # (dict) The suffix of atomic files: (list) field names NOT to be loaded.
