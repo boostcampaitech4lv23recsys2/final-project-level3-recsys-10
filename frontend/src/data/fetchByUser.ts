@@ -229,7 +229,7 @@ export const fetchHouseByZzim = ({
 }: {
   user_id: number;
   user_gu: string;
-}): Promise<unknown> =>
+}): Promise<any> =>
   new Promise((resolve, reject) => {
     let requestOption = FETCH_BASIC_OPTION;
     requestOption["method"] = "POST";
@@ -244,9 +244,9 @@ export const fetchHouseByZzim = ({
     )
       // fetch("http://27.96.130.120:30007/users/login")
       .then((res) => res.json())
-      .then((data: unknown) => {
+      .then((data: any) => {
         console.log(data);
-        const { houses } = data as { houses: unknown };
+        const { houses } = data as { houses: any };
         resolve(houses);
       })
       .catch(reject);

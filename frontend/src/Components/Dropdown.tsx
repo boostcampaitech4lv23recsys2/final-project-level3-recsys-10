@@ -1,14 +1,48 @@
 import { useCallback, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import * as D from "../data";
+import { AppState } from "../store";
+import * as U from "../store/user";
+import * as H from "../store/house";
 
 export default function Dropdwon() {
   const [openMenu, setOpenMenu] = useState<boolean>(false);
+  const dispatch = useDispatch();
+
+  const { userId, userGu } = useSelector<AppState, U.State>(
+    (state) => state.user
+  );
 
   const onClickOpen = () => setOpenMenu(!openMenu);
   const navigate = useNavigate();
   const goBack = useCallback(() => {
     navigate(-1);
   }, [navigate]);
+
+  // userId, userGu 전달하고 찜 목록 받아서 houselist 변경
+  const onClickShowHeartList = useCallback(() => {
+    D.fetchHouseByZzim({ user_id: 1, user_gu: userGu })
+      .then((houses) =>
+        dispatch(
+          H.changeCurHouseList(
+            Object.values(houses).filter((item: any) =>
+              Object.keys(item).includes("house_id")
+            )
+          )
+        )
+      )
+      .catch()
+      .finally();
+  }, [userGu]);
+
+  const onClickLogout = () => {
+    navigate("/login");
+  };
+  const onClickChangeSetting = useCallback(() => {
+    navigate("/infra");
+  }, [navigate]);
+
   return (
     <div className="flex justify-center ml-10 ">
       <div className="relative my-2">
@@ -38,18 +72,21 @@ export default function Dropdwon() {
             <a
               href="#"
               className="block px-4 py-2 text-sm text-gray-700 capitalize hover:bg-blue-500 hover:text-white"
+              onClick={onClickShowHeartList}
             >
               관심목록
             </a>
             <a
               href="#"
               className="block px-4 py-2 text-sm text-gray-700 capitalize hover:bg-blue-500 hover:text-white"
+              onClick={onClickChangeSetting}
             >
               설정 변경
             </a>
             <a
               href="#"
               className="block px-4 py-2 text-sm text-gray-700 capitalize hover:bg-blue-500 hover:text-white"
+              onClick={onClickLogout}
             >
               로그아웃
             </a>

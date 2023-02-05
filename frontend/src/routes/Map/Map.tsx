@@ -58,6 +58,7 @@ const makeMarker = (
   return houseInfoList.map((item, idx) => {
     let iconPath = "blue_marker.png";
     const isRecommended = 0 === item["ranking"];
+    const isZzim = -1 === item["ranking"];
 
     if (idx <= first) {
       iconPath = "red_marker.png";
@@ -68,6 +69,7 @@ const makeMarker = (
     }
 
     iconPath = true === isRecommended ? "recommend_marker.png" : iconPath;
+    iconPath = true === isZzim ? "heart.png" : iconPath;
     zIndex = true === isRecommended ? 3 : zIndex;
 
     return new naver.maps.Marker({

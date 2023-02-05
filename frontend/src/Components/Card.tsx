@@ -45,6 +45,9 @@ const Card: FC<myType> = ({ item }) => {
         <img src={imgPath} className="card-img-top" alt="..." />
       </div>
       <div className="card-body">
+        <span className="w-20 bg-pink-100 text-pink-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-pink-900 dark:text-pink-300">
+          추천매물
+        </span>
         <h5 className="card-title">{`${address}`} </h5>
         <h5 className="card-title">{`${wholeFee} | ${house_area}㎡`} </h5>
         <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
@@ -53,8 +56,12 @@ const Card: FC<myType> = ({ item }) => {
         <p className="card-text">
           {item["information"]["description"].replace(/<br>/g, "\n")}
         </p>
-        <a href="#" className="btn btn-primary">
-          Go somewhere
+        <a
+          href="#"
+          className="btn"
+          style={{ background: "#FFC600", color: "black" }}
+        >
+          직방에서 매물 더 보기
         </a>
       </div>
     </div>
