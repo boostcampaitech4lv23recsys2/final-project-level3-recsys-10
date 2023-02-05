@@ -27,7 +27,6 @@ from recbole.data import (
     inference_data_preparation,
     save_split_dataloaders,
     load_split_dataloaders,
-    # inference_load_split_dataloaders,
 )
 from recbole.data.transform import construct_transform
 from recbole.utils import (
