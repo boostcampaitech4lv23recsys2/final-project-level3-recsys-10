@@ -8,6 +8,7 @@ import * as U from "../store/user";
 import * as L from "../store/loading";
 import * as D from "../data";
 import { AppState } from "../store";
+
 import { Gu } from "../routes/Initial/Gu";
 import { ReactComponent as Heart } from "../heart.svg";
 import Dropdown from "../Components/Dropdown";
@@ -28,17 +29,13 @@ const Main: FC<userInfo> = ({ gu }) => {
   );
 
   const getCurrentHouseInfo = useCallback(() => {
-    dispatch(L.setLoading(true));
-    D.fetchHouseByGu({ userId: 1, userGu: userGu })
+    D.fetchHouseByGu({ userId: userId, userGu: userGu })
       .then((houses) => {
-        dispatch(L.setLoading(false));
-        dispatch(
-          H.changeCurHouseList(
-            Object.values(houses).filter((item: any) =>
-              Object.keys(item).includes("house_id")
-            )
-          )
+        const itemList = Object.values(houses).filter((item: any) =>
+          Object.keys(item).includes("house_id")
         );
+        dispatch(H.changeCurHouseList(itemList));
+        dispatch(H.changeShowHouseList(itemList));
       })
       .catch()
       .finally();
@@ -98,9 +95,8 @@ const Main: FC<userInfo> = ({ gu }) => {
       <div className="absolute z-10 justify-center flex-1 max-w-sm px-2 mx-auto">
         <div className="flex items-center justify-between">
           <div
-            className="max-w-sm"
+            className="max-w-md"
             style={{
-              width: "13vw",
               top: "2vh",
               left: "43.2vw",
               position: "fixed",

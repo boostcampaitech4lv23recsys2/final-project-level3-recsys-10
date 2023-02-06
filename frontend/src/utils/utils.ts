@@ -41,7 +41,7 @@ export const makeFeeStr = (houseInfo: any): string => {
   return wholeFee;
 };
 
-export type IInfraDetailInfo = {
+type IInfraDetailInfo = {
   cnt: number;
   distance: number;
   lat: number;

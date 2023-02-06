@@ -79,7 +79,6 @@ export const InfraSelect: FC<ISelectedInfra> = ({
       options={optionList}
       menuIsOpen={true}
       isOptionDisabled={(option) => {
-        console.log(selectedInfra);
         return option.isDisabled || selectedInfra.length >= 3;
       }}
     />

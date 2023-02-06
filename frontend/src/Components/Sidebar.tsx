@@ -6,7 +6,10 @@ import type { FC } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
 import * as H from "../store/house";
+import * as U from "../store/user";
 import { AppState } from "../store";
+import { INFRA_INFO_DICT } from "../data/config/infraConfig";
+import { IInfraInfo } from "../utils/utils";
 
 type myType = {
   setIsSidebarOpen: (val: boolean) => void;
@@ -22,6 +25,12 @@ const Sidebar: FC<myType> = ({ setIsSidebarOpen, itemList, markerList }) => {
   const houseInfoManage = useSelector<AppState, H.State>(
     (state) => state.house
   );
+
+  const { infraList } = useSelector<AppState, U.State>((state) => state.user);
+
+  const infraStr = infraList
+    .map((item: string) => INFRA_INFO_DICT[item as keyof IInfraInfo]["ko"])
+    .join(", ");
 
   return (
     <aside className="fixed top-0 right-0 z-40 h-screen min-h-screen transition-transform-translate-x-full sm:translate-x-5 md:flex">
@@ -41,6 +50,9 @@ const Sidebar: FC<myType> = ({ setIsSidebarOpen, itemList, markerList }) => {
             >
               <Back></Back>
             </button>
+            <span className="w-20 bg-pink-100 text-pink-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-pink-900 dark:text-pink-300">
+              선택한 인프라 : {infraStr}
+            </span>
           </li>
           {itemList?.map((item: any, idx: number) => {
             return (

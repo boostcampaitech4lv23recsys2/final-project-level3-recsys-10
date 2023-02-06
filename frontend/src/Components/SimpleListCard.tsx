@@ -1,7 +1,12 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { FC } from "react";
 import { ReactComponent as Heart } from "../heart.svg";
 import { makeFeeStr, makeInfraHtml } from "../utils/utils";
+import * as H from "../store/house";
+import * as D from "../data/fetchByUser";
+import * as U from "../store/user";
+import { AppState } from "../store";
+import { useDispatch, useSelector } from "react-redux";
 
 type myType = {
   item: any;
@@ -16,8 +21,26 @@ const SimpleListCard: FC<myType> = ({ item }) => {
 
   const houseArea = item["information"]["house_area"];
   const address = item["information"]["address"];
-  const isZzim = "Y" === item["zzim"];
   const infraHtml = makeInfraHtml(item["related_infra"]);
+  const { zzim, house_id, ranking } = item;
+  const isZzim = "Y" === item["zzim"];
+  const isRecommended = 0 === ranking;
+  const { userId } = useSelector<AppState, U.State>((state) => state.user);
+  const dispatch = useDispatch();
+
+  const onClickHeart = useCallback(() => {
+    const nextZzim = "N" === zzim ? "Y" : "N";
+    D.fetchZzimRegister({
+      user_id: userId,
+      house_id,
+      zzim_yn: nextZzim,
+    })
+      .then((data) => {
+        dispatch(H.updateHouseZzim({ houseId: house_id, zzim: nextZzim }));
+      })
+      .catch(() => {})
+      .finally(() => {});
+  }, []);
 
   //   if (Object.keys(houseInfo).length === 0) return <></>;
   return (
@@ -27,7 +50,6 @@ const SimpleListCard: FC<myType> = ({ item }) => {
     >
       <div style={{ position: "relative" }}>
         <button
-          onClick={(e) => {}}
           style={{
             bottom: "0",
             right: "0.3vw",
@@ -45,6 +67,10 @@ const SimpleListCard: FC<myType> = ({ item }) => {
         />
       </div>
       <div className="flex flex-col justify-between p-4 leading-normal">
+        {isRecommended && <span className="badge-high">추천매물</span>}
+        {ranking > 0 && (
+          <span className="badge-middle">{`랭킹 ${ranking} 위`}</span>
+        )}
         <div className="flex">
           <strong className="mb-2 text-lg font-bold tracking-tight text-gray-900">
             {`${wholeFee} | ${houseArea}㎡`}
