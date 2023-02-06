@@ -16,7 +16,6 @@ export const hashPasswordP = (password: string): Promise<string> => {
       // const hash = await bcrypt.hash(password, salt);
       const salt = genSaltSync(12);
       const hash = hashSync(encodeURI(password), salt);
-      console.log(hash);
       resolve(hash);
     } catch (e) {
       reject(e);
@@ -90,7 +89,7 @@ export default function Login2() {
           <img className="mb-8 " src="hobbang_banner_outline.png"></img>
           <input
             type="text"
-            className="w-full p-3 mb-4 input input-primary"
+            className="w-full p-3 mb-4 outline outline-[#ffc600] rounded-lg"
             name="name"
             placeholder="닉네임"
             defaultValue={undefined}
@@ -100,7 +99,7 @@ export default function Login2() {
           />
           <input
             type="password"
-            className="w-full p-3 mb-4 input input-primary"
+            className="w-full p-3 mb-4 outline outline-[#ffc600] rounded-lg"
             name="password"
             placeholder="비밀번호"
             defaultValue={undefined}
@@ -108,7 +107,7 @@ export default function Login2() {
           />
           <div className="flex items-center justify-between">
             <button
-              className="px-4 py-2 font-bold text-white bg-[#ffc600] rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline"
+              className="px-4 py-2 font-bold text-white bg-[#ffc600] rounded hover:bg-[#F7BE38]/90 focus:outline-none focus:shadow-outline"
               type="submit"
               onClick={validCheck}
             >

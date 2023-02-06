@@ -9,7 +9,7 @@ import SimpleListCard from "./Components/SimpleListCard";
 import DetailListCard from "./Components/DetailListCard";
 import Sidebar from "./Components/Sidebar";
 import Navbar from "./Components/Navbar";
-import Recommend from "./routes/Recommend";
+import Recommend from "./routes/Loading";
 import RoutesSetup from "./routes/RoutesSetup";
 // import { UserInfoProvider } from "./Contexts/UserInfoContext";
 

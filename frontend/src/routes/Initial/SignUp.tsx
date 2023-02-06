@@ -103,7 +103,7 @@ export default function SignUp() {
           <div className="flex items-center justify-between">
             <input
               type="text"
-              className="p-3 mb-4 mr-1 input input-primary"
+              className="p-3 mb-4 mr-1 input outline outline-[#ffc600] rounded-lg"
               name="name"
               placeholder="닉네임"
               defaultValue={undefined}
@@ -113,7 +113,7 @@ export default function SignUp() {
             />
             <button
               type="submit"
-              className="mb-4 btn btn-primary"
+              className="mb-4 btn bg-[#ffc600]  hover:bg-[#F7BE38]/90 "
               onClick={onClickDouble}
             >
               {isCompleteDoubleCheck ? "중복 해제" : "중복 확인"}
@@ -121,7 +121,7 @@ export default function SignUp() {
           </div>
           <input
             type="password"
-            className="w-full p-3 mb-4 input input-primary"
+            className="w-full p-3 mb-4 input  outline outline-[#ffc600] rounded-lg"
             name="password"
             placeholder="비밀번호"
             defaultValue={undefined}
@@ -129,7 +129,7 @@ export default function SignUp() {
           />
           <input
             type="text"
-            className="w-full p-3 mb-4 input input-primary"
+            className="w-full p-3 mb-4 input outline outline-[#ffc600] rounded-lg"
             name="age"
             placeholder="나이"
             defaultValue={undefined}
@@ -146,7 +146,7 @@ export default function SignUp() {
           <select
             onChange={changed("sex")}
             name="sex"
-            className="w-full mb-4 input input-primary"
+            className="w-full mb-4 input  outline outline-[#ffc600] rounded-lg"
           >
             <option value="0" className="w-full p-3 mb-2">
               {" "}
@@ -160,7 +160,7 @@ export default function SignUp() {
 
           <button
             type="submit"
-            className="w-full btn bg-[#ffc600]"
+            className="w-full btn bg-[#ffc600]  hover:bg-[#F7BE38]/90 "
             onClick={createAccount}
           >
             편의시설 고르러 가기
