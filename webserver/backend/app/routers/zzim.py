@@ -24,7 +24,7 @@ def getZzimList(map: schemas.Items, db: Session = Depends(get_db)):
     # 2. 모델 inference(추후 추가 여부 고려)
 
     # 3. house_info 가져오기
-    map.house_ranking = {f'{house["house_id"]}': 0 for house in house_zzim}
+    map.house_ranking = {f'{house["house_id"]}': -1 for house in house_zzim}
     houses = hobbang_crud_test.get_houses_info(map, db)
 
     # res = hobbang_crud_test.get_houses_zzim([f"{house.house_id}" for house in house_zzim], user_id, db)
