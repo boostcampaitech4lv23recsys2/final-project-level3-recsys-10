@@ -16,7 +16,6 @@ type myType = {
 const Card: FC<myType> = ({ item }) => {
   useEffect(() => {}, []);
   const imgPath = `https://ic.zigbang.com/ic/items/${item["information"]["zigbang_id"]}/2.jpg?w=800&h=600&q=70&a=1`;
-  console.log(item["information"]["zigbang_id"]);
   const wholeFee = makeFeeStr(item);
   const { house_area, address, zigbang_id } = item["information"];
   const infraHtml = makeInfraHtml(item["related_infra"]);
