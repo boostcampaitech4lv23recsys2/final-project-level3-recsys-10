@@ -469,7 +469,7 @@ def get_zzim_list_all(db: Session):
 def get_user_zzim_list(user_id, db: Session):
     return db.query(UserZzim.__table__).filter_by(user_id=user_id).all()
 
-def get_click_list(db: Session):
+def get_click_list_all(db: Session):
     return db.query(LogClick.__table__).all()
 
 def get_user_click_list(user_id, db: Session):
