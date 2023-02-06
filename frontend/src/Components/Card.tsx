@@ -18,14 +18,13 @@ const Card: FC<myType> = ({ item }) => {
   const imgPath = `https://ic.zigbang.com/ic/items/${item["information"]["zigbang_id"]}/2.jpg?w=800&h=600&q=70&a=1`;
   console.log(item["information"]["zigbang_id"]);
   const wholeFee = makeFeeStr(item);
-  const { house_area, address } = item["information"];
+  const { house_area, address, zigbang_id } = item["information"];
   const infraHtml = makeInfraHtml(item["related_infra"]);
   const { zzim, house_id, ranking } = item;
   const isZzim = "Y" === item["zzim"];
   const isRecommended = 0 === ranking;
   const dispatch = useDispatch();
   const { userId } = useSelector<AppState, U.State>((state) => state.user);
-
   const onClickHeart = useCallback(() => {
     const nextZzim = "N" === zzim ? "Y" : "N";
     D.fetchZzimRegister({
@@ -81,13 +80,19 @@ const Card: FC<myType> = ({ item }) => {
         <p className="card-text">
           {item["information"]["description"].replace(/<br>/g, "\n")}
         </p>
-        {/* <a
+        <a
           href="#"
           className="btn"
           style={{ background: "#FFC600", color: "black" }}
+          onClick={() =>
+            window.open(
+              `https://www.zigbang.com/home/oneroom/items/${zigbang_id}`,
+              "_blank"
+            )
+          }
         >
           직방에서 매물 더 보기
-        </a> */}
+        </a>
       </div>
     </div>
   );
