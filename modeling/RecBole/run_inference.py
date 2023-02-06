@@ -62,6 +62,9 @@ def inference():
             # top 10
             ind = np.argpartition(rating_pred, -10)[-10:]                       # 그 중 score 가장 높은거 10개
             arr_ind = rating_pred[ind]
+            if 0 in ind:
+                ind = np.argpartition(rating_pred, -11)[-11:]
+                ind = np.delete(ind, np.where(ind == 0))
 
             # sort
             arr_ind_argsort = np.argsort(arr_ind)[::-1]
@@ -99,6 +102,8 @@ def inference():
         for user in user_list:
             pred = pred_list[cnt:cnt+10]
             score = score_list[cnt:cnt+10]
+            # print('------------------------')
+            # print(item_id2token, len(item_id2token))
             for item, score_ in zip(pred, score):
                 result.append((int(user_id2token[user]), int(item_id2token[item]), score_))
             cnt+=10
@@ -118,16 +123,11 @@ def inference():
                     item+=1
                 result.append((int(user_id2token[user]), int(item_id2token[item]), score_))
     
-    # # save submission
-    # print('inference...')
+    # inference done
     dataframe = pd.DataFrame(result, columns=["user", "house", "score"])
     dataframe.sort_values(by=['user','score'], inplace=True)
-    # dataframe.to_csv(
-    #     f"saved/{config['model']}_submission.csv", index=False
-    # )
-    # print('inference done!')
 
-    return list(dataframe['house'])[::-1]
+    return list(dataframe['user']), list(dataframe['house']), list(dataframe['score'])
 
 if __name__ == '__main__':
     inference()
