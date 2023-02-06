@@ -19,6 +19,7 @@ pymysql = "^1.0.2"
 geoalchemy2 = "^0.9.2"
 bcrypt = "^4.0.1"
 scikit-learn = "0.24.2"
+starlette = "0.16.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^6.2.5"
