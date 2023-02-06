@@ -85,7 +85,7 @@ def inference(map: schemas.Items, db: Session = Depends(get_db)):
 
 
 @router.post("/")
-def check_zzim_length(map: schemas.Items, db: Session = Depends(get_db)):
+def checkZzimLength(map: schemas.Items, db: Session = Depends(get_db)):
     zzim_list = hobbang_crud_test.get_user_zzim_list(map.user_id, db)
     zzim = [zzim[0] for zzim in zzim_list]
     house_gu_all = hobbang_crud_test.get_house_gu(map.user_gu, db)
@@ -101,7 +101,7 @@ def check_zzim_length(map: schemas.Items, db: Session = Depends(get_db)):
 
 
 @router.post("/rec_gu")
-def recommend_ML(map: schemas.Items, db: Session = Depends(get_db)):
+def recommendML(map: schemas.Items, db: Session = Depends(get_db)):
     start = time.time()
     train_gu(map, db)
     result = inference(map, db)
