@@ -21,7 +21,7 @@ export default function InfoSetting() {
 
   const submitValidation = (): boolean => {
     if (4 < guInfo.length || 0 >= guInfo.length) return false;
-    if (0 == infraInfo.length) return false;
+    if (3 !== infraInfo.length) return false;
     return true;
   };
 
@@ -76,7 +76,7 @@ export default function InfoSetting() {
 
             <button
               type="button"
-              className="w-full btn text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              className="w-full btn text-white  bg-[#ffc600]  hover:bg-[#F7BE38]/90  focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               onClick={goMain}
             >
               집 보러 가기

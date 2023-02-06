@@ -14,7 +14,7 @@ import internal from "stream";
 import { fetchHouseByCoord } from "../../data";
 import { INFRA_INFO_DICT } from "../../data/config/infraConfig";
 import { IInfraInfo } from "../../utils/utils";
-import Recommend from "../Recommend";
+import Recommend from "../Loading";
 
 type HouseInfo = {
   houses: any[];

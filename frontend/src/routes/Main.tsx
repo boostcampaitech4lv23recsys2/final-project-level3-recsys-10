@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { FC } from "react";
 import Map from "./Map/Map";
-import Recommend from "./Recommend";
+import Recommend from "./Loading";
 import { useSelector, useDispatch } from "react-redux";
 import * as H from "../store/house";
 import * as U from "../store/user";
@@ -111,9 +111,9 @@ const Main: FC<userInfo> = ({ gu }) => {
             {!isLoading && <Gu setGu={setCurUserGu} className="z-10 mr-2"></Gu>}
           </div>
           {!isLoading && <Dropdown></Dropdown>}
-          <button className="text-gray-900 bg-[#F7BE38] hover:bg-[#F7BE38]/90 focus:ring-4 focus:outline-none focus:ring-[#F7BE38]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#F7BE38]/50 mr-2 mb-2">
+          {/* <button className="text-gray-900 bg-[#F7BE38] hover:bg-[#F7BE38]/90 focus:ring-4 focus:outline-none focus:ring-[#F7BE38]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#F7BE38]/50 mr-2 mb-2">
             AI추천
-          </button>
+          </button> */}
 
           {/* <button
             style={{

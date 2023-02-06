@@ -33,7 +33,6 @@ export const fetchHouseByGu = ({
   userGu: string;
 }): Promise<any> =>
   new Promise((resolve, reject) => {
-    console.log(userId, userGu);
     let requestOption = FETCH_BASIC_OPTION;
     requestOption["method"] = "POST";
     requestOption["body"] = JSON.stringify({
@@ -94,7 +93,7 @@ export const fetchHouseByCoord = ({
       // fetch("http://27.96.130.120:30007/users/login")
       .then((res) => res.json())
       .then((data: unknown) => {
-        console.log(data);
+        // console.log(data);
         const { houses } = data as { houses: unknown };
         resolve(houses);
       })
@@ -126,7 +125,6 @@ export const fetchAddClickLog = ({
       // fetch("http://27.96.130.120:30007/users/login")
       .then((res) => res.json())
       .then((data: unknown) => {
-        console.log(data);
         resolve(true);
       })
       .catch(reject);
@@ -222,7 +220,6 @@ export const fetchAddInfra = ({
       // fetch("http://27.96.130.120:30007/users/login")
       .then((res) => res.json())
       .then((data: IUser) => {
-        console.log(data);
         resolve(data);
       })
       .catch(reject);
@@ -251,7 +248,6 @@ export const fetchHouseByZzim = ({
       // fetch("http://27.96.130.120:30007/users/login")
       .then((res) => res.json())
       .then((data: any) => {
-        console.log(data);
         const { houses } = data as { houses: any };
         resolve(houses);
       })
@@ -283,7 +279,6 @@ export const fetchZzimRegister = ({
       // fetch("http://27.96.130.120:30007/users/login")
       .then((res) => res.json())
       .then((data: unknown) => {
-        console.log(data);
         resolve(true);
       })
       .catch(reject);

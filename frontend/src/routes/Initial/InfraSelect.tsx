@@ -71,7 +71,7 @@ export const InfraSelect: FC<ISelectedInfra> = ({
       className="mb-4 w-80 basic-single"
       isMulti
       defaultValue={undefined}
-      placeholder={"인프라를 선택해주세요. "}
+      placeholder={"인프라를 세 개 선택해주세요. "}
       isClearable
       isSearchable
       onChange={onChange}
