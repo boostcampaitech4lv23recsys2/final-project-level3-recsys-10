@@ -24,8 +24,9 @@ def train_gu(map: schemas.Items, db: Session = Depends(get_db)):
     # 1. data 확인
     all_user = hobbang_crud_test.get_users(db)
     all_house = hobbang_crud_test.get_house_all(db)
-    zzim_list = hobbang_crud_test.get_user_zzim_list(map.user_id, db)
-    click = hobbang_crud_test.get_click_list(db)
+    # zzim_list = hobbang_crud_test.get_user_zzim_list(map.user_id, db)
+    zzim_list = hobbang_crud_test.get_zzim_list_all(db)
+    click = hobbang_crud_test.get_click_list_all(db)
 
     # 2. 모델 학습     
     result = train_ml_gu(map.user_id, map.user_gu, all_user, all_house, zzim_list, click, db)
@@ -37,8 +38,8 @@ def train_latlng(map: schemas.MapZoom, db: Session = Depends(get_db)):
     # 1. data 확인
     all_user = hobbang_crud_test.get_users(db)
     all_house = hobbang_crud_test.get_house_all(db)
-    zzim_list = hobbang_crud_test.get_user_zzim_list(map.user_id, db)
-    click = hobbang_crud_test.get_click_list(db)
+    zzim_list = hobbang_crud_test.get_zzim_list(db)
+    click = hobbang_crud_test.get_click_list_all(db)
 
     # 2. 모델 학습     
     result = train_ml_latlng(map.user_id, 
@@ -53,14 +54,22 @@ def train_latlng(map: schemas.MapZoom, db: Session = Depends(get_db)):
 # @router.post("/inference")
 def inference(map: schemas.Items, db: Session = Depends(get_db)):
     # 1. interaction data
-    zzim_list = hobbang_crud_test.get_user_zzim_list(map.user_id, db)
-    click = hobbang_crud_test.get_user_click_list(map.user_id, db)
+    # zzim_list = hobbang_crud_test.get_user_zzim_list(map.user_id, db)
+    # click = hobbang_crud_test.get_user_click_list(map.user_id, db)
     
-    # 2. 모델 inference
-    result = inference_ml(zzim_list, click, db)
+    zzim_list = hobbang_crud_test.get_zzim_list_all(db)
+    click = hobbang_crud_test.get_click_list_all(db)
 
+
+    # 2. 모델 inference
+    result1, result2, result3 = inference_ml(zzim_list, click, db)
+    result = []
+    for u,i,s in zip(result1, result2, result3):
+        if u==map.user_id:
+            result.append(i)
+            # print(u,i,s)
     house_ranking = inference_gu(map.user_id, map.user_gu, db)
-    house_ranking.append({"house_id": result[0], "ranking": 0})
+    house_ranking.append({"house_id": result[-1], "ranking": 0})
 
     # 3. house_info 가져오기
     map.house_ranking = {f'{house["house_id"]}': house["ranking"] for house in house_ranking}
