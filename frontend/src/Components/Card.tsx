@@ -1,11 +1,14 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { FC } from "react";
 import { ReactComponent as Heart } from "../heart.svg";
 
 import { useSelector, useDispatch } from "react-redux";
 import * as H from "../store/house";
+import * as U from "../store/user";
+import * as D from "../data/fetchByUser";
 import { AppState } from "../store";
 import { makeFeeStr, makeInfraHtml } from "../utils/utils";
+import { resolve } from "path";
 
 type myType = {
   item: any;
@@ -17,6 +20,26 @@ const Card: FC<myType> = ({ item }) => {
   const wholeFee = makeFeeStr(item);
   const { house_area, address } = item["information"];
   const infraHtml = makeInfraHtml(item["related_infra"]);
+  const { zzim, house_id, ranking } = item;
+  const isZzim = "Y" === item["zzim"];
+  const isRecommended = 0 === ranking;
+  const dispatch = useDispatch();
+  const { userId } = useSelector<AppState, U.State>((state) => state.user);
+
+  const onClickHeart = useCallback(() => {
+    const nextZzim = "N" === zzim ? "Y" : "N";
+    D.fetchZzimRegister({
+      user_id: userId,
+      house_id,
+      zzim_yn: nextZzim,
+    })
+      .then((data) => {
+        dispatch(H.updateHouseZzim({ houseId: house_id, zzim: nextZzim }));
+        item["zzim"] = nextZzim;
+      })
+      .catch(() => {})
+      .finally(() => {});
+  }, [item]);
 
   //   if (Object.keys(houseInfo).length === 0) return <></>;
   return (
@@ -32,6 +55,7 @@ const Card: FC<myType> = ({ item }) => {
     >
       <div style={{ position: "relative" }}>
         <button
+          onClick={onClickHeart}
           style={{
             bottom: "0",
             right: "0.3vw",
@@ -40,11 +64,15 @@ const Card: FC<myType> = ({ item }) => {
           }}
         >
           {/* <Heart fill="#ff385c" /> */}
-          <Heart />
+          {true === isZzim ? <Heart fill="#ff385c" /> : <Heart />}
         </button>
         <img src={imgPath} className="card-img-top" alt="..." />
       </div>
       <div className="card-body">
+        {isRecommended && <span className="badge-high">추천매물</span>}
+        {ranking > 0 && (
+          <span className="badge-middle">{`랭킹 ${ranking} 위`}</span>
+        )}
         <h5 className="card-title">{`${address}`} </h5>
         <h5 className="card-title">{`${wholeFee} | ${house_area}㎡`} </h5>
         <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
@@ -53,8 +81,12 @@ const Card: FC<myType> = ({ item }) => {
         <p className="card-text">
           {item["information"]["description"].replace(/<br>/g, "\n")}
         </p>
-        <a href="#" className="btn btn-primary">
-          Go somewhere
+        <a
+          href="#"
+          className="btn"
+          style={{ background: "#FFC600", color: "black" }}
+        >
+          직방에서 매물 더 보기
         </a>
       </div>
     </div>

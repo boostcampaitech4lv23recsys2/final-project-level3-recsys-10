@@ -6,11 +6,14 @@ import "./Map.css";
 import { useSelector, useDispatch } from "react-redux";
 import * as H from "../../store/house";
 import * as M from "../../store/marker";
+import * as U from "../../store/user";
+import * as D from "../../data/fetchByUser";
 import { AppState } from "../../store";
 import internal from "stream";
 import { fetchHouseByCoord } from "../../data";
 import { INFRA_INFO_DICT } from "../../data/config/infraConfig";
 import { IInfraInfo } from "../../utils/utils";
+import Recommend from "../Recommend";
 
 type HouseInfo = {
   houses: any[];
@@ -58,6 +61,7 @@ const makeMarker = (
   return houseInfoList.map((item, idx) => {
     let iconPath = "blue_marker.png";
     const isRecommended = 0 === item["ranking"];
+    const isZzim = -1 === item["ranking"];
 
     if (idx <= first) {
       iconPath = "red_marker.png";
@@ -68,6 +72,7 @@ const makeMarker = (
     }
 
     iconPath = true === isRecommended ? "recommend_marker.png" : iconPath;
+    iconPath = true === isZzim ? "heart.png" : iconPath;
     zIndex = true === isRecommended ? 3 : zIndex;
 
     return new naver.maps.Marker({
@@ -97,13 +102,16 @@ const Map: FC<HouseInfo> = ({ houses }) => {
   );
 
   const { curMarker } = useSelector<AppState, M.State>((state) => state.marker);
+  const { userId, userGu } = useSelector<AppState, U.State>(
+    (state) => state.user
+  );
 
   useEffect(() => {
     if (!mapElement.current || !naver) return;
     if (houses.length === 0) return;
 
     // 구가 바뀌었으니 보여줄 매물을 전체 매물로 설정
-    dispatch(H.changeShowHouseList(houses));
+    // dispatch(H.changeShowHouseList(houses));
     // sidebar 열어준다.
     setIsSidebarOpen(true);
 
@@ -141,7 +149,6 @@ const Map: FC<HouseInfo> = ({ houses }) => {
       map.panTo(event.coord);
 
       let curMarkerList: any = [];
-      console.log(curDetailInfo);
       curMarkerList = Object.keys(curDetailInfo).map((infraKey: string) => {
         return new naver.maps.Marker({
           position: new naver.maps.LatLng(
@@ -160,6 +167,15 @@ const Map: FC<HouseInfo> = ({ houses }) => {
           map: map,
         });
       });
+      D.fetchAddClickLog({
+        user_id: userId,
+        house_id: houses[idx]["house_id"],
+        log_type: "M",
+      })
+        .then()
+        .catch()
+        .finally();
+
       // Object.values(curDetailInfo).forEach((item: any) => {
       //   let curMarker = new naver.maps.Marker({
       //     position: new naver.maps.LatLng(item["lat"], item["lng"]),
@@ -256,14 +272,15 @@ const Map: FC<HouseInfo> = ({ houses }) => {
             let maxLat = curMap.getBounds().getNE().y;
 
             fetchHouseByCoord({
-              user_id: 1,
-              user_gu: "강남구",
+              user_id: userId,
+              user_gu: userGu,
               min_lat: minLat,
               min_lng: minLng,
               max_lat: maxLat,
               max_lng: maxLng,
             }).then((houses) => {
               dispatch(H.changeCurHouseList(Object.values(houses)));
+              dispatch(H.changeShowHouseList(Object.values(houses)));
             });
           }}
         >
