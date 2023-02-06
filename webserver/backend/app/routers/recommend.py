@@ -68,7 +68,11 @@ def inference(map: schemas.Items, db: Session = Depends(get_db)):
             result.append(i)
             # print(u,i,s)
     house_ranking = inference_gu(map.user_id, map.user_gu, db)
-    house_ranking.append({"house_id": result[-1], "ranking": 0})
+    if len(result)==0:
+        return {'message' : '해당 지역(구)에서 추천할 수 없습니다. 지역 내 찜 목록이 5개 이상인지 확인해주세요.'}
+    else:
+        house_ranking.append({"house_id": result[-1], "ranking": 0})
+
 
     # 3. house_info 가져오기
     map.house_ranking = {f'{house["house_id"]}': house["ranking"] for house in house_ranking}
