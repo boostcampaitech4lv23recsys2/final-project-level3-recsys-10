@@ -36,11 +36,14 @@ def checkName(name, db: Session = Depends(get_db)):
     res = hobbang_crud_test.check_user_name(name, db)  # get_infra(db): INFRA 테이블 조회(임시)
     if res == 0:
         return {
-            "res": "사용할 수 있는 이름입니다"
+            "res": "사용할 수 있는 이름입니다",
+            "code": True
         }
     else:
         return {
-            "res": "중복된 이름이 있습니다"
+            "res": "중복된 이름이 있습니다",
+            "code": False
+
         }
 
 
@@ -55,12 +58,14 @@ def loginUser(user: schemas.UserBase, db: Session = Depends(get_db)):
             infra_list = [i.infra_type for i in infra]
             return {
                 "msg": "로그인에 성공했습니다.",
+                "code": True,
                 "user_id": res.user_id,
                 "user_gu": res.user_gu,
                 "infra_list": infra_list
             }
     return {
         "msg": '아이디 혹은 비밀번호가 일치하지 않습니다.',
+        "code": False,
         "user_id": "",
         "user_gu": "",
         "infra_list":[]
@@ -74,9 +79,9 @@ def selectInfra(UserSelect: schemas.UserSelect, db: Session = Depends(get_db)):
     user_id = UserSelect.user_id
     user_gu = UserSelect.user_gu
     user_type = UserSelect.user_type
+    user_infra = UserSelect.infra
     
     res = hobbang_crud_test.check_user_infra(user_id, db)
-    
     # 1) selected_infra 정보 저장
     if res == 0 :
         res_infra = hobbang_crud_test.create_user_infra(UserSelect, db)
@@ -89,7 +94,8 @@ def selectInfra(UserSelect: schemas.UserSelect, db: Session = Depends(get_db)):
     # }    
     return {
         "user_id" : user_id,
-        "user_gu": user_gu
+        "user_gu": user_gu,
+        "infra_list" : user_infra
 	}
 
 
