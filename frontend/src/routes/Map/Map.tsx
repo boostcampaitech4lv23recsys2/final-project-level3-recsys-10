@@ -5,8 +5,9 @@ import "./Map.css";
 
 import { useSelector, useDispatch } from "react-redux";
 import * as H from "../../store/house";
-import * as M from "../../store/marker";
 import * as U from "../../store/user";
+import * as M from "../../store/marker";
+import * as L from "../../store/loading";
 import * as D from "../../data/fetchByUser";
 import { AppState } from "../../store";
 import internal from "stream";
@@ -101,10 +102,32 @@ const Map: FC<HouseInfo> = ({ houses }) => {
     (state) => state.house
   );
 
+  const isLoading = useSelector<AppState, L.State>((state) => state.loading);
   const { curMarker } = useSelector<AppState, M.State>((state) => state.marker);
   const { userId, userGu } = useSelector<AppState, U.State>(
     (state) => state.user
   );
+
+  const onClickCurrentScreen = () => {
+    let minLng = curMap.getBounds().getSW().x;
+    let minLat = curMap.getBounds().getSW().y;
+    let maxLng = curMap.getBounds().getNE().x;
+    let maxLat = curMap.getBounds().getNE().y;
+    dispatch(L.setLoading(true));
+
+    fetchHouseByCoord({
+      user_id: userId,
+      user_gu: userGu,
+      min_lat: minLat,
+      min_lng: minLng,
+      max_lat: maxLat,
+      max_lng: maxLng,
+    }).then((houses) => {
+      dispatch(L.setLoading(false));
+      dispatch(H.changeCurHouseList(Object.values(houses)));
+      dispatch(H.changeShowHouseList(Object.values(houses)));
+    });
+  };
 
   useEffect(() => {
     if (!mapElement.current || !naver) return;
@@ -245,7 +268,7 @@ const Map: FC<HouseInfo> = ({ houses }) => {
     });
   }, [houses]);
 
-  if (Object.values(houses).length === 0) return <></>;
+  if (houses.length === 0) return <></>;
   else {
     return (
       <>
@@ -264,25 +287,8 @@ const Map: FC<HouseInfo> = ({ houses }) => {
             position: "absolute",
           }}
           type="button"
-          className="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
-          onClick={() => {
-            let minLng = curMap.getBounds().getSW().x;
-            let minLat = curMap.getBounds().getSW().y;
-            let maxLng = curMap.getBounds().getNE().x;
-            let maxLat = curMap.getBounds().getNE().y;
-
-            fetchHouseByCoord({
-              user_id: userId,
-              user_gu: userGu,
-              min_lat: minLat,
-              min_lng: minLng,
-              max_lat: maxLat,
-              max_lng: maxLng,
-            }).then((houses) => {
-              dispatch(H.changeCurHouseList(Object.values(houses)));
-              dispatch(H.changeShowHouseList(Object.values(houses)));
-            });
-          }}
+          className="text-gray-900 bg-[#F7BE38] hover:bg-[#F7BE38]/90 focus:ring-4 focus:outline-none focus:ring-[#F7BE38]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#F7BE38]/50 mr-2 mb-2"
+          onClick={onClickCurrentScreen}
         >
           현재 화면에서 매물보기
         </button>

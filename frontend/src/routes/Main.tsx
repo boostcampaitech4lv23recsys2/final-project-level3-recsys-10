@@ -5,6 +5,7 @@ import Recommend from "./Recommend";
 import { useSelector, useDispatch } from "react-redux";
 import * as H from "../store/house";
 import * as U from "../store/user";
+import * as L from "../store/loading";
 import * as D from "../data";
 import { AppState } from "../store";
 
@@ -17,17 +18,21 @@ type userInfo = {
 };
 
 const Main: FC<userInfo> = ({ gu }) => {
+  const dispatch = useDispatch();
+
   const [curUserGu, setCurUserGu] = useState<string>("");
   const houseInfoManage = useSelector<AppState, H.State>(
     (state) => state.house
   );
-  const dispatch = useDispatch();
 
   const { userId, userGu } = useSelector<AppState, U.State>(
     (state) => state.user
   );
 
+  const isLoading = useSelector<AppState, L.State>((state) => state.loading);
+
   const getCurrentHouseInfo = useCallback(() => {
+    dispatch(L.setLoading(true));
     D.fetchHouseByGu({ userId: userId, userGu: userGu })
       .then((houses) => {
         const itemList = Object.values(houses).filter((item: any) =>
@@ -35,6 +40,7 @@ const Main: FC<userInfo> = ({ gu }) => {
         );
         dispatch(H.changeCurHouseList(itemList));
         dispatch(H.changeShowHouseList(itemList));
+        dispatch(L.setLoading(false));
       })
       .catch()
       .finally();
@@ -102,9 +108,12 @@ const Main: FC<userInfo> = ({ gu }) => {
             }}
           >
             {" "}
-            <Gu setGu={setCurUserGu} className="z-10 mr-2"></Gu>
+            {!isLoading && <Gu setGu={setCurUserGu} className="z-10 mr-2"></Gu>}
           </div>
-          <Dropdown></Dropdown>
+          {!isLoading && <Dropdown></Dropdown>}
+          <button className="text-gray-900 bg-[#F7BE38] hover:bg-[#F7BE38]/90 focus:ring-4 focus:outline-none focus:ring-[#F7BE38]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#F7BE38]/50 mr-2 mb-2">
+            AI추천
+          </button>
 
           {/* <button
             style={{
@@ -118,7 +127,8 @@ const Main: FC<userInfo> = ({ gu }) => {
           </button> */}
         </div>
       </div>
-      <Map houses={houseInfoManage["curHouseList"]} />
+      {!isLoading && <Map houses={houseInfoManage["curHouseList"]} />}
+      {isLoading && <Recommend />}
     </>
   );
 };

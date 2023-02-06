@@ -33,6 +33,7 @@ export const fetchHouseByGu = ({
   userGu: string;
 }): Promise<any> =>
   new Promise((resolve, reject) => {
+    console.log(userId, userGu);
     let requestOption = FETCH_BASIC_OPTION;
     requestOption["method"] = "POST";
     requestOption["body"] = JSON.stringify({
@@ -40,18 +41,22 @@ export const fetchHouseByGu = ({
       user_gu: userGu,
       house_ranking: {},
     });
-    fetch(
-      `${BACKEND_ADDRESS}${DOMAIN_INFO["map"]}${DOMAIN_INFO["items"]}`,
-      requestOption
-    )
-      // fetch("http://27.96.130.120:30007/users/login")
-      .then((res) => res.json())
-      .then((data: any) => {
-        // console.log(data);
-        const { houses } = data as { houses: any };
-        resolve(houses);
-      })
-      .catch(reject);
+    if (userId === 0 || userGu === "") {
+      resolve(true);
+    } else {
+      fetch(
+        `${BACKEND_ADDRESS}${DOMAIN_INFO["map"]}${DOMAIN_INFO["items"]}`,
+        requestOption
+      )
+        // fetch("http://27.96.130.120:30007/users/login")
+        .then((res) => res.json())
+        .then((data: any) => {
+          // console.log(data);
+          const { houses } = data as { houses: any };
+          resolve(houses);
+        })
+        .catch(reject);
+    }
   });
 
 // 현재 화면에서 매물정보를 불러오는 함수
@@ -82,11 +87,10 @@ export const fetchHouseByCoord = ({
       max_lat,
       max_lng,
     });
-    console.log(requestOption);
-    console.log(
-      `${BACKEND_ADDRESS}${DOMAIN_INFO["map"]}${DOMAIN_INFO["items"]}${DOMAIN_INFO["zoom"]}`
-    );
-    fetch("http://27.96.130.120:30007/map/items/zoom", requestOption)
+    fetch(
+      `${BACKEND_ADDRESS}${DOMAIN_INFO["map"]}${DOMAIN_INFO["items"]}${DOMAIN_INFO["zoom"]}`,
+      requestOption
+    )
       // fetch("http://27.96.130.120:30007/users/login")
       .then((res) => res.json())
       .then((data: unknown) => {
@@ -183,7 +187,6 @@ export const fetchLogin = ({
       // fetch("http://27.96.130.120:30007/users/login")
       .then((res) => res.json())
       .then((data: unknown) => {
-        console.log(data);
         const { user_id, user_gu, infra_list, code } = data as IUser;
         resolve({ user_id, user_gu, infra_list, code });
       })
