@@ -284,15 +284,16 @@ def update_user_infra(user: schemas.UserSelect, db: Session):
     
     for inf_type in user.infra: 
         infra_list[inf_type]+=1
+
     s = f"""
-    DELETE FROM hobbang_test.USERS_INFRA
+    DELETE FROM hobbang.USERS_INFRA
     WHERE user_id = {user.user_id}
     """
     db.execute(s)
     db.commit()
     
     s = f"""
-    INSERT INTO hobbang_test.USERS_INFRA(user_id, infra_type, infra_yn, register_date, update_date)
+    INSERT INTO hobbang.USERS_INFRA(user_id, infra_type, infra_yn, register_date, update_date)
 	    VALUES ({user.user_id}, '01', IF({infra_list["01"]}=0, "N", "Y"), now(), now())
                 ,({user.user_id}, '02', IF({infra_list["02"]}=0, "N", "Y"), now(), now())
                 ,({user.user_id}, '03', IF({infra_list["03"]}=0, "N", "Y"), now(), now())
@@ -300,6 +301,7 @@ def update_user_infra(user: schemas.UserSelect, db: Session):
                 ,({user.user_id}, '05', IF({infra_list["05"]}=0, "N", "Y"), now(), now())
                 ,({user.user_id}, '06', IF({infra_list["06"]}=0, "N", "Y"), now(), now())
                 ,({user.user_id}, '07', IF({infra_list["07"]}=0, "N", "Y"), now(), now())
+                ,({user.user_id}, '08', IF({infra_list["08"]}=0, "N", "Y"), now(), now())
     """
     db.execute(s)
     db.commit()
