@@ -463,6 +463,9 @@ def get_house_all(db: Session):
                     , func.ST_Y(HouseInfo2.latlng).label('lat')
                     , func.ST_X(HouseInfo2.latlng).label('lng')).all()
 
+def get_zzim_list_all(db: Session):
+    return db.query(UserZzim.__table__).all()
+
 def get_user_zzim_list(user_id, db: Session):
     return db.query(UserZzim.__table__).filter_by(user_id=user_id).all()
 
