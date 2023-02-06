@@ -102,3 +102,19 @@ def recommend_ML(map: schemas.Items, db: Session = Depends(get_db)):
 #     end = time.time()
 #     print(end-start)
 #     return result
+
+
+@router.post("/")
+def check_zzim_length(map: schemas.Items, db: Session = Depends(get_db)):
+    zzim_list = hobbang_crud_test.get_user_zzim_list(map.user_id, db)
+    zzim = [zzim[0] for zzim in zzim_list]
+    house_gu_all = hobbang_crud_test.get_house_gu(map.user_gu, db)
+    house_gu = [h_gu[0] for h_gu in house_gu_all]
+    zzim_gu = []
+    for z in zzim:
+        if z in house_gu:
+            zzim_gu.append(z)
+    if len(zzim_gu) < 5:
+        return {'message' : '해당 지역(구)에서 찜 목록이 부족합니다.'}
+    else:
+        return {'message' : '추천을 시작합니다.'}
