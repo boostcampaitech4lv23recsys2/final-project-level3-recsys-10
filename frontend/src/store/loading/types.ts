@@ -1,10 +1,7 @@
 import type { Action } from "redux";
 
-export type State = {
-  isLoading: boolean;
-};
-
-export type SetLoadingAction = Action<"@loading/setLoading"> & {
+export type State = boolean;
+export type SetLoadingAction = Action<"@loading/setLoadingAction"> & {
   payload: State;
 };
 

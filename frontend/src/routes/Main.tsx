@@ -5,6 +5,7 @@ import Recommend from "./Recommend";
 import { useSelector, useDispatch } from "react-redux";
 import * as H from "../store/house";
 import * as U from "../store/user";
+import * as L from "../store/loading";
 import * as D from "../data";
 import { AppState } from "../store";
 import { Gu } from "../routes/Initial/Gu";
@@ -27,16 +28,18 @@ const Main: FC<userInfo> = ({ gu }) => {
   );
 
   const getCurrentHouseInfo = useCallback(() => {
+    dispatch(L.setLoading(true));
     D.fetchHouseByGu({ userId: 1, userGu: userGu })
-      .then((houses) =>
+      .then((houses) => {
+        dispatch(L.setLoading(false));
         dispatch(
           H.changeCurHouseList(
             Object.values(houses).filter((item: any) =>
               Object.keys(item).includes("house_id")
             )
           )
-        )
-      )
+        );
+      })
       .catch()
       .finally();
   }, [userGu]);
@@ -48,7 +51,6 @@ const Main: FC<userInfo> = ({ gu }) => {
   }, [curUserGu]);
 
   useEffect(() => {
-    console.log(userGu);
     getCurrentHouseInfo();
   }, [userGu]);
 
