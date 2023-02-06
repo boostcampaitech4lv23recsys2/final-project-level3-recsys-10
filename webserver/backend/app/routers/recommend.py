@@ -5,8 +5,8 @@ from sqlalchemy.orm import Session
 from db.connection import get_db
 
 from crud import hobbang_crud_test, schemas
-from recommend.rule_based import inference_gu, inference_latlng
-from recommend.ML import train_ml_gu, train_ml_latlng, inference_ml
+from recommend.rule_based import inference_gu #, inference_latlng
+from recommend.ML import train_ml_gu, inference_ml #, train_ml_latlng
 
 # from modeling.RecBole import run_recbole
 
@@ -24,7 +24,6 @@ def train_gu(map: schemas.Items, db: Session = Depends(get_db)):
     # 1. data 확인
     all_user = hobbang_crud_test.get_users(db)
     all_house = hobbang_crud_test.get_house_all(db)
-    # zzim_list = hobbang_crud_test.get_user_zzim_list(map.user_id, db)
     zzim_list = hobbang_crud_test.get_zzim_list_all(db)
     click = hobbang_crud_test.get_click_list_all(db)
 
@@ -34,21 +33,21 @@ def train_gu(map: schemas.Items, db: Session = Depends(get_db)):
     # return {'result' : result}
 
 
-def train_latlng(map: schemas.MapZoom, db: Session = Depends(get_db)):
-    # 1. data 확인
-    all_user = hobbang_crud_test.get_users(db)
-    all_house = hobbang_crud_test.get_house_all(db)
-    zzim_list = hobbang_crud_test.get_zzim_list(db)
-    click = hobbang_crud_test.get_click_list_all(db)
+# def train_latlng(map: schemas.MapZoom, db: Session = Depends(get_db)):
+#     # 1. data 확인
+#     all_user = hobbang_crud_test.get_users(db)
+#     all_house = hobbang_crud_test.get_house_all(db)
+#     zzim_list = hobbang_crud_test.get_zzim_list(db)
+#     click = hobbang_crud_test.get_click_list_all(db)
 
-    # 2. 모델 학습     
-    result = train_ml_latlng(map.user_id, 
-                            map.min_lat,
-                            map.max_lat,
-                            map.min_lng,
-                            map.max_lng, all_user, all_house, zzim_list, click, db)
+#     # 2. 모델 학습     
+#     result = train_ml_latlng(map.user_id, 
+#                             map.min_lat,
+#                             map.max_lat,
+#                             map.min_lng,
+#                             map.max_lng, all_user, all_house, zzim_list, click, db)
     
-    # return {'result' : result}
+#     # return {'result' : result}
 
 
 # @router.post("/inference")
@@ -91,11 +90,11 @@ def recommend_ML(map: schemas.Items, db: Session = Depends(get_db)):
     return result
 
 
-@router.post("/rec_latlng")
-def recommend_ML(map: schemas.MapZoom, db: Session = Depends(get_db)):
-    start = time.time()
-    train_latlng(map, db)
-    result = inference(map, db)
-    end = time.time()
-    print(end-start)
-    return result
+# @router.post("/rec_latlng")
+# def recommend_ML(map: schemas.MapZoom, db: Session = Depends(get_db)):
+#     start = time.time()
+#     train_latlng(map, db)
+#     result = inference(map, db)
+#     end = time.time()
+#     print(end-start)
+#     return result
