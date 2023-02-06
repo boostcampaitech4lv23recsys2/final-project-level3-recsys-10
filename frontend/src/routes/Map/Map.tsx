@@ -14,7 +14,7 @@ import internal from "stream";
 import { fetchHouseByCoord } from "../../data";
 import { INFRA_INFO_DICT } from "../../data/config/infraConfig";
 import { IInfraInfo } from "../../utils/utils";
-import Recommend from "../Loading";
+import Loading from "../Loading";
 
 type HouseInfo = {
   houses: any[];
@@ -268,7 +268,7 @@ const Map: FC<HouseInfo> = ({ houses }) => {
     });
   }, [houses]);
 
-  if (houses.length === 0) return <></>;
+  if (houses.length === 0) return <Loading></Loading>;
   else {
     return (
       <>
