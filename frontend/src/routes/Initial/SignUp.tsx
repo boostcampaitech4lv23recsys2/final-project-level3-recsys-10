@@ -103,7 +103,7 @@ export default function SignUp() {
           <div className="flex items-center justify-between">
             <input
               type="text"
-              className="p-3 mb-4 mr-1 input outline outline-[#ffc600] rounded-lg"
+              className="p-3 mb-4 mr-1 input outline outline-[#ffc600] rounded-lg bg-white"
               name="name"
               placeholder="닉네임"
               defaultValue={undefined}
@@ -121,7 +121,7 @@ export default function SignUp() {
           </div>
           <input
             type="password"
-            className="w-full p-3 mb-4 input  outline outline-[#ffc600] rounded-lg"
+            className="w-full p-3 mb-4 input  outline outline-[#ffc600] rounded-lg bg-white"
             name="password"
             placeholder="비밀번호"
             defaultValue={undefined}
@@ -129,7 +129,7 @@ export default function SignUp() {
           />
           <input
             type="text"
-            className="w-full p-3 mb-4 input outline outline-[#ffc600] rounded-lg"
+            className="w-full p-3 mb-4 input outline outline-[#ffc600] rounded-lg bg-white"
             name="age"
             placeholder="나이"
             defaultValue={undefined}
@@ -146,7 +146,7 @@ export default function SignUp() {
           <select
             onChange={changed("sex")}
             name="sex"
-            className="w-full mb-4 input  outline outline-[#ffc600] rounded-lg"
+            className="w-full mb-4 input  outline outline-[#ffc600] rounded-lg bg-white"
           >
             <option value="0" className="w-full p-3 mb-2">
               {" "}

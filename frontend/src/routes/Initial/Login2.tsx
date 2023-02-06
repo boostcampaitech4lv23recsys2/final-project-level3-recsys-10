@@ -89,7 +89,7 @@ export default function Login2() {
           <img className="mb-8 " src="hobbang_banner_outline.png"></img>
           <input
             type="text"
-            className="w-full p-3 mb-4 outline outline-[#ffc600] rounded-lg"
+            className="w-full p-3 mb-4 outline outline-[#ffc600] rounded-lg bg-white"
             name="name"
             placeholder="닉네임"
             defaultValue={undefined}
@@ -99,7 +99,7 @@ export default function Login2() {
           />
           <input
             type="password"
-            className="w-full p-3 mb-4 outline outline-[#ffc600] rounded-lg"
+            className="w-full p-3 mb-4 outline outline-[#ffc600] rounded-lg bg-white"
             name="password"
             placeholder="비밀번호"
             defaultValue={undefined}

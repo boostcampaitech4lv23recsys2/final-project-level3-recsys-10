@@ -179,29 +179,29 @@ export const fetchLogin = ({
     let requestOption = FETCH_BASIC_OPTION;
     requestOption["method"] = "POST";
     requestOption["body"] = JSON.stringify({ name, pw });
-    axios
-      .post(
-        `${BACKEND_ADDRESS}${DOMAIN_INFO["users"]}${DOMAIN_INFO["login"]}`,
-        JSON.stringify({ name, pw }),
-        requestOption
-      )
-      .then((res) => res["data"])
-      .then((data: unknown) => {
-        const { user_id, user_gu, infra_list, code } = data as IUser;
-        resolve({ user_id, user_gu, infra_list, code });
-      })
-      .catch(reject);
-    // fetch(
-    //   `${BACKEND_ADDRESS}${DOMAIN_INFO["users"]}${DOMAIN_INFO["login"]}`,
-    //   requestOption
-    // )
-    //   // fetch("http://27.96.130.120:30007/users/login")
-    //   .then((res) => res.json())
+    // axios
+    //   .post(
+    //     `${BACKEND_ADDRESS}${DOMAIN_INFO["users"]}${DOMAIN_INFO["login"]}`,
+    //     JSON.stringify({ name, pw }),
+    //     requestOption
+    //   )
+    //   .then((res) => res["data"])
     //   .then((data: unknown) => {
     //     const { user_id, user_gu, infra_list, code } = data as IUser;
     //     resolve({ user_id, user_gu, infra_list, code });
     //   })
     //   .catch(reject);
+    fetch(
+      `${BACKEND_ADDRESS}${DOMAIN_INFO["users"]}${DOMAIN_INFO["login"]}`,
+      requestOption
+    )
+      // fetch("http://27.96.130.120:30007/users/login")
+      .then((res) => res.json())
+      .then((data: unknown) => {
+        const { user_id, user_gu, infra_list, code } = data as IUser;
+        resolve({ user_id, user_gu, infra_list, code });
+      })
+      .catch(reject);
   });
 
 // Backend Server에 user 가 선택한 infra 정보 전달

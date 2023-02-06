@@ -81,13 +81,13 @@ const Card: FC<myType> = ({ item }) => {
         <p className="card-text">
           {item["information"]["description"].replace(/<br>/g, "\n")}
         </p>
-        <a
+        {/* <a
           href="#"
           className="btn"
           style={{ background: "#FFC600", color: "black" }}
         >
           직방에서 매물 더 보기
-        </a>
+        </a> */}
       </div>
     </div>
   );
