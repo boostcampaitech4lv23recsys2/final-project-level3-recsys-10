@@ -22,16 +22,18 @@ export default function Dropdwon() {
 
   // userId, userGu 전달하고 찜 목록 받아서 houselist 변경
   const onClickShowHeartList = useCallback(() => {
-    D.fetchHouseByZzim({ user_id: 1, user_gu: userGu })
-      .then((houses) =>
-        dispatch(
-          H.changeCurHouseList(
-            Object.values(houses).filter((item: any) =>
-              Object.keys(item).includes("house_id")
-            )
-          )
-        )
-      )
+    D.fetchHouseByZzim({ user_id: userId, user_gu: userGu })
+      .then((houses) => {
+        const itemList = Object.values(houses).filter((item: any) =>
+          Object.keys(item).includes("house_id")
+        );
+        if (itemList.length > 0) {
+          dispatch(H.changeCurHouseList(itemList));
+          dispatch(H.changeShowHouseList(itemList));
+        } else {
+          alert("관심목록에 정보가 없습니다.");
+        }
+      })
       .catch()
       .finally();
   }, [userGu]);
@@ -44,8 +46,8 @@ export default function Dropdwon() {
   }, [navigate]);
 
   return (
-    <div className="flex justify-center ml-10 ">
-      <div className="relative my-2">
+    <div className="flex justify-center max-w-sm ">
+      <div className="relative my-3">
         <button
           className="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
           onClick={onClickOpen}
@@ -58,12 +60,12 @@ export default function Dropdwon() {
               fill="currentColor"
             >
               <path
-                fill-rule="evenodd"
+                fillRule="evenodd"
                 d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
                 clipRule="evenodd"
               />
             </svg>
-            유진님
+            안녕하세요!
           </div>
         </button>
 

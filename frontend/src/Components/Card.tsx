@@ -4,6 +4,7 @@ import { ReactComponent as Heart } from "../heart.svg";
 
 import { useSelector, useDispatch } from "react-redux";
 import * as H from "../store/house";
+import * as U from "../store/user";
 import * as D from "../data/fetchByUser";
 import { AppState } from "../store";
 import { makeFeeStr, makeInfraHtml } from "../utils/utils";
@@ -19,14 +20,16 @@ const Card: FC<myType> = ({ item }) => {
   const wholeFee = makeFeeStr(item);
   const { house_area, address } = item["information"];
   const infraHtml = makeInfraHtml(item["related_infra"]);
-  const { zzim, house_id } = item;
+  const { zzim, house_id, ranking } = item;
   const isZzim = "Y" === item["zzim"];
+  const isRecommended = 0 === ranking;
   const dispatch = useDispatch();
+  const { userId } = useSelector<AppState, U.State>((state) => state.user);
 
   const onClickHeart = useCallback(() => {
     const nextZzim = "N" === zzim ? "Y" : "N";
     D.fetchZzimRegister({
-      user_id: 1,
+      user_id: userId,
       house_id,
       zzim_yn: nextZzim,
     })
@@ -66,9 +69,10 @@ const Card: FC<myType> = ({ item }) => {
         <img src={imgPath} className="card-img-top" alt="..." />
       </div>
       <div className="card-body">
-        <span className="w-20 bg-pink-100 text-pink-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-pink-900 dark:text-pink-300">
-          추천매물
-        </span>
+        {isRecommended && <span className="badge-high">추천매물</span>}
+        {ranking > 0 && (
+          <span className="badge-middle">{`랭킹 ${ranking} 위`}</span>
+        )}
         <h5 className="card-title">{`${address}`} </h5>
         <h5 className="card-title">{`${wholeFee} | ${house_area}㎡`} </h5>
         <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">

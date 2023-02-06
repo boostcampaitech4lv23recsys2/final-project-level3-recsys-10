@@ -7,6 +7,7 @@ import * as H from "../store/house";
 import * as U from "../store/user";
 import * as D from "../data";
 import { AppState } from "../store";
+
 import { Gu } from "../routes/Initial/Gu";
 import { ReactComponent as Heart } from "../heart.svg";
 import Dropdown from "../Components/Dropdown";
@@ -27,7 +28,7 @@ const Main: FC<userInfo> = ({ gu }) => {
   );
 
   const getCurrentHouseInfo = useCallback(() => {
-    D.fetchHouseByGu({ userId: 1, userGu: userGu })
+    D.fetchHouseByGu({ userId: userId, userGu: userGu })
       .then((houses) => {
         const itemList = Object.values(houses).filter((item: any) =>
           Object.keys(item).includes("house_id")
@@ -46,7 +47,6 @@ const Main: FC<userInfo> = ({ gu }) => {
   }, [curUserGu]);
 
   useEffect(() => {
-    console.log(userGu);
     getCurrentHouseInfo();
   }, [userGu]);
 

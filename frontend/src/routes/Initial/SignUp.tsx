@@ -4,9 +4,25 @@ import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import * as D from "../../data";
 import * as U from "../../store/user";
+import { genSaltSync, hashSync } from "bcrypt-ts";
 
 type SignUpFormType = Record<"name" | "password" | "age" | "sex", string>;
 const initialFormState = { name: "", password: "", age: "0", sex: "0" };
+
+// export const hashPasswordP = (password: string): Promise<string> => {
+//   return new Promise<string>(async (resolve, reject) => {
+//     try {
+//       // const salt = await bcrypt.genSalt();
+//       // const hash = await bcrypt.hash(password, salt);
+//       const salt = genSaltSync(12);
+//       const hash = hashSync(encodeURI(password), salt);
+//       console.log(hash);
+//       resolve(hash);
+//     } catch (e) {
+//       reject(e);
+//     }
+//   });
+// };
 
 export default function SignUp() {
   const [{ name, password, age, sex }, setForm] =
@@ -32,7 +48,12 @@ export default function SignUp() {
       alert("이름을 입력해주세요");
       return;
     }
-    D.fetchCheckDoubleName(name).then((data) => setIsCompleteDoubleCheck(data));
+    D.fetchCheckDoubleName(name).then((data) => {
+      if (data === false) {
+        alert("중복된 이름이 있습니다. ");
+      }
+      setIsCompleteDoubleCheck(data);
+    });
   }, [name, isCompleteDoubleCheck]);
 
   const validCheck = useCallback(() => {
@@ -56,20 +77,23 @@ export default function SignUp() {
       return;
     }
 
+    const salt = genSaltSync(12);
+    const hash = hashSync(encodeURI(password), salt);
+
     D.fetchSignUp({
       name: name,
+      pw: hash,
       user_age: parseInt(age),
       user_sex: parseInt(sex),
       user_type: "Y",
     } as D.IUserSignUp)
       .then((data) => {
-        console.log(data);
-        dispatch(U.setUserId(1));
+        dispatch(U.setUserId(data));
+        navigate("/infra");
       })
       .catch()
       .finally();
-    navigate("/infra");
-  }, [name, password, age, sex, navigate]);
+  }, [name, password, age, sex, navigate, isCompleteDoubleCheck]);
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-100 border border-gray-300 shadow-xl rounded-xl">
@@ -119,7 +143,11 @@ export default function SignUp() {
             value={undefined}
             onChange={changed("sex")}
           /> */}
-          <select onChange={changed("sex")} name="sex" className="w-full mb-4">
+          <select
+            onChange={changed("sex")}
+            name="sex"
+            className="w-full mb-4 input input-primary"
+          >
             <option value="0" className="w-full p-3 mb-2">
               {" "}
               남자

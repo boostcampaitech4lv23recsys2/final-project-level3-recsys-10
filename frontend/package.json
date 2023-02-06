@@ -12,6 +12,8 @@
     "@types/node": "^16.18.11",
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
+    "bcrypt": "^5.1.0",
+    "bcrypt-ts": "^3.0.0",
     "react": "^18.2.0",
     "react-card-slider-component": "^1.0.9",
     "react-dom": "^18.2.0",
@@ -50,6 +52,7 @@
   },
   "devDependencies": {
     "@tailwindcss/line-clamp": "^0.4.2",
+    "@types/bcrypt": "^5.0.0",
     "autoprefixer": "^10.4.13",
     "daisyui": "^2.49.0",
     "postcss": "^8.4.21",

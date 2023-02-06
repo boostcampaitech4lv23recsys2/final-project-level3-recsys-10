@@ -11,6 +11,7 @@ export type IUser = {
   user_id: number;
   user_gu: string;
   infra_list: string[] | null;
+  code: boolean;
 };
 
 export type IUserSignUp = {
@@ -128,7 +129,7 @@ export const fetchAddClickLog = ({
   });
 
 // 회원가입 함수
-export const fetchSignUp = (signUpInfo: IUserSignUp): Promise<string> =>
+export const fetchSignUp = (signUpInfo: IUserSignUp): Promise<number> =>
   new Promise((resolve, reject) => {
     let requestOption = FETCH_BASIC_OPTION;
     requestOption["method"] = "POST";
@@ -139,7 +140,7 @@ export const fetchSignUp = (signUpInfo: IUserSignUp): Promise<string> =>
     )
       // fetch("http://27.96.130.120:30007/users/login")
       .then((res) => res.json())
-      .then((data: { user_id: string }) => {
+      .then((data: { user_id: number }) => {
         const { user_id } = data;
         resolve(user_id); // TODO 수정 필요
       })
@@ -156,9 +157,8 @@ export const fetchCheckDoubleName = (name: string): Promise<boolean> =>
     )
       // fetch("http://27.96.130.120:30007/users/login")
       .then((res) => res.json())
-      .then((data: unknown) => {
-        console.log(data);
-        resolve(true); // TODO 수정 필요
+      .then(({ code }) => {
+        resolve(code); // TODO 수정 필요
       })
       .catch(reject);
   });
@@ -184,8 +184,8 @@ export const fetchLogin = ({
       .then((res) => res.json())
       .then((data: unknown) => {
         console.log(data);
-        const { user_id, user_gu, infra_list } = data as IUser;
-        resolve({ user_id, user_gu, infra_list });
+        const { user_id, user_gu, infra_list, code } = data as IUser;
+        resolve({ user_id, user_gu, infra_list, code });
       })
       .catch(reject);
   });
