@@ -5,6 +5,7 @@ import * as D from "../data";
 import { AppState } from "../store";
 import * as U from "../store/user";
 import * as H from "../store/house";
+import * as L from "../store/loading";
 
 export default function Dropdwon() {
   const [openMenu, setOpenMenu] = useState<boolean>(false);
@@ -22,6 +23,7 @@ export default function Dropdwon() {
 
   // userId, userGu 전달하고 찜 목록 받아서 houselist 변경
   const onClickShowHeartList = useCallback(() => {
+    dispatch(L.setLoading(true));
     D.fetchHouseByZzim({ user_id: userId, user_gu: userGu })
       .then((houses) => {
         const itemList = Object.values(houses).filter((item: any) =>
@@ -33,6 +35,7 @@ export default function Dropdwon() {
         } else {
           alert("관심목록에 정보가 없습니다.");
         }
+        dispatch(L.setLoading(false));
       })
       .catch()
       .finally();
@@ -49,7 +52,7 @@ export default function Dropdwon() {
     <div className="flex justify-center max-w-sm ">
       <div className="relative my-3">
         <button
-          className="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+          className="text-gray-900 bg-[#F7BE38] hover:bg-[#F7BE38]/90 focus:ring-4 focus:outline-none focus:ring-[#F7BE38]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#F7BE38]/50 mr-2 mb-2"
           onClick={onClickOpen}
         >
           <div className="flex">
@@ -91,16 +94,6 @@ export default function Dropdwon() {
               onClick={onClickLogout}
             >
               로그아웃
-            </a>
-
-            <a>
-              <input
-                type="range"
-                min="0"
-                max="100"
-                value="40"
-                className="multi-range"
-              />
             </a>
           </div>
         )}

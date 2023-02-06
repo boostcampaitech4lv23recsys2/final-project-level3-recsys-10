@@ -43,7 +43,7 @@ export const setting = {
       code: "05",
       img: "",
       icon: "coffee",
-      emoji: "🍩",
+      emoji: "☕",
       is_use: true,
     },
     "06": {

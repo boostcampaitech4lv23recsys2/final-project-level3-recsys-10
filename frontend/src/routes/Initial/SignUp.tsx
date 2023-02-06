@@ -106,7 +106,7 @@ export default function SignUp() {
               className="p-3 mb-4 mr-1 input input-primary"
               name="name"
               placeholder="닉네임"
-              value={undefined}
+              defaultValue={undefined}
               onChange={changed("name")}
               disabled={isCompleteDoubleCheck}
               autoFocus
@@ -124,7 +124,7 @@ export default function SignUp() {
             className="w-full p-3 mb-4 input input-primary"
             name="password"
             placeholder="비밀번호"
-            value={undefined}
+            defaultValue={undefined}
             onChange={changed("password")}
           />
           <input
@@ -132,7 +132,7 @@ export default function SignUp() {
             className="w-full p-3 mb-4 input input-primary"
             name="age"
             placeholder="나이"
-            value={undefined}
+            defaultValue={undefined}
             onChange={changed("age")}
           />
           {/* <input
@@ -160,7 +160,7 @@ export default function SignUp() {
 
           <button
             type="submit"
-            className="w-full btn btn-primary"
+            className="w-full btn bg-[#ffc600]"
             onClick={createAccount}
           >
             편의시설 고르러 가기

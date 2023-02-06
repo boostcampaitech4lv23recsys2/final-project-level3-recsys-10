@@ -53,8 +53,8 @@ export default function Login2() {
   // }, [name, isCompleteDoubleCheck]);
 
   const validCheck = useCallback(() => {
-    if ("" === name) return "name";
-    if ("" === password) return "password";
+    if ("" === name || undefined === name) return "name";
+    if ("" === password || undefined === password) return "password";
 
     hashPasswordP(password).then((hashed) => {
       D.fetchLogin({ name, pw: password }).then(
@@ -93,7 +93,7 @@ export default function Login2() {
             className="w-full p-3 mb-4 input input-primary"
             name="name"
             placeholder="닉네임"
-            value={undefined}
+            defaultValue={undefined}
             onChange={changed("name")}
             disabled={isCompleteDoubleCheck}
             autoFocus
@@ -103,19 +103,19 @@ export default function Login2() {
             className="w-full p-3 mb-4 input input-primary"
             name="password"
             placeholder="비밀번호"
-            value={undefined}
+            defaultValue={undefined}
             onChange={changed("password")}
           />
           <div className="flex items-center justify-between">
             <button
-              className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline"
+              className="px-4 py-2 font-bold text-white bg-[#ffc600] rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline"
               type="submit"
               onClick={validCheck}
             >
               로그인
             </button>
             <a
-              className="inline-block text-sm font-bold text-blue-500 align-baseline hover:text-blue-800"
+              className="inline-block text-sm font-bold text-[#ffc600] align-baseline hover:text-[#ffc600]"
               href="#"
               onClick={() => navigate("/signup")}
             >

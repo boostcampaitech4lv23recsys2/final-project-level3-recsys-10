@@ -7,12 +7,8 @@ import { useSelector, useDispatch } from "react-redux";
 import * as H from "../../store/house";
 import * as U from "../../store/user";
 import * as M from "../../store/marker";
-<<<<<<< HEAD
 import * as L from "../../store/loading";
-=======
-import * as U from "../../store/user";
 import * as D from "../../data/fetchByUser";
->>>>>>> 8f48cbf695b5a4b9888254343ded4020f6cd5d40
 import { AppState } from "../../store";
 import internal from "stream";
 import { fetchHouseByCoord } from "../../data";
@@ -105,7 +101,7 @@ const Map: FC<HouseInfo> = ({ houses }) => {
   const houseInfoManage = useSelector<AppState, H.State>(
     (state) => state.house
   );
- 
+
   const isLoading = useSelector<AppState, L.State>((state) => state.loading);
   const { curMarker } = useSelector<AppState, M.State>((state) => state.marker);
   const { userId, userGu } = useSelector<AppState, U.State>(
@@ -272,7 +268,7 @@ const Map: FC<HouseInfo> = ({ houses }) => {
     });
   }, [houses]);
 
-  if (isLoading === true) return <Recommend></Recommend>;
+  if (houses.length === 0) return <></>;
   else {
     return (
       <>
@@ -291,7 +287,7 @@ const Map: FC<HouseInfo> = ({ houses }) => {
             position: "absolute",
           }}
           type="button"
-          className="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+          className="text-gray-900 bg-[#F7BE38] hover:bg-[#F7BE38]/90 focus:ring-4 focus:outline-none focus:ring-[#F7BE38]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#F7BE38]/50 mr-2 mb-2"
           onClick={onClickCurrentScreen}
         >
           현재 화면에서 매물보기
