@@ -296,3 +296,33 @@ export const fetchZzimRegister = ({
       })
       .catch(reject);
   });
+
+// user_id 와 user_gu 정보로 해당 gu 에서 추천 모델을 활용해 정보를 받아오는 함수
+export const fetchHouseByRecommend = ({
+  userId,
+  userGu,
+}: {
+  userId: any;
+  userGu: any;
+}): Promise<any> =>
+  new Promise((resolve, reject) => {
+    let requestOption = FETCH_BASIC_OPTION;
+    requestOption["method"] = "POST";
+    requestOption["body"] = JSON.stringify({
+      user_id: userId,
+      user_gu: userGu,
+      house_ranking: {},
+    });
+    if (userId === 0 || userGu === "") {
+      resolve(true);
+    } else {
+      fetch(`${BACKEND_ADDRESS}${DOMAIN_INFO["recommend"]}`, requestOption)
+        .then((res) => res.json())
+        .then((data: any) => {
+          console.log(data);
+          const { houses, code } = data as { houses: any; code: number };
+          resolve({ houses, code });
+        })
+        .catch(reject);
+    }
+  });

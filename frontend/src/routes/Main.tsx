@@ -49,7 +49,7 @@ const Main: FC<userInfo> = ({ gu }) => {
   const mapElement = useRef(null);
 
   useEffect(() => {
-    dispatch(U.setChangeGu(curUserGu));
+    if (curUserGu !== "") dispatch(U.setChangeGu(curUserGu));
   }, [curUserGu]);
 
   useEffect(() => {
@@ -98,24 +98,38 @@ const Main: FC<userInfo> = ({ gu }) => {
         구 선택 창으로 사용
       </button> */}
       <div className="absolute z-10 justify-center flex-1 max-w-sm px-2 mx-auto">
-        <div className="flex items-center justify-between">
-          <div
-            className="max-w-md"
-            style={{
-              top: "2vh",
-              left: "43.2vw",
-              position: "fixed",
-            }}
-          >
-            {" "}
-            {!isLoading && <Gu setGu={setCurUserGu} className="z-10 mr-2"></Gu>}
-          </div>
-          {!isLoading && <Dropdown></Dropdown>}
-          {/* <button className="text-gray-900 bg-[#F7BE38] hover:bg-[#F7BE38]/90 focus:ring-4 focus:outline-none focus:ring-[#F7BE38]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#F7BE38]/50 mr-2 mb-2">
-            AI추천
-          </button> */}
+        {!isLoading && <Dropdown></Dropdown>}
+        <div
+          className="max-w-md"
+          style={{
+            top: "2vh",
+            left: "43.2vw",
+            position: "fixed",
+          }}
+        >
+          {" "}
+          {!isLoading && <Gu setGu={setCurUserGu} className="z-10 mr-2"></Gu>}
+        </div>
 
-          {/* <button
+        {/* <div className="relative inline-block underline duration-300 group">
+          <img src="hobbang_favicon_outline.png"></img>
+          <span className="absolute hidden group-hover:flex -top-2 -right-3 translate-x-full w-48 px-2 py-1 bg-gray-700 rounded-lg text-center text-white text-sm before:content-[''] before:absolute before:top-1/2  before:right-[100%] before:-translate-y-1/2 before:border-8 before:border-y-transparent before:border-l-transparent before:border-r-gray-700">
+            인공지능 추천 버튼 ! <br></br> 다섯개 이상의 매물에 <br></br>
+            좋아요를 누르고 <br></br>저를 눌려보세요.<br></br>선택하신 구에서 더
+            정교한 매물 추천을 드립니다.
+          </span>
+        </div> */}
+
+        {/* <button className="relative inline-block underline duration-300 group text-gray-900 bg-[#F7BE38] hover:bg-[#F7BE38]/90 focus:ring-4 focus:outline-none focus:ring-[#F7BE38]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#F7BE38]/50 mr-2 mb-2">
+          AI 매물 추천
+          <span className="absolute hidden group-hover:flex -top-2 -right-3 translate-x-full w-48 px-2 py-1 bg-gray-700 rounded-lg text-center text-white text-sm before:content-[''] before:absolute before:top-1/2  before:right-[100%] before:-translate-y-1/2 before:border-8 before:border-y-transparent before:border-l-transparent before:border-r-gray-700">
+            인공지능 추천 버튼 ! <br></br> 다섯개 이상의 매물에 <br></br>
+            좋아요를 보유한 분들께 <br></br>선택하신 구에서 더 정교한 매물
+            추천을 드립니다.
+          </span>
+        </button> */}
+
+        {/* <button
             style={{
               top: "2vh",
               position: "fixed",
@@ -125,7 +139,6 @@ const Main: FC<userInfo> = ({ gu }) => {
           >
             <Heart />
           </button> */}
-        </div>
       </div>
       {!isLoading && <Map houses={houseInfoManage["curHouseList"]} />}
       {isLoading && <Recommend />}
