@@ -67,12 +67,13 @@ def inference(map: schemas.Items, db: Session = Depends(get_db)):
         if u==map.user_id:
             result.append(i)
             # print(u,i,s)
-    house_ranking = inference_gu(map.user_id, map.user_gu, db)
+    # house_ranking = inference_gu(map.user_id, map.user_gu, db)
+    house_ranking = []
     if len(result)==0:
         return {'message' : '해당 지역(구)에서 추천할 수 없습니다. 지역 내 찜 목록이 5개 이상인지 확인해주세요.'}
     else:
-        house_ranking.append({"house_id": result[-1], "ranking": 0})
-
+        for i in range(len(result)):
+            house_ranking.append({"house_id": result[len(result)-i-1], "ranking": i+1})
 
     # 3. house_info 가져오기
     map.house_ranking = {f'{house["house_id"]}': house["ranking"] for house in house_ranking}
@@ -97,10 +98,14 @@ def checkZzimLength(map: schemas.Items, db: Session = Depends(get_db)):
     if len(zzim_gu) < 5:
         return {'message' : '해당 지역(구)에서 찜 목록이 부족합니다.'}
     else:
-        return {'message' : '추천을 시작합니다.'}
+        result = recommendML(map, db)
+        return {
+                'message' : '추천을 시작합니다.',
+                'result' : result
+                }
 
 
-@router.post("/rec_gu")
+# @router.post("/rec_gu")
 def recommendML(map: schemas.Items, db: Session = Depends(get_db)):
     start = time.time()
     train_gu(map, db)
