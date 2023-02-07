@@ -116,7 +116,7 @@ export default function SignUp() {
               className="mb-4 btn bg-[#ffc600]  hover:bg-[#F7BE38]/90 "
               onClick={onClickDouble}
             >
-              {isCompleteDoubleCheck ? "중복 해제" : "중복 확인"}
+              {isCompleteDoubleCheck ? "확인 해제" : "중복 확인"}
             </button>
           </div>
           <input
