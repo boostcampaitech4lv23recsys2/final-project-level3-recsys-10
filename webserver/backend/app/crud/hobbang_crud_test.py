@@ -216,9 +216,6 @@ def check_user_name(name, db: Session):
 def check_user_infra(user_id, db: Session):
     return db.query(UsersInfra).filter_by(user_id = user_id).count()
 
-def get_users(db: Session):
-    return db.query(UsersInfo).all()
-
 def login_user(user: schemas.UserBase, db: Session):
     #return db.query(UsersInfo).filter_by(name = user.name, pw = user.pw).first()
     return db.query(UsersInfo).filter_by(name = user.name).first()
@@ -456,3 +453,29 @@ def update_zzim(zzim: schemas.ZzimBase, db: Session):
 #     db.query(UserZzim).filter(UserZzim.user_id==zzim.user_id, UserZzim.house_id==zzim.house_id).delete(synchronize_session=False)
 #     db.commit()
 #     return zzim.house_id
+
+
+
+######### ml
+def get_users(db: Session):
+    return db.query(UsersInfo.__table__).all()
+
+def get_house_all(db: Session):
+    return db.query(*[c for c in HouseInfo2.__table__.c if c.name != 'latlng']
+                    , func.ST_Y(HouseInfo2.latlng).label('lat')
+                    , func.ST_X(HouseInfo2.latlng).label('lng')).all()
+
+def get_house_gu(user_gu, db: Session):
+    return db.query(HouseInfo2.house_id).filter_by(local2=user_gu).all()
+
+def get_zzim_list_all(db: Session):
+    return db.query(UserZzim.__table__).all()
+
+def get_user_zzim_list(user_id, db: Session):
+    return db.query(UserZzim.house_id).filter_by(user_id=user_id).all()
+
+def get_click_list_all(db: Session):
+    return db.query(LogClick.__table__).all()
+
+def get_user_click_list(user_id, db: Session):
+    return db.query(LogClick.__table__).filter_by(user_id=user_id).all()

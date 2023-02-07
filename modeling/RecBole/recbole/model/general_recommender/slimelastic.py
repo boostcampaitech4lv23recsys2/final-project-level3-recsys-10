@@ -46,7 +46,7 @@ class SLIMElastic(GeneralRecommender):
         # need at least one param
         self.dummy_param = torch.nn.Parameter(torch.zeros(1))
 
-        X = dataset.inter_matrix(form="csr").astype(np.float32)
+        X = dataset.inter_matrix(form="csr").astype(np.float32)         # (user, item) : value -> 1(interaction)
         X = X.tolil()
         self.interaction_matrix = X
 
@@ -73,24 +73,24 @@ class SLIMElastic(GeneralRecommender):
                 warnings.simplefilter("ignore", category=ConvergenceWarning)
                 for j in tqdm(range(X.shape[1])):
                     # target column
-                    r = X[:, j]
+                    r = X[:, j]     # item j에 대한 모든 user의 interaction
 
                     if self.hide_item:
-                        # set item column to 0
+                        # set item column to 0              선택된 item j에서 자기 자신을 영향력을 제외하고 학습하기 위해서
                         X[:, j] = 0
                     # fit the model
-                    model.fit(X, r.todense().getA1())
-
+                    model.fit(X, r.todense().getA1())       # interaction 전부(j 제외)와 item j interaction -> (user, item) (user,)
+                    
                     # store the coefficients
-                    coeffs = model.sparse_coef_
+                    coeffs = model.sparse_coef_             # (user, item) score -> item j에 대한 상관도(score)
 
-                    item_coeffs.append(coeffs)
+                    item_coeffs.append(coeffs)              # item j에 대한 coeffs matrix가 담긴 리스트
 
-                    if self.hide_item:
+                    if self.hide_item:                      # 원래대로 돌리기
                         # reattach column if removed
                         X[:, j] = r
 
-            self.item_similarity = sp.vstack(item_coeffs).T
+            self.item_similarity = sp.vstack(item_coeffs).T     # vstack : 세로로 쌓기 -> 모든 coeffs 합치기
             # local_time = get_local_time()
             np.save(f'{self.item_coeffs_path}/item_similarity', item_coeffs)
 
