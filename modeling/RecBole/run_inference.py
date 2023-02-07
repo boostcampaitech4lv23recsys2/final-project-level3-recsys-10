@@ -15,95 +15,119 @@ from ast import arg
 
 import time
 
-from recbole.quick_start import load_data_and_model
+from recbole.quick_start import (
+    load_data_and_model,
+    inference_load_data_and_model,
+)
+from recbole.utils import (
+    get_model,
+)
 
-if __name__ == '__main__':
-    # start = time.time()
 
+def inference():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--model_path', '-m', type=str, default='saved/model.pth', help='name of models')
-    # python run_inference.py --model_path=/opt/ml/input/RecBole/saved/SASRecF-Apr-07-2022_03-17-16.pth 로 실행
+    parser.add_argument('--model_path', '-m', type=str, default='saved/LightGCN.pth', help='name of models')
     
     args, _ = parser.parse_known_args()
     
     # load model, dataset
-    config, model, dataset, _, _, test_data = load_data_and_model(args.model_path, pretrain=True)
+    # config, model, dataset, test_data = load_data_and_model(args.model_path, pretrain=False)
+    config, model, dataset, test_data = inference_load_data_and_model(args.model_path, pretrain=False)
     
     # setting device
     device = config.final_config_dict['device']
     
     # user, item id -> token array
     user_id2token = dataset.field2id_token['user_id']
-    item_id2token = dataset.field2id_token['item_id']
-    
+    item_id2token = dataset.field2id_token['house_id']
+
     # user-item sparse matrix
     matrix = dataset.inter_matrix(form='csr')
 
-    pred_list, user_list = None, None
+    pred_list, user_list, score_list = None, None, None
     
-
-    start = time.time()
     model.eval()
+    c=0
     for data in test_data:
-        interaction = data[0].to(device)
-        score = model.full_sort_predict(interaction)
+        if str(get_model(config['model'])).split('.')[2] == 'general_recommender':
+            interaction = data[0].to(device)
+            score = model.full_sort_predict(interaction)
 
-        rating_pred = score.cpu().data.numpy().copy()       # 82441
-        batch_user_index = interaction['user_id'].cpu().numpy()
+            rating_pred = score.cpu().data.numpy().copy()                       # item 개수만큼
+            batch_user_index = interaction['user_id'].cpu().numpy()             # user : interaction 있는 user 전체
 
-        if config['model'] == 'SLIMElastic':
-            matrix_ = list(matrix[batch_user_index].toarray() > 0)[0]
-            rating_pred[matrix_] = 0
+            matrix_ = list(matrix[batch_user_index].toarray() > 0)[0]           # 현재 interaction 있는 거
+            rating_pred[matrix_] = 0                                            #                           제외
 
             # top 10
-            ind = np.argpartition(rating_pred, -10)[-10:]
+            ind = np.argpartition(rating_pred, -10)[-10:]                       # 그 중 score 가장 높은거 10개
+            arr_ind = rating_pred[ind]
+            if 0 in ind:
+                ind = np.argpartition(rating_pred, -11)[-11:]
+                ind = np.delete(ind, np.where(ind == 0))
+
+            # sort
+            arr_ind_argsort = np.argsort(arr_ind)[::-1]
+            batch_pred_list = ind[arr_ind_argsort]
+
+        elif str(get_model(config['model'])).split('.')[2] == 'context_aware_recommender':
+            interaction = data[0].to(device)
+            score = model.predict(interaction)
+
+            rating_pred = score.cpu().data.numpy().copy()       # 총 개수 : interaction 수
+            batch_user_index = interaction['user_id'].cpu().numpy()
+
+            # top 10                                                                ###
+            ind = np.argpartition(rating_pred, -len(rating_pred))
             arr_ind = rating_pred[ind]
 
             # sort
             arr_ind_argsort = np.argsort(arr_ind)[::-1]
             batch_pred_list = ind[arr_ind_argsort]
 
-        else:
-            rating_pred[matrix[batch_user_index].toarray() > 0] = 0
-            
-            # top 10
-            ind = np.argpartition(rating_pred, -10)[:, -10:]
-        
-            arr_ind = rating_pred[np.arange(len(rating_pred))[:, None], ind]
-            # sort
-            arr_ind_argsort = np.argsort(arr_ind)[np.arange(len(rating_pred)), ::-1]
-            batch_pred_list = ind[
-                np.arange(len(rating_pred))[:, None], arr_ind_argsort
-            ]
-
         # save predictions
         if pred_list is None:
             pred_list = batch_pred_list
             user_list = batch_user_index
+            score_list = arr_ind
         else:
             pred_list = np.append(pred_list, batch_pred_list, axis=0)
             user_list = np.append(user_list, batch_user_index, axis=0)
+            score_list = np.append(score_list, arr_ind, axis=0)
+        c+=1
 
     result = []
-    if config['model'] == 'SLIMElastic':
-        cnt=0
+    cnt=0
+    if str(get_model(config['model'])).split('.')[2] == 'general_recommender':
         for user in user_list:
             pred = pred_list[cnt:cnt+10]
-            for item in pred:
-                result.append((int(user_id2token[user]), int(item_id2token[item])))
+            score = score_list[cnt:cnt+10]
+            # print('------------------------')
+            # print(item_id2token, len(item_id2token))
+            for item, score_ in zip(pred, score):
+                result.append((int(user_id2token[user]), int(item_id2token[item]), score_))
             cnt+=10
-    else:
-        for user, pred in zip(user_list, pred_list):
-            for item in pred:
-                result.append((int(user_id2token[user]), int(item_id2token[item])))
-            
-    # save submission
-    print('inference...')
-    dataframe = pd.DataFrame(result, columns=["user", "item"])
-    dataframe.sort_values(by='user', inplace=True)
-    dataframe.to_csv(
-        f"saved/{config['model']}_submission.csv", index=False
-    )
-    print('inference done!')
-    end = time.time()
-    print(f'{round(end - start,10)} sec')
+    elif str(get_model(config['model'])).split('.')[2] == 'context_aware_recommender':
+        user_unique = list(set(user_list))
+        for user in user_unique:       # 72
+            _index = np.where(user_list==user)
+            scr = score_list[_index]
+            prd = pred_list[_index]
+            scr_sort = np.sort(scr, axis=0)
+            scr_argsort = np.argsort(scr_sort)
+
+            pred = prd[scr_argsort][-10:]
+            score = scr_sort[-10:]
+            for item, score_ in zip(pred, score):
+                if item==0:
+                    item+=1
+                result.append((int(user_id2token[user]), int(item_id2token[item]), score_))
+    
+    # inference done
+    dataframe = pd.DataFrame(result, columns=["user", "house", "score"])
+    dataframe.sort_values(by=['user','score'], inplace=True)
+
+    return list(dataframe['user']), list(dataframe['house']), list(dataframe['score'])
+
+if __name__ == '__main__':
+    inference()

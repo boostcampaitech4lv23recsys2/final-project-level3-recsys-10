@@ -14,9 +14,9 @@ from recbole.quick_start import run_recbole, run_recboles
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model", "-m", type=str, default="SLIMElastic", help="name of models") # SLIMElastic, FISM, MultiVAE, MultiDAE, ADMMSLIM, ItemKNN
+    parser.add_argument("--model", "-m", type=str, default="LightGCN", help="name of models") # MultiVAE, MultiDAE, LightGCN, DCN, FFM
     parser.add_argument(
-        "--dataset", "-d", type=str, default="sample_rec", help="name of datasets"
+        "--dataset", "-d", type=str, default="sample_rec", help="name of datasets"      # ml-100k sample_rec
     )
     parser.add_argument("--config_files", type=str, default=None, help="config files")
     parser.add_argument(
