@@ -122,10 +122,14 @@ const Map: FC<HouseInfo> = ({ houses }) => {
       min_lng: minLng,
       max_lat: maxLat,
       max_lng: maxLng,
-    }).then((houses) => {
+    }).then(({ houses, code }) => {
       dispatch(L.setLoading(false));
-      dispatch(H.changeCurHouseList(Object.values(houses)));
-      dispatch(H.changeShowHouseList(Object.values(houses)));
+      if (code > 0) {
+        dispatch(H.changeCurHouseList(Object.values(houses)));
+        dispatch(H.changeShowHouseList(Object.values(houses)));
+      } else {
+        alert("현재 위치에 매물이 없습니다.");
+      }
     });
   };
 

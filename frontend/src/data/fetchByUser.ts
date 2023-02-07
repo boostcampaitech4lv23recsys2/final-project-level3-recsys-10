@@ -74,7 +74,7 @@ export const fetchHouseByCoord = ({
   min_lng: number;
   max_lat: number;
   max_lng: number;
-}): Promise<any> =>
+}): Promise<{ houses: any; code: number }> =>
   new Promise((resolve, reject) => {
     let requestOption: RequestInit = FETCH_BASIC_OPTION;
     requestOption["method"] = "POST";
@@ -95,8 +95,8 @@ export const fetchHouseByCoord = ({
       .then((res) => res.json())
       .then((data: unknown) => {
         // console.log(data);
-        const { houses } = data as { houses: unknown };
-        resolve(houses);
+        const { houses, code } = data as { houses: unknown; code: number };
+        resolve({ houses, code });
       })
       .catch(reject);
   });
