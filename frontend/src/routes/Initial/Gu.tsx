@@ -4,6 +4,10 @@ import type { FC, Dispatch, SetStateAction } from "react";
 import Select, { SingleValue, ActionMeta } from "react-select";
 import { GU_INFO } from "../../data/config/guConfig";
 
+import * as U from "../../store/user";
+import { useSelector } from "react-redux";
+import { AppState } from "../../store";
+
 export interface ISelectOption {
   readonly value: string;
   readonly label: string;
@@ -27,6 +31,12 @@ export const Gu: FC<{
   const [isLoading, setIsLoading] = useState(false);
   const [isRtl, setIsRtl] = useState(false);
 
+  const { userId, userGu } = useSelector<AppState, U.State>(
+    (state) => state.user
+  );
+
+  const guIdx = GU_INFO.indexOf(userGu);
+
   const onInputChange = useCallback(
     (inputValue: SingleValue<ISelectOption>, a: ActionMeta<ISelectOption>) => {
       const retValue =
@@ -42,10 +52,9 @@ export const Gu: FC<{
     <Select
       className={className}
       classNamePrefix="select"
-      defaultValue={optionList[0]}
+      defaultValue={optionList[guIdx]}
       isDisabled={isDisabled}
       isLoading={isLoading}
-      isClearable={isClearable}
       isRtl={isRtl}
       onChange={onInputChange}
       isSearchable={isSearchable}

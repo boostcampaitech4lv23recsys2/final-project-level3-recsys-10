@@ -130,6 +130,7 @@ const Map: FC<HouseInfo> = ({ houses }) => {
       const itemList = Object.values(houses).filter((item: any) =>
         Object.keys(item).includes("house_id")
       );
+
       if (code > 0 && itemList.length > 0) {
         dispatch(H.changeCurHouseList(itemList));
         dispatch(H.changeShowHouseList(itemList));
@@ -334,9 +335,10 @@ const Map: FC<HouseInfo> = ({ houses }) => {
             className="duration-300 group  text-gray-900 bg-[#F7BE38] hover:bg-[#F7BE38]/90 focus:ring-4 focus:outline-none focus:ring-[#F7BE38]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#F7BE38]/50 mr-2 mb-2"
             onClick={onClickAIBtn}
           >
-            {`${userGu} AI 매물 추천`}
+            {`AI 매물 추천`}
             <span className="absolute hidden group-hover:flex -top-2 -right-3 translate-x-full w-48 px-2 py-1 bg-gray-700 rounded-lg text-center text-white text-sm before:content-[''] before:absolute before:top-1/2  before:right-[100%] before:-translate-y-1/2 before:border-8 before:border-y-transparent before:border-l-transparent before:border-r-gray-700">
-              인공지능 추천 버튼 ! <br></br> 다섯개 이상의 매물에 <br></br>
+              인공지능 추천 버튼 ! <br></br> 해당 구에서 <br></br> 다섯개 이상의
+              매물에 <br></br>
               좋아요를 보유한 분들께 <br></br>선택하신 구에서 더 정교한 매물
               추천을 드립니다.
             </span>
