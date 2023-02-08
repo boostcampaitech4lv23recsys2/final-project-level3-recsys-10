@@ -61,7 +61,8 @@ const makeMarker = (
 
   return houseInfoList.map((item, idx) => {
     let iconPath = "blue_marker.png";
-    const isRecommended = 0 === item["ranking"];
+    const isRecommended = 0 >= item["ranking"];
+    // const isAIRecommended = -2 === item["ranking"];
     const isZzim = -1 === item["ranking"];
 
     if (idx <= first) {
@@ -73,8 +74,10 @@ const makeMarker = (
     }
 
     iconPath = true === isRecommended ? "recommend_marker.png" : iconPath;
+    // iconPath = true === isAIRecommended ? "recommend_marker.png" : iconPath;
     iconPath = true === isZzim ? "heart.png" : iconPath;
     zIndex = true === isRecommended ? 3 : zIndex;
+    // zIndex = true === isAIRecommended ? 3 : zIndex;
 
     return new naver.maps.Marker({
       position: new naver.maps.LatLng(item["lat"], item["lng"]),
@@ -129,6 +132,23 @@ const Map: FC<HouseInfo> = ({ houses }) => {
         dispatch(H.changeShowHouseList(Object.values(houses)));
       } else {
         alert("현재 위치에 매물이 없습니다.");
+      }
+    });
+  };
+
+  const onClickAIBtn = () => {
+    dispatch(L.setLoading(true));
+
+    D.fetchHouseByRecommend({
+      userId,
+      userGu,
+    }).then(({ houses, code }) => {
+      dispatch(L.setLoading(false));
+      if (code > 0) {
+        dispatch(H.changeCurHouseList(Object.values(houses)));
+        dispatch(H.changeShowHouseList(Object.values(houses)));
+      } else {
+        alert("다섯 개 이상의 매물에 좋아요를 누른 뒤 다시 시도해주세요.");
       }
     });
   };
@@ -283,6 +303,61 @@ const Map: FC<HouseInfo> = ({ houses }) => {
             markerList={houseMarkerList}
           />
         )}
+
+        {/* <div className="z-10 top-10 absolute duration-300 group  text-gray-900  focus:ring-4 focus:outline-none focus:ring-[#F7BE38]/50 font-medium rounded-lg px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#F7BE38]/50 mr-2 mb-2">
+          <img src="hobbang_favicon_outline.png"></img>
+          <span className="absolute hidden group-hover:flex -top-2 -right-3 translate-x-full w-48 px-2 py-1 bg-gray-700 rounded-lg text-center text-white text-sm before:content-[''] before:absolute before:top-1/2  before:right-[100%] before:-translate-y-1/2 before:border-8 before:border-y-transparent before:border-l-transparent before:border-r-gray-700">
+            인공지능 추천 버튼 ! <br></br> 다섯개 이상의 매물에 <br></br>
+            좋아요를 누르고 <br></br>저를 눌려보세요.<br></br>선택하신 구에서 더
+            정교한 매물 추천을 드립니다.
+          </span>
+        </div> */}
+
+        {
+          <button
+            style={{
+              left: "0.5vw",
+              top: "10vh",
+              zIndex: "2",
+              position: "absolute",
+            }}
+            type="button"
+            className="duration-300 group  text-gray-900 bg-[#F7BE38] hover:bg-[#F7BE38]/90 focus:ring-4 focus:outline-none focus:ring-[#F7BE38]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#F7BE38]/50 mr-2 mb-2"
+            onClick={onClickAIBtn}
+          >
+            {`${userGu} AI 매물 추천`}
+            <span className="absolute hidden group-hover:flex -top-2 -right-3 translate-x-full w-48 px-2 py-1 bg-gray-700 rounded-lg text-center text-white text-sm before:content-[''] before:absolute before:top-1/2  before:right-[100%] before:-translate-y-1/2 before:border-8 before:border-y-transparent before:border-l-transparent before:border-r-gray-700">
+              인공지능 추천 버튼 ! <br></br> 다섯개 이상의 매물에 <br></br>
+              좋아요를 보유한 분들께 <br></br>선택하신 구에서 더 정교한 매물
+              추천을 드립니다.
+            </span>
+          </button>
+        }
+
+        {/* <button
+          style={{
+            left: "0.5vw",
+            top: "20vh",
+            zIndex: "2",
+            position: "absolute",
+          }}
+          type="button"
+          className="duration-300 group  text-gray-900 bg-[#F7BE38] hover:bg-[#F7BE38]/90 focus:ring-4 focus:outline-none focus:ring-[#F7BE38]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#F7BE38]/50 mr-2 mb-2"
+        >
+          {`${userGu} 가격`}
+          <div className="absolute hidden group-hover:flex -top-2 -right-3 translate-x-full w-48 px-2 py-1 bg-gray-700 rounded-lg text-center text-white text-sm before:content-[''] before:absolute before:top-1/2  before:right-[100%] before:-translate-y-1/2 before:border-8 before:border-y-transparent before:border-l-transparent before:border-r-gray-700">
+            전세{" "}
+            <a>
+              <input
+                type="range"
+                min="0"
+                max="100"
+                value="40"
+                className="multi-range"
+              />
+            </a>
+          </div>
+        </button> */}
         <button
           style={{
             bottom: "2vh",

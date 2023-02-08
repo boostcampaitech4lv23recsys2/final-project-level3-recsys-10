@@ -17,6 +17,7 @@ export const setting = {
     register: "/register", // FT302
     unregister: "/unregister", // FT303
     click: "/click", // FT401, FT402
+    recommend: "/recommend",
   },
   basic_option: {
     // need to add proper method and body or data in each function

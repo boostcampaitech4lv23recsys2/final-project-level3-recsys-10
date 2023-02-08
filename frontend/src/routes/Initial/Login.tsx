@@ -7,6 +7,7 @@ export default function NoMatch() {
   const goSettingInfo = useCallback(() => {
     navigate("/infra");
   }, [navigate]);
+
   return (
     <div className="flex justify-center mt-52">
       <div className="w-full max-w-xs">
