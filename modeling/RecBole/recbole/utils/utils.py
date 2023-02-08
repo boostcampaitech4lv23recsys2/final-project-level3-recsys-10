@@ -21,6 +21,9 @@ import random
 import numpy as np
 import torch
 import torch.nn as nn
+
+from tqdm import tqdm
+
 from torch.utils.tensorboard import SummaryWriter
 
 
@@ -62,9 +65,9 @@ def get_model(model_name):
     model_submodule = [
         "general_recommender",
         "context_aware_recommender",
-        "sequential_recommender",
-        "knowledge_aware_recommender",
-        "exlib_recommender",
+        # "sequential_recommender",
+        # "knowledge_aware_recommender",
+        # "exlib_recommender",
     ]
 
     model_file_name = model_name.lower()

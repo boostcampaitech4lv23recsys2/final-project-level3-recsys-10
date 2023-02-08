@@ -38,7 +38,7 @@ class FFM(ContextRecommender):
        y = w_0 + \sum_{i=1}^{m}x_{i}w_{i} + \sum_{i=1}^{m}\sum_{j=i+1}^{m}x_{i}x_{j}<v_{i,F(j)}, v_{j,F(i)}>
     """
 
-    def __init__(self, config, dataset):
+    def __init__(self, config, dataset, pretrain=False):
         super(FFM, self).__init__(config, dataset)
 
         # load parameters info
@@ -159,6 +159,17 @@ class FFM(ContextRecommender):
 
     def predict(self, interaction):
         return self.sigmoid(self.forward(interaction))
+
+    # def full_sort_predict(self, interaction):
+    #     ffm_input = self.get_ffm_input(interaction)
+    #     print(len(self.ffm(ffm_input)))
+    #     ffm_output = torch.sum(
+    #         torch.sum(self.ffm(ffm_input), dim=1), dim=1, keepdim=True
+    #     )
+        # print(len(ffm_output))
+        # print(len(self.first_order_linear(interaction)))
+        # output = self.first_order_linear(interaction) + ffm_output
+
 
 
 class FieldAwareFactorizationMachine(nn.Module):
@@ -295,7 +306,7 @@ class FieldAwareFactorizationMachine(nn.Module):
                     * input_x_emb[self.feature2field[i]][:, j]
                 )
         output = torch.stack(output, dim=1)  # [batch_size, num_fields, emb_dim]
-
+        
         return output
 
     def _get_input_x_emb(

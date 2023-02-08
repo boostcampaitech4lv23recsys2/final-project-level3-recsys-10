@@ -14,9 +14,9 @@ from recbole.quick_start import run_recbole, run_recboles
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model", "-m", type=str, default="BPR", help="name of models")
+    parser.add_argument("--model", "-m", type=str, default="LightGCN", help="name of models") # MultiVAE, MultiDAE, LightGCN, DCN, FFM
     parser.add_argument(
-        "--dataset", "-d", type=str, default="ml-100k", help="name of datasets"
+        "--dataset", "-d", type=str, default="sample_rec", help="name of datasets"      # ml-100k sample_rec
     )
     parser.add_argument("--config_files", type=str, default=None, help="config files")
     parser.add_argument(
@@ -37,6 +37,8 @@ if __name__ == "__main__":
         default=0,
         help="the global rank offset of this group",
     )
+    parser.add_argument("--pretrain", type=str, default=False, help="item coeffs exist")
+
 
     args, _ = parser.parse_known_args()
 
@@ -46,7 +48,7 @@ if __name__ == "__main__":
 
     if args.nproc == 1 and args.world_size <= 0:
         run_recbole(
-            model=args.model, dataset=args.dataset, config_file_list=config_file_list
+            model=args.model, dataset=args.dataset, config_file_list=config_file_list, pretrain=args.pretrain
         )
     else:
         if args.world_size == -1:

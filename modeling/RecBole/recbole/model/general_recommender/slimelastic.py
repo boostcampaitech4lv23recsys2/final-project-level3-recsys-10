@@ -13,10 +13,12 @@ import warnings
 import numpy as np
 import scipy.sparse as sp
 
+from tqdm import tqdm
+
 from sklearn.linear_model import ElasticNet
 from sklearn.exceptions import ConvergenceWarning
 
-from recbole.utils import InputType, ModelType
+from recbole.utils import InputType, ModelType, get_local_time
 from recbole.model.abstract_recommender import GeneralRecommender
 
 
@@ -29,7 +31,7 @@ class SLIMElastic(GeneralRecommender):
     input_type = InputType.POINTWISE
     type = ModelType.TRADITIONAL
 
-    def __init__(self, config, dataset):
+    def __init__(self, config, dataset, pretrain=False):
         super().__init__(config, dataset)
 
         # load parameters info
@@ -38,10 +40,13 @@ class SLIMElastic(GeneralRecommender):
         self.l1_ratio = config["l1_ratio"]
         self.positive_only = config["positive_only"]
 
+        self.pretrain = pretrain
+        self.item_coeffs_path = config['item_coeffs_path']
+
         # need at least one param
         self.dummy_param = torch.nn.Parameter(torch.zeros(1))
 
-        X = dataset.inter_matrix(form="csr").astype(np.float32)
+        X = dataset.inter_matrix(form="csr").astype(np.float32)         # (user, item) : value -> 1(interaction)
         X = X.tolil()
         self.interaction_matrix = X
 
@@ -58,31 +63,37 @@ class SLIMElastic(GeneralRecommender):
         )
         item_coeffs = []
 
-        # ignore ConvergenceWarnings
-        with warnings.catch_warnings():
-            warnings.simplefilter("ignore", category=ConvergenceWarning)
+        if self.pretrain:
+            item_coeffs = np.load(f'{self.item_coeffs_path}/item_similarity.npy', allow_pickle=True)
+            self.item_similarity = sp.vstack(item_coeffs).T
+            # model = model.load_state_dict(checkpoint["state_dict"])
+        else:
+            # ignore ConvergenceWarnings
+            with warnings.catch_warnings():
+                warnings.simplefilter("ignore", category=ConvergenceWarning)
+                for j in tqdm(range(X.shape[1])):
+                    # target column
+                    r = X[:, j]     # item j에 대한 모든 user의 interaction
 
-            for j in range(X.shape[1]):
-                # target column
-                r = X[:, j]
+                    if self.hide_item:
+                        # set item column to 0              선택된 item j에서 자기 자신을 영향력을 제외하고 학습하기 위해서
+                        X[:, j] = 0
+                    # fit the model
+                    model.fit(X, r.todense().getA1())       # interaction 전부(j 제외)와 item j interaction -> (user, item) (user,)
+                    
+                    # store the coefficients
+                    coeffs = model.sparse_coef_             # (user, item) score -> item j에 대한 상관도(score)
 
-                if self.hide_item:
-                    # set item column to 0
-                    X[:, j] = 0
+                    item_coeffs.append(coeffs)              # item j에 대한 coeffs matrix가 담긴 리스트
 
-                # fit the model
-                model.fit(X, r.todense().getA1())
+                    if self.hide_item:                      # 원래대로 돌리기
+                        # reattach column if removed
+                        X[:, j] = r
 
-                # store the coefficients
-                coeffs = model.sparse_coef_
+            self.item_similarity = sp.vstack(item_coeffs).T     # vstack : 세로로 쌓기 -> 모든 coeffs 합치기
+            # local_time = get_local_time()
+            np.save(f'{self.item_coeffs_path}/item_similarity', item_coeffs)
 
-                item_coeffs.append(coeffs)
-
-                if self.hide_item:
-                    # reattach column if removed
-                    X[:, j] = r
-
-        self.item_similarity = sp.vstack(item_coeffs).T
         self.other_parameter_name = ["interaction_matrix", "item_similarity"]
 
     def forward(self):

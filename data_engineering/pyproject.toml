@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "hobbang-airflow"
+version = "0.1.0"
+description = "airflow for datahandling"
+authors = ["hobbang2 <cattie@pukyong.ac.kr>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "hobbang_airflow"}]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+apache-airflow = "2.3"
+pandas = "^1.5.3"
+tqdm = "^4.64.1"
+sqlalchemy = "^1.4"
+apache-airflow-providers-common-sql = "^1.3.3"
+mysql-connector-python = "^8.0.11"
+
+[tool.poetry.group.dev.dependencies]
+geohash2 = "^1.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

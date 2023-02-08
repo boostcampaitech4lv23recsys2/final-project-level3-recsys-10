@@ -1,0 +1,1 @@
+initial_page.py 로 통합된 코드로 임시보관

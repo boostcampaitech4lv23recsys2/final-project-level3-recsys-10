@@ -31,7 +31,7 @@ class FISM(GeneralRecommender):
 
     input_type = InputType.POINTWISE
 
-    def __init__(self, config, dataset):
+    def __init__(self, config, dataset, pretrain=False):
         super(FISM, self).__init__(config, dataset)
 
         # load dataset info
@@ -65,7 +65,7 @@ class FISM(GeneralRecommender):
         # define layers and loss
         # construct source and destination item embedding matrix
         self.item_src_embedding = nn.Embedding(
-            self.n_items, self.embedding_size, padding_idx=0
+            self.n_items, self.embedding_size, padding_idx=0        # n_items : interaction에 있는 아이템 개수
         )
         self.item_dst_embedding = nn.Embedding(
             self.n_items, self.embedding_size, padding_idx=0
@@ -76,7 +76,7 @@ class FISM(GeneralRecommender):
 
         # parameters initialization
         self.apply(self._init_weights)
-
+        
     def get_history_info(self, dataset):
         """get the user history interaction information
 
@@ -88,10 +88,10 @@ class FISM(GeneralRecommender):
 
         """
         history_item_matrix, _, history_lens = dataset.history_item_matrix()
-        history_item_matrix = history_item_matrix.to(self.device)
-        history_lens = history_lens.to(self.device)
-        arange_tensor = torch.arange(history_item_matrix.shape[1]).to(self.device)
-        mask_mat = (arange_tensor < history_lens.unsqueeze(1)).float()
+        history_item_matrix = history_item_matrix.to(self.device)   # shape : (user 수, interaction 수) -> 각각의 유저별로 interactino이 어떤 것인지(아이템)
+        history_lens = history_lens.to(self.device)                 # shape : (user 수) -> 각각의 유저별로 interaction이 몇개인지
+        arange_tensor = torch.arange(history_item_matrix.shape[1]).to(self.device)  # .shape[1] : interaction 수 --> arange_tensor : interaction 범위
+        mask_mat = (arange_tensor < history_lens.unsqueeze(1)).float()      # interaction이 있는 부분만 1 나머지 0
         return history_item_matrix, history_lens, mask_mat
 
     def reg_loss(self):
@@ -102,8 +102,8 @@ class FISM(GeneralRecommender):
 
         """
         reg_1, reg_2 = self.reg_weights
-        loss_1 = reg_1 * self.item_src_embedding.weight.norm(2)
-        loss_2 = reg_2 * self.item_dst_embedding.weight.norm(2)
+        loss_1 = reg_1 * self.item_src_embedding.weight.norm(2)     # source items embedding
+        loss_2 = reg_2 * self.item_dst_embedding.weight.norm(2)     # destination items embedding
 
         return loss_1 + loss_2
 
@@ -121,7 +121,7 @@ class FISM(GeneralRecommender):
     def inter_forward(self, user, item):
         """forward the model by interaction"""
         user_inter = self.history_item_matrix[user]
-        item_num = self.history_lens[user].unsqueeze(1)
+        item_num = self.history_lens[user].unsqueeze(1)     # user별 interaction한 item 개수
         batch_mask_mat = self.mask_mat[user]
         user_history = self.item_src_embedding(
             user_inter
@@ -129,20 +129,22 @@ class FISM(GeneralRecommender):
         target = self.item_dst_embedding(item)  # batch_size x embedding_size
         user_bias = self.user_bias[user]  # batch_size x 1
         item_bias = self.item_bias[item]
-        similarity = torch.bmm(user_history, target.unsqueeze(2)).squeeze(
+        similarity = torch.bmm(user_history, target.unsqueeze(2)).squeeze(      # batch matmul -> b,n,m X b,m,p = b,n,p
             2
-        )  # batch_size x max_len
-        similarity = batch_mask_mat * similarity
+        )  # batch_size x max_len(최대 interaction 수)
+        
+        similarity = batch_mask_mat * similarity        # 각 user 별로 interaction이 있는 아이템만 체크
         coeff = torch.pow(item_num.squeeze(1), -self.alpha)
         scores = torch.sigmoid(
             coeff.float() * torch.sum(similarity, dim=1) + user_bias + item_bias
         )
-        return scores
+        # print(scores)
+        return scores           # 각 batch(user)별 점수
 
     def user_forward(
         self, user_input, item_num, user_bias, repeats=None, pred_slc=None
     ):
-        """forward the model by user
+        """forward the model by user                    inference할때 유저기준으로 input되는 interaction으로 하게 됨
 
         Args:
             user_input (torch.Tensor): user input tensor
@@ -164,7 +166,7 @@ class FISM(GeneralRecommender):
             targets = self.item_dst_embedding.weight  # target_items x embedding_size
             item_bias = self.item_bias
         else:
-            targets = self.item_dst_embedding(pred_slc)
+            targets = self.item_dst_embedding(pred_slc)         #####
             item_bias = self.item_bias[pred_slc]
         similarity = torch.bmm(user_history, targets.unsqueeze(2)).squeeze(
             2
@@ -179,8 +181,8 @@ class FISM(GeneralRecommender):
     def calculate_loss(self, interaction):
         user = interaction[self.USER_ID]
         item = interaction[self.ITEM_ID]
-        label = interaction[self.LABEL]
-        output = self.forward(user, item)
+        label = interaction[self.LABEL]         # interaction이 있으면 1 없으면 0
+        output = self.forward(user, item)       # interaction이 매우 부족함 -> score가 거의 0.5
         loss = self.bceloss(output, label) + self.reg_loss()
         return loss
 
