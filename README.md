@@ -44,9 +44,9 @@
     - ‘좋아요’ 한 매물이 다섯 개 이상인 사용자
         - `AI 추천 받기` 버튼을 눌렸을 때 LightGCN 모델을 활용하여 매물 추천
         
-- 프로젝트 구조
+- Database Architecture
 
-
+    ![database](https://user-images.githubusercontent.com/69948700/217594847-c79a086d-9736-4728-b88e-566f9f6ce6f9.png)
 
 
 
