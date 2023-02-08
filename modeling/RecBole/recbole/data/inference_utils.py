@@ -167,25 +167,25 @@ def inference_data_preparation(config, dataset):
                 config, dataloaders=(test_data)
             )
 
-    logger = getLogger()
-    logger.info(
-        set_color("[Training]: ", "pink")
-        + set_color("train_batch_size", "cyan")
-        + " = "
-        + set_color(f'[{config["train_batch_size"]}]', "yellow")
-        + set_color(" train_neg_sample_args", "cyan")
-        + ": "
-        + set_color(f'[{config["train_neg_sample_args"]}]', "yellow")
-    )
-    logger.info(
-        set_color("[Evaluation]: ", "pink")
-        + set_color("eval_batch_size", "cyan")
-        + " = "
-        + set_color(f'[{config["eval_batch_size"]}]', "yellow")
-        + set_color(" eval_args", "cyan")
-        + ": "
-        + set_color(f'[{config["eval_args"]}]', "yellow")
-    )
+    # logger = getLogger()
+    # logger.info(
+    #     set_color("[Training]: ", "pink")
+    #     + set_color("train_batch_size", "cyan")
+    #     + " = "
+    #     + set_color(f'[{config["train_batch_size"]}]', "yellow")
+    #     + set_color(" train_neg_sample_args", "cyan")
+    #     + ": "
+    #     + set_color(f'[{config["train_neg_sample_args"]}]', "yellow")
+    # )
+    # logger.info(
+    #     set_color("[Evaluation]: ", "pink")
+    #     + set_color("eval_batch_size", "cyan")
+    #     + " = "
+    #     + set_color(f'[{config["eval_batch_size"]}]', "yellow")
+    #     + set_color(" eval_args", "cyan")
+    #     + ": "
+    #     + set_color(f'[{config["eval_args"]}]', "yellow")
+    # )
     return test_data
 
 
