@@ -23,8 +23,14 @@ def get_infra_kind(db: Session):
 def get_latest_zzim(user_id, db: Session):
     return db.query(UserZzim.house_id).filter_by(user_id=user_id, zzim_yn='Y').order_by(UserZzim.update_date.desc()).first()
 
-def get_houses_info(map: schemas.Items, db: Session):
-    house_list = {f'{house}': {"ranking": map.house_ranking[house]} for house in map.house_ranking}
+def get_houses_info(map: schemas.Items, db: Session, is_ai_recommend = False ):
+    
+    house_list = {}
+    if( False == is_ai_recommend):
+        house_list = {f'{house}': {"ranking": map.house_ranking[house]} for house in map.house_ranking}
+    else :
+        # AI 추천 랭킹을 -2 로 매김 : frontend 와 협의 
+        house_list = {f'{house}': {"ranking": -2} for house in map.house_ranking}
 
     # 1) house information
     res = get_houses(map, db)
