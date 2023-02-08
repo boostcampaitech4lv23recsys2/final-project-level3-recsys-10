@@ -16,7 +16,8 @@ import argparse
 
 import time
 
-sys.path.append('/opt/ml/final-project-level3-recsys-10/modeling/RecBole/')
+# sys.path.append('/opt/ml/final-project-level3-recsys-10/modeling/RecBole/')
+sys.path.append(os.path.realpath(__file__).split('webserver')[0]+'modeling/RecBole/')
 from recbole.quick_start import run_recbole
 from run_inference import inference
 
@@ -94,7 +95,8 @@ def train_ml_gu(user_id, user_gu, all_user, all_house, zzim_list, click, db: Ses
     user_info.columns = ['user_id:token','name:token','user_gu:token','user_age:token','user_sex:token','user_type:token']
     
     # save data
-    path = '/opt/ml/final-project-level3-recsys-10/modeling/RecBole/dataset/rec/'
+    # path = '/opt/ml/final-project-level3-recsys-10/modeling/RecBole/dataset/rec/'
+    path = os.path.realpath(__file__).split('webserver')[0]+'modeling/RecBole/dataset/rec/'
     # if os.path.exists(path):
     #     pass
     # else:

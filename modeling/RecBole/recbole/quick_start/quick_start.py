@@ -15,7 +15,7 @@ import logging
 from logging import getLogger
 
 import sys
-
+import os
 
 import pickle
 from ray import tune
@@ -66,6 +66,9 @@ def run_recbole(
     logger = getLogger()
     logger.info(sys.argv)
     logger.info(config)
+
+    # reset data path
+    config['data_path'] = os.path.realpath(__file__).split('recbole')[0] + 'dataset/' + config['dataset']
 
     print('dataset filtering...\n')
     # dataset filtering
