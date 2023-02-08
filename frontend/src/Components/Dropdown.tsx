@@ -69,7 +69,7 @@ export default function Dropdwon() {
                 clipRule="evenodd"
               />
             </svg>
-            안녕하세요!
+            {`선택 구 : ${userGu}`}
           </div>
         </button>
 

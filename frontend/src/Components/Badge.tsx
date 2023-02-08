@@ -13,6 +13,9 @@ type IBadgeInfo = {
 // ranking 이랑 importance
 const Badge: FC<IBadgeInfo> = ({ importance, rank }) => {
   useEffect(() => {}, []);
+  if (importance === 1) {
+    const className = "badge-high";
+  }
 
   //   if (Object.keys(houseInfo).length === 0) return <></>;
   return (

@@ -319,7 +319,6 @@ export const fetchHouseByRecommend = ({
       fetch(`${BACKEND_ADDRESS}${DOMAIN_INFO["recommend"]}`, requestOption)
         .then((res) => res.json())
         .then((data: any) => {
-          console.log(data);
           const { houses, code } = data as { houses: any; code: number };
           resolve({ houses, code });
         })
