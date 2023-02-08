@@ -148,13 +148,9 @@ const Map: FC<HouseInfo> = ({ houses }) => {
         dispatch(H.changeCurHouseList(Object.values(houses)));
         dispatch(H.changeShowHouseList(Object.values(houses)));
       } else {
-<<<<<<< HEAD
         alert(
           `${userGu}에서 다섯 개 이상의 매물에 좋아요를 누른 뒤 다시 시도해주세요.`
         );
-=======
-        alert("다섯 개 이상의 매물에 좋아요를 누른 뒤 다시 시도해주세요.");
->>>>>>> 987e6c7094de8c309ffa446ea40170368180e5c4
       }
     });
   };
