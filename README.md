@@ -18,6 +18,13 @@
 <img width="673" alt="스크린샷 2023-02-07 오후 4 25 58" src="https://user-images.githubusercontent.com/65005242/217582223-9529677b-d445-44e6-945a-c4bc074a77a9.png">
 
 
+- 사이트맵
+
+   ![스크린샷 2023-02-09 오전 1 39 02](https://user-images.githubusercontent.com/65005242/217593947-217fd10a-f71e-47f3-a73c-19b4207f6181.png)
+
+
+
+
 ## 2. 프로젝트 구조
 
 - Architecture Diagram
@@ -36,6 +43,12 @@
         - Content-based filtering 으로 ‘좋아요’한 매물과 유사한 매물을 함께 추천
     - ‘좋아요’ 한 매물이 다섯 개 이상인 사용자
         - `AI 추천 받기` 버튼을 눌렸을 때 LightGCN 모델을 활용하여 매물 추천
+        
+- 프로젝트 구조
+
+
+
+
 
 ## 3. 프로젝트 진행 방법
 
