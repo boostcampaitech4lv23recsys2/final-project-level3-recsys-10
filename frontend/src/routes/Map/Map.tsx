@@ -148,17 +148,18 @@ const Map: FC<HouseInfo> = ({ houses }) => {
       userGu,
     }).then(({ houses, code }) => {
       dispatch(L.setLoading(false));
-      const itemList = Object.values(houses).filter((item: any) =>
-        Object.keys(item).includes("house_id")
-      );
-
-      if (code > 0 && itemList.length > 0) {
-        dispatch(H.changeCurHouseList(Object.values(houses)));
-        dispatch(H.changeShowHouseList(Object.values(houses)));
-      } else {
+      if (houses === undefined || code <= 0) {
         alert(
           `${userGu}에서 다섯 개 이상의 매물에 좋아요를 누른 뒤 다시 시도해주세요.`
         );
+      } else {
+        const itemList = Object.values(houses).filter((item: any) =>
+          Object.keys(item).includes("house_id")
+        );
+        if (code > 0 && itemList.length > 0) {
+          dispatch(H.changeCurHouseList(Object.values(houses)));
+          dispatch(H.changeShowHouseList(Object.values(houses)));
+        }
       }
     });
   };
