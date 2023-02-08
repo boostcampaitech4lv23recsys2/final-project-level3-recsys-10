@@ -6,9 +6,11 @@ import { AppState } from "../store";
 import * as U from "../store/user";
 import * as H from "../store/house";
 import * as L from "../store/loading";
+import Modal from "./Modal";
 
 export default function Dropdwon() {
   const [openMenu, setOpenMenu] = useState<boolean>(false);
+  const [openModal, setOpenModal] = useState<boolean>(false);
   const dispatch = useDispatch();
 
   const { userId, userGu } = useSelector<AppState, U.State>(
@@ -45,7 +47,13 @@ export default function Dropdwon() {
     dispatch(U.setUserInfo({ userId: 0, userGu: "", infraList: [] }));
     navigate("/login");
   };
+
+  const onClickModal = () => {
+    setOpenModal(true);
+  };
+
   const onClickChangeSetting = useCallback(() => {
+    dispatch(U.setChangeGu("원하는 구를 선택하세요."));
     navigate("/infra");
   }, [navigate]);
 
@@ -69,18 +77,20 @@ export default function Dropdwon() {
                 clipRule="evenodd"
               />
             </svg>
-            {`선택 구 : ${userGu}`}
+            {`메뉴 보기`}
           </div>
         </button>
 
         {openMenu && (
           <div className="absolute left-0 z-20 w-48 py-2 mt-2 bg-white rounded-md shadow-xl">
-            {/* <a
+            <a
+              onClick={onClickModal}
               href="#"
               className="block px-4 py-2 text-sm text-gray-700 capitalize hover:bg-blue-500 hover:text-white"
             >
               도움말 보기
-            </a> */}
+            </a>
+            {openModal && <Modal setOpenModal={setOpenModal}></Modal>}
             <a
               href="#"
               className="block px-4 py-2 text-sm text-gray-700 capitalize hover:bg-blue-500 hover:text-white"
