@@ -77,10 +77,10 @@ def inference(map: schemas.Items, db: Session = Depends(get_db)):
 
     # 3. house_info 가져오기
     map.house_ranking = {f'{house["house_id"]}': house["ranking"] for house in house_ranking}
-    houses = hobbang_crud_test.get_houses_info(map, db)
+    houses = hobbang_crud_test.get_houses_info(map, db,is_ai_recommend=True)
 
     # 4. 랭킹순으로 정렬(house_list[ranking] = house_info)
-    houses = dict(sorted({houses[house]["ranking"]: houses[house] for house in houses}.items()))
+    houses = dict(sorted({idx+1: houses[house] for idx,house in enumerate(houses)}.items()))
 
     return {"houses": houses}
 
