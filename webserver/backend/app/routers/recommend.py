@@ -96,12 +96,13 @@ def checkZzimLength(map: schemas.Items, db: Session = Depends(get_db)):
         if z in house_gu:
             zzim_gu.append(z)
     if len(zzim_gu) < 5:
-        return {'message' : '해당 지역(구)에서 찜 목록이 부족합니다.'}
+        return {'code':0,'message' : '해당 지역(구)에서 찜 목록이 부족합니다.'}
     else:
         result = recommendML(map, db)
         return {
+                'code' : 1,
                 'message' : '추천을 시작합니다.',
-                'result' : result
+                'houses' : result['houses']
                 }
 
 
