@@ -16,7 +16,7 @@ const RequireAuth: FC<PropsWithChildren<RequireAuthProps>> = ({ children }) => {
 
   useEffect(() => {
     if (userId === 0) navigate("login");
-    if (userGu === "") navigate("infra");
+    if (userGu === "" || userGu === null) navigate("infra");
   }, [userId, navigate]);
 
   return <>{children}</>;

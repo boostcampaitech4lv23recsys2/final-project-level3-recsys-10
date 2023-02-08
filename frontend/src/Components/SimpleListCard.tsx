@@ -25,6 +25,7 @@ const SimpleListCard: FC<myType> = ({ item }) => {
   const { zzim, house_id, ranking } = item;
   const isZzim = "Y" === item["zzim"];
   const isRecommended = 0 === ranking;
+  const isAIRecommended = -2 === ranking;
   const { userId } = useSelector<AppState, U.State>((state) => state.user);
   const dispatch = useDispatch();
 
@@ -68,6 +69,7 @@ const SimpleListCard: FC<myType> = ({ item }) => {
       </div>
       <div className="flex flex-col justify-between p-4 leading-normal">
         {isRecommended && <span className="badge-high">추천매물</span>}
+        {isAIRecommended && <span className="badge-high">AI 추천매물</span>}
         {ranking > 0 && (
           <span className="badge-middle">{`랭킹 ${ranking} 위`}</span>
         )}

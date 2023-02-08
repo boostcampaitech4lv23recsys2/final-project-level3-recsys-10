@@ -29,7 +29,11 @@ export const Gu: FC<{
 
   const onInputChange = useCallback(
     (inputValue: SingleValue<ISelectOption>, a: ActionMeta<ISelectOption>) => {
-      setGu((inputValue as ISelectOption).value);
+      const retValue =
+        (inputValue as ISelectOption).value.length > 5
+          ? ""
+          : (inputValue as ISelectOption).value;
+      setGu(retValue);
     },
     []
   );
