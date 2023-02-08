@@ -127,9 +127,12 @@ const Map: FC<HouseInfo> = ({ houses }) => {
       max_lng: maxLng,
     }).then(({ houses, code }) => {
       dispatch(L.setLoading(false));
-      if (code > 0) {
-        dispatch(H.changeCurHouseList(Object.values(houses)));
-        dispatch(H.changeShowHouseList(Object.values(houses)));
+      const itemList = Object.values(houses).filter((item: any) =>
+        Object.keys(item).includes("house_id")
+      );
+      if (code > 0 && itemList.length > 0) {
+        dispatch(H.changeCurHouseList(itemList));
+        dispatch(H.changeShowHouseList(itemList));
       } else {
         alert("현재 위치에 매물이 없습니다.");
       }
@@ -144,7 +147,11 @@ const Map: FC<HouseInfo> = ({ houses }) => {
       userGu,
     }).then(({ houses, code }) => {
       dispatch(L.setLoading(false));
-      if (code > 0) {
+      const itemList = Object.values(houses).filter((item: any) =>
+        Object.keys(item).includes("house_id")
+      );
+
+      if (code > 0 && itemList.length > 0) {
         dispatch(H.changeCurHouseList(Object.values(houses)));
         dispatch(H.changeShowHouseList(Object.values(houses)));
       } else {
@@ -294,7 +301,7 @@ const Map: FC<HouseInfo> = ({ houses }) => {
     });
   }, [houses]);
 
-  if (houses.length === 0) return <Loading></Loading>;
+  if (houses.length === 0 && true === isLoading) return <Loading></Loading>;
   else {
     return (
       <>
