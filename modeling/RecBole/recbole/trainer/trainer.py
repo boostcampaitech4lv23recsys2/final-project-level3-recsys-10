@@ -133,7 +133,7 @@ class Trainer(AbstractTrainer):
         self.enable_scaler = torch.cuda.is_available() and config["enable_scaler"]
         ensure_dir(self.checkpoint_dir)
         # saved_model_file = "{}-{}.pth".format(self.config["model"], get_local_time())
-        saved_model_file = "{}.pth".format(self.config["model"])
+        saved_model_file = "{}_{}.pth".format(self.config['model'], self.config["model_name"])
         self.saved_model_file = os.path.join(self.checkpoint_dir, saved_model_file)
         self.weight_decay = config["weight_decay"]
 

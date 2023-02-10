@@ -6,7 +6,8 @@ from db.connection import get_db
 
 from crud import hobbang_crud_test, schemas
 from recommend.rule_based import inference_gu #, inference_latlng
-from recommend.ML import train_ml_gu, inference_ml #, train_ml_latlng
+from recommend.ML import train_ml_gu, inference_ml, compare
+from sklearn.metrics.pairwise import cosine_similarity
 
 # from modeling.RecBole import run_recbole
 
@@ -61,8 +62,9 @@ def inference(map: schemas.Items, db: Session = Depends(get_db)):
 
 
     # 2. 모델 inference
-    result1, result2, result3 = inference_ml(zzim_list, click, db)
+    result1, result2, result3 = inference_ml(map.user_id, zzim_list, click, db)
     result = []
+    # print(set(result1))
     for u,i,s in zip(result1, result2, result3):
         if u==map.user_id:
             result.append(i)
@@ -82,7 +84,7 @@ def inference(map: schemas.Items, db: Session = Depends(get_db)):
     # 4. 랭킹순으로 정렬(house_list[ranking] = house_info)
     houses = dict(sorted({idx+1: houses[house] for idx,house in enumerate(houses)}.items()))
 
-    return {"houses": houses}
+    return {"houses": houses, "house_id": result}
 
 
 @router.post("/")
@@ -99,9 +101,12 @@ def checkZzimLength(map: schemas.Items, db: Session = Depends(get_db)):
         return {'code':0,'message' : '해당 지역(구)에서 찜 목록이 부족합니다.'}
     else:
         result = recommendML(map, db)
+        sim_score = compare_similarity(zzim_gu, result['house_id'], map, db)
+        print("sim_score : ", round(sim_score,4))
         return {
                 'code' : 1,
                 'message' : '추천을 시작합니다.',
+                'sim_score' : round(sim_score,4),
                 'houses' : result['houses']
                 }
 
@@ -116,11 +121,6 @@ def recommendML(map: schemas.Items, db: Session = Depends(get_db)):
     return result
 
 
-# @router.post("/rec_latlng")
-# def recommend_ML(map: schemas.MapZoom, db: Session = Depends(get_db)):
-#     start = time.time()
-#     train_latlng(map, db)
-#     result = inference(map, db)
-#     end = time.time()
-#     print(end-start)
-#     return result
+def compare_similarity(zzim_id, infer_id, map: schemas.Items, db: Session = Depends(get_db)):
+    sim_score = compare(map.user_id, zzim_id, infer_id, db)
+    return sim_score
