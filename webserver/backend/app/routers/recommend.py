@@ -79,10 +79,10 @@ def inference(map: schemas.Items, db: Session = Depends(get_db)):
 
     # 3. house_info 가져오기
     map.house_ranking = {f'{house["house_id"]}': house["ranking"] for house in house_ranking}
-    houses = hobbang_crud_test.get_houses_info(map, db)
+    houses = hobbang_crud_test.get_houses_info(map, db,is_ai_recommend=True)
 
     # 4. 랭킹순으로 정렬(house_list[ranking] = house_info)
-    houses = dict(sorted({houses[house]["ranking"]: houses[house] for house in houses}.items()))
+    houses = dict(sorted({idx+1: houses[house] for idx,house in enumerate(houses)}.items()))
 
     return {"houses": houses, "house_id": result}
 
@@ -98,15 +98,16 @@ def checkZzimLength(map: schemas.Items, db: Session = Depends(get_db)):
         if z in house_gu:
             zzim_gu.append(z)
     if len(zzim_gu) < 5:
-        return {'message' : '해당 지역(구)에서 찜 목록이 부족합니다.'}
+        return {'code':0,'message' : '해당 지역(구)에서 찜 목록이 부족합니다.'}
     else:
         result = recommendML(map, db)
         sim_score = compare_similarity(zzim_gu, result['house_id'], map, db)
         print("sim_score : ", round(sim_score,4))
         return {
+                'code' : 1,
                 'message' : '추천을 시작합니다.',
                 'sim_score' : round(sim_score,4),
-                'result' : result
+                'houses' : result['houses']
                 }
 
 

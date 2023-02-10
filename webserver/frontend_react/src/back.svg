@@ -1,0 +1,15 @@
+<svg
+  style="width:2vw;height:2vh;"
+  width="10"
+  height="10"
+  viewBox="0 0 28 28"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <path
+    vector-effect="non-scaling-stroke"
+    d="m18.696 23-9.32-8.928a.1.1 0 0 1 0-.144L18.695 5"
+    stroke="black"
+    stroke-width="1.4"
+  ></path>
+</svg>

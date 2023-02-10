@@ -107,7 +107,7 @@ def train_ml_gu(user_id, user_gu, all_user, all_house, zzim_list, click, db: Ses
     h_info.to_csv(path + str(user_id) + '.item', index=False, sep='\t')
     interaction.to_csv(path + str(user_id) + '.inter', index=False, sep='\t')
     user_info.to_csv(path + str(user_id) + '.user', index=False, sep='\t')
-    
+
     
     # argument
     parser = argparse.ArgumentParser()

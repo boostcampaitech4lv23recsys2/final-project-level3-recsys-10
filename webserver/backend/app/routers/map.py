@@ -42,8 +42,9 @@ def getHouses(map: schemas.Items, db: Session = Depends(get_db)):
     house_ranking = inference_gu(map.user_id, map.user_gu, db)
     house_ranking.append({"house_id": house_id, "ranking": 0})
     
+    ## code 0 일 경우 오류, 추천 매물이 없는 경우는 오류가 아니므로 code 번호 변경
     ## error code
-    code = 0
+    code = 2
     msg = "추천 매물 조회에 실패했습니다."
     if house_id:
         code = 1
@@ -96,8 +97,9 @@ def getHousesZoom(map: schemas.MapZoom, db: Session = Depends(get_db)):
                                     map.max_lng, db)
     house_ranking.append({"house_id": house_id, "ranking": 0})
 
+    ## code 0 일 경우 오류, 추천 매물이 없는 경우는 오류가 아니므로 code 번호 변경
     ## error code
-    code = 0
+    code = 2
     msg = "추천 매물 조회에 실패했습니다."
     if house_id:
         code = 1
@@ -109,7 +111,7 @@ def getHousesZoom(map: schemas.MapZoom, db: Session = Depends(get_db)):
 
     # 4. 랭킹순으로 정렬(house_list[ranking] = house_info)
     houses = dict(sorted({houses[house]["ranking"]: houses[house] for house in houses}.items()))
-    
+
     return {
         # "res": res
         # "house_ranking": map.house_ranking,  # inference result

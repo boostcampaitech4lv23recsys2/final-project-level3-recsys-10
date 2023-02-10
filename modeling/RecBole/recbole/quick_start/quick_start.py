@@ -66,37 +66,37 @@ def run_recbole(
     # logger initialization
     init_logger(config)
     logger = getLogger()
-    logger.info(sys.argv)
-    logger.info(config)
+    # logger.info(sys.argv)
+    # logger.info(config)
     # reset data path
     config['data_path'] = os.path.realpath(__file__).split('recbole')[0] + 'dataset/' + config['dataset']
     config['model_name'] = f'{user_id}'
 
+
     print('dataset filtering...\n')
     # dataset filtering
     dataset = create_dataset(config)
-    logger.info(dataset)
+    # logger.info(dataset)
 
-    print('\ndataset splitting...\n')
+    print('dataset splitting...\n')
     # dataset splitting
     train_data, valid_data, test_data = data_preparation(config, dataset)
 
-    print('\nmodel loading and initialization...\n')
+    print('model loading and initialization...\n')
     # model loading and initialization
     init_seed(config["seed"] + config["local_rank"], config["reproducibility"])
-    print('pretrain : ', pretrain)
     model = get_model(config["model"])(config, train_data._dataset, pretrain).to(config["device"])
     logger.info(model)
     
-    transform = construct_transform(config)
-    flops = get_flops(model, dataset, config["device"], logger, transform)
-    logger.info(set_color("FLOPs", "blue") + f": {flops}")
+    # transform = construct_transform(config)
+    # flops = get_flops(model, dataset, config["device"], logger, transform)
+    # logger.info(set_color("FLOPs", "blue") + f": {flops}")
 
-    print('\ntrainer loading and initialization...\n')
+    print('trainer loading and initialization...\n')
     # trainer loading and initialization
     trainer = get_trainer(config["MODEL_TYPE"], config["model"])(config, model)
 
-    print('\ntraining...\n')
+    print('training...\n')
     # model training
     best_valid_score, best_valid_result = trainer.fit(
         train_data, valid_data, saved=saved, show_progress=config["show_progress"]
@@ -194,10 +194,10 @@ def load_data_and_model(model_file, pretrain=False):
     init_seed(config["seed"], config["reproducibility"])
     init_logger(config)
     logger = getLogger()
-    logger.info(config)
+    # logger.info(config)
 
     dataset = create_dataset(config)
-    logger.info(dataset)
+    # logger.info(dataset)
     train_data, valid_data, test_data = data_preparation(config, dataset)
 
     init_seed(config["seed"], config["reproducibility"])
@@ -237,10 +237,10 @@ def inference_load_data_and_model(model_file, pretrain=False):
     init_seed(config["seed"], config["reproducibility"])
     init_logger(config)
     logger = getLogger()
-    logger.info(config)
+    # logger.info(config)
 
     dataset = create_dataset(config)
-    logger.info(dataset)
+    # logger.info(dataset)
     test_data = inference_data_preparation(config, dataset)
 
     init_seed(config["seed"], config["reproducibility"])
