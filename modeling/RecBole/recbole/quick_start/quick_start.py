@@ -15,7 +15,7 @@ import logging
 from logging import getLogger
 
 import sys
-
+import os
 
 import pickle
 from ray import tune
@@ -39,8 +39,10 @@ from recbole.utils import (
 )
 
 
+
+
 def run_recbole(
-    model=None, dataset=None, config_file_list=None, config_dict=None, saved=True, pretrain=False
+    user_id, model=None, dataset=None, config_file_list=None, config_dict=None, saved=True, pretrain=False
 ):
     r"""A fast running api, which includes the complete process of
     training and testing a model on a specified dataset
@@ -66,6 +68,9 @@ def run_recbole(
     logger = getLogger()
     logger.info(sys.argv)
     logger.info(config)
+    # reset data path
+    config['data_path'] = os.path.realpath(__file__).split('recbole')[0] + 'dataset/' + config['dataset']
+    config['model_name'] = f'{user_id}'
 
     print('dataset filtering...\n')
     # dataset filtering
@@ -220,10 +225,14 @@ def inference_load_data_and_model(model_file, pretrain=False):
     """
     import torch
 
+    print('inference...')
+
     checkpoint = torch.load(model_file)
     config = checkpoint["config"]
     # modify config
     config["eval_args"]["split"] = {'RS':[0.0,0.0,1.0]}
+    # print(config['model'])
+    # config['model_name'] = f'{user_id}'
 
     init_seed(config["seed"], config["reproducibility"])
     init_logger(config)

@@ -24,9 +24,9 @@ from recbole.utils import (
 )
 
 
-def inference():
+def inference(user_id):
     parser = argparse.ArgumentParser()
-    parser.add_argument('--model_path', '-m', type=str, default='saved/LightGCN.pth', help='name of models')
+    parser.add_argument('--model_path', '-m', type=str, default=f'saved/LightGCN_{user_id}.pth', help='name of models')
     
     args, _ = parser.parse_known_args()
     
