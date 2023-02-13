@@ -113,7 +113,7 @@
 
 |![_혜인](https://user-images.githubusercontent.com/65005242/217597791-9f123bb8-d790-4fbf-b383-35deca69a834.PNG)|![_은채](https://user-images.githubusercontent.com/65005242/217597802-ff2a57c2-8aac-461f-8b2a-d4f37dd7d401.PNG)|![_건영](https://user-images.githubusercontent.com/65005242/217597796-936f818f-0ee0-4ac0-89bc-261df203853e.png)|![_현우](https://user-images.githubusercontent.com/65005242/217597799-76b26e7c-3741-4941-ac73-672552910cdc.png)|![_현호](https://user-images.githubusercontent.com/65005242/217597778-7a9464cf-6a22-4e54-a4b9-1d86e9e365d1.png)|![_유진](https://user-images.githubusercontent.com/65005242/217597806-1bb12601-2472-4bdc-8e04-827de055be62.PNG)|
 |----|----|----|----|----|----|
-|[구혜인](https://github.com/hyein99?tab=repositories)|[권은채](https://github.com/dmscornjs)|[박건영](https://github.com/kuuneeee)|[장현우](https://github.com/jhu8802)|[정현호](https://github.com/Heiness)|[허유진](https://github.com/hobbang2)|
+|[구혜인](https://github.com/hyein99?tab=repositories)|[권은채](https://github.com/dmscornjs){: width="100" height="100"}|[박건영](https://github.com/kuuneeee)|[장현우](https://github.com/jhu8802)|[정현호](https://github.com/Heiness)|[허유진](https://github.com/hobbang2)|
 |* Backend 총괄 <br> * Backend API 설계 및 map API 구현 <br> * Inference API 구현 <br> * DataBase 설계|* 로그인/회원가입 API 구현 <br> * 데이터 크롤링 및 EDA <br> * 데이터 검증|* 모델 비교분석 및 모델링 <br> * Inference 코드 구현 <br> * 찜목록 API 구현 <br> * ML 모델 API 구현 <br> * 캐릭터 아이콘 디자인 |* Stremalit 구현 <br> * 사용자 Session 유지 처리 구현 <br> * 데이터 검증|* 프로젝트 기획 <br> * 데이터 정제 및 EDA <br> * 스코어링 알고리즘 <br> * Content-based Filtering 적용 |* Streamlit 구현 <br> * React 구현 <br> * Airflow 적용 <br> * Docekr적용 <br> * FastAPI ORM 구현|
 
 
